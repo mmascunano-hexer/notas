@@ -102,7 +102,30 @@ Es importante saber que yarn se instala a nivel de versión de node, por lo que 
 
 Además también se ha de tener en cuenta que se puede instalar de forma local, -global o de sistema operativo. Nosotros vamos a instalarlo en global dentro de la versión para que pueda ser utilizado en cualquier desde cualquier carpeta donde estemos situados. 
 
+Para realizar la instalación de **Yarn** nos situamos sobre la carpeta del proyecto wp_content > themes > nombre_proyecto e introducimos el comando `yarn` para cargar las dependencias. 
 
+Deberemos mirar en el package.json los scripts que acepta yarn a fin de que pueda realizar la inyección y el volcado del codigo que se vaya a modificar. Dependiendo de la versión de Sage, los scripts que se utilicen serán diferentes.
+Así pues, para inicializarlo habrá que realizar un `yarn start` o un `yarn dev` dependiendo de la versión utilizada. 
+
+**SAGE 9**
+```json
+
+scripts": {
+    "build": "webpack --progress --config resources/assets/build/webpack.config.js",
+    "build:production": "webpack --env.production --progress --config resources/assets/build/webpack.config.js",
+    "build:profile": "webpack --progress --profile --json --config resources/assets/build/webpack.config.js",
+    "start": "webpack --hide-modules --watch --config resources/assets/build/webpack.config.js",
+    "rmdist": "rimraf dist",
+    "lint": "npm run -s lint:scripts && npm run -s lint:styles",
+    "lint:scripts": "eslint resources/assets/scripts resources/assets/build",
+    "lint:styles": "stylelint \"resources/assets/styles/**/*.{css,sass,scss,sss,less}\"",
+    "test": "npm run -s lint"
+  }
+```
+
+Una vez se hayan realizado las modificaciones habrá que realizar un `yarn build` y posteriormente `yarn build:production`
+
+Por último, realizamos un `git add .`, `git commit -m "mensaje con el commit hecho T:xxxxxx"` indicando la tarea y realizar un `git push`.
 
 
 
