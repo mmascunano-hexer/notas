@@ -2,6 +2,8 @@
 
 #### PASO 1. Descargar repositorio en htdocs
 
+Utilizamos la directiva `git clone https://github.com/hexer-dev/dob-wordpress-xxxxxxxxxx.git` (sutituimos el nombre del repositorio por el del proyecto a editar). <br>
+
 #### PASO 2. Seleccionar la version de php del proyecto
 
 1. Desmontar la versión previa utilizada
@@ -14,6 +16,7 @@
 
 3. Reiniciamos el servicio en lampp.
 `sudo lampp restart`
+<br>
 
 #### PASO 3. Crear una base de datos y enlazarla a mysql.  
 
@@ -28,8 +31,7 @@ Entrar en mysql con:
 mysql -u root -p
 create database wp_xxxxxx.sql > mysql
 ```
-
-      
+<br>      
                                              
 #### PASO 4. Enlazar la base de datos.zip o sql a la base de datos de mysql   
 - Opción 1:       
@@ -62,6 +64,9 @@ Importante tener en cuenta:
 - Base de datos que carga el proyecto
 - Mirar si la base de datos tiene algún prefijo
 
+<br>
+
+
 #### PASO 7. Abrir web.local
 
 
@@ -78,12 +83,15 @@ dejo la tarea en revisando
 
 la clave de captcha va asociada a un grupo de dominio
 
+<br>
 ---
 
 # SAGE
 
 Para utilizar SAGE debemos ver qué versión de node necesita el proyecto. 
 Para SAGE 9 tenemos que utilizar una versión entre la 8 y la 12 de node.
+
+<br>
 
 ### Instalación de Node (SAGE 9)
 
@@ -92,6 +100,8 @@ Nos vamos a la carpeta del proyecto y abrimos una nueva terminal sobre el direct
 Una vez dentro del directorio en la terminal insertamos `nmv -v` para conocer la versión que tenemos corriendo.
 
 Insertamos `nvm use 12` para ver si está instalado. En caso de no estarlo introduciremos el comando `nvm install 12` para instalarlo, volveremos a comprobar la versión de node que está corriendo. 
+
+<br>
 
 ### Instalación de Yarn
 
