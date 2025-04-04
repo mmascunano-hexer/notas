@@ -1,4 +1,4 @@
-# TRABAJAR CON PROYECTOS 
+# MANTENIMIENTO DE PROYECTOS 
 
 #### PASO 1. Descargar repositorio en htdocs
 
@@ -107,7 +107,7 @@ Además también se ha de tener en cuenta que se puede instalar de forma local, 
 
 
 <br><br><br>
-# Revisión de páginas con SPAM.
+# Revisión de páginas con SPAM
 
 Se deberá tener en condideración que cuenten con:
 
