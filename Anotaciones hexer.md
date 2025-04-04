@@ -67,24 +67,17 @@ Importante tener en cuenta:
 <br>
 
 
-#### PASO 7. Abrir web.local
+#### PASO 7. Abrir en host virtual
+
+Nos dirigimos al navegador y abirmos el proyecto en web.local
 
 
-
-# Navegación fallida entre páginas web
+#### Navegación fallida entre páginas web
 
 Puede darse el caso que los enlaces dentro del sitio web no funcione bien. Para ello hay que ir al wordpress y, dentro de **AJUSTES** hay que pulsar **Enlaces permanentes** y guardar. De ese modo se regeneran los enlaces y el fichero .htaccess.
 
-honeypot
-akismet
-conctact form  - flamingo
-
-dejo la tarea en revisando
-
-la clave de captcha va asociada a un grupo de dominio
-
 <br>
----
+
 
 # SAGE
 
@@ -99,7 +92,7 @@ Nos vamos a la carpeta del proyecto y abrimos una nueva terminal sobre el direct
 
 Una vez dentro del directorio en la terminal insertamos `nmv -v` para conocer la versión que tenemos corriendo.
 
-Insertamos `nvm use 12` para ver si está instalado. En caso de no estarlo introduciremos el comando `nvm install 12` para instalarlo, volveremos a comprobar la versión de node que está corriendo. 
+Insertamos `nvm use 12` para ver si está instalado. En caso de no estarlo, introduciremos el comando `nvm install 12` para instalarlo y volveremos a comprobar la versión de node que está corriendo. 
 
 <br>
 
@@ -108,3 +101,19 @@ Insertamos `nvm use 12` para ver si está instalado. En caso de no estarlo intro
 Es importante saber que yarn se instala a nivel de versión de node, por lo que si se instala en la versión 12, para la 23 también habría que volver a instalarlo. 
 
 Además también se ha de tener en cuenta que se puede instalar de forma local, -global o de sistema operativo. Nosotros vamos a instalarlo en global dentro de la versión para que pueda ser utilizado en cualquier desde cualquier carpeta donde estemos situados. 
+
+
+
+
+
+<br><br><br>
+# Revisión de páginas con SPAM.
+
+Se deberá tener en condideración que cuenten con:
+
+- Honeypot
+- Akismet
+- Flamingo
+
+Hay que dejar la tarea revisando durante unos días y avisar en la tarea. Se ha de inspeccionar durante los próximos días para garantizar que el Spam ha desaparecido o ha disminuido drásticamente.
+la clave de captcha va asociada a un grupo de dominio
