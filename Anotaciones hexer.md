@@ -1,8 +1,8 @@
 # TRABAJAR CON PROYECTOS 
 
-### PASO 1. Descargar repositorio en htdocs
+#### PASO 1. Descargar repositorio en htdocs
 
-### PASO 2. Seleccionar la version de php del proyecto
+#### PASO 2. Seleccionar la version de php del proyecto
 
 1. Desmontar la versión previa utilizada
 
@@ -15,7 +15,7 @@
 3. Reiniciamos el servicio en lampp.
 `sudo lampp restart`
 
-### PASO 3. Crear una base de datos y enlazarla a mysql.  
+#### PASO 3. Crear una base de datos y enlazarla a mysql.  
 
 1. Creación de base de datos con terminal 
 
@@ -31,17 +31,20 @@ create database wp_xxxxxx.sql > mysql
 
       
                                              
-### PASO 4. Enlazar la base de datos.zip o sql a la base de datos de mysql   
+#### PASO 4. Enlazar la base de datos.zip o sql a la base de datos de mysql   
 - Opción 1:       
 `pv xxxxxxxxxxxxxxxx.sql | mysql -u root -p wp_xxxxxxxxxx`
 El comando pv permite ver un progreso en la terminal.
+
+##### Posibles errores: 
+Puede que de un error en la línea 1 del sql porque se haya inyectado código comentado. Se tiene que borrar, guardar y volver a repetir el paso.
 
 - Opción 2: 
 `mysql -u root -p wp_xxxxxx < /home/ruta/de/la/bbdd/xxxxxxx.sql`  
 
 <br>
 
-### PASO 4. DESFIJAR WEB.LOCAL Y ASOCIARLO AL NUEVO PROYECTO
+#### PASO 5. DESFIJAR WEB.LOCAL Y ASOCIARLO AL NUEVO PROYECTO
 
 Antes de unir otro proyecto y poder ser visualizado en web.local se ha de desvincular el anterior. Para ello se empleará el siguiente comando en terminal.
 
@@ -51,9 +54,15 @@ Seguidamente se enlazará el siguiente proyecto
 
 `ln -s dob-wordpress-ejemplo/ web.local`
 
-### PASO 5. Cargar el config.php en el proyecto
+<br>
 
-### PASO 6. Abrir web.local
+#### PASO 6. Cargar el config.php en el proyecto
+
+Importante tener en cuenta:
+- Base de datos que carga el proyecto
+- Mirar si la base de datos tiene algún prefijo
+
+#### PASO 7. Abrir web.local
 
 
 
@@ -69,9 +78,9 @@ dejo la tarea en revisando
 
 la clave de captcha va asociada a un grupo de dominio
 
+---
 
-
-## SAGE
+# SAGE
 
 Para utilizar SAGE debemos ver qué versión de node necesita el proyecto. 
 Para SAGE 9 tenemos que utilizar una versión entre la 8 y la 12 de node.
