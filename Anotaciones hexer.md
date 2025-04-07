@@ -130,13 +130,24 @@ Por último, realizamos un `git add .`, `git commit -m "mensaje con el commit he
 
 
 <br><br><br>
-# Revisión de páginas con SPAM
+# Revisión de páginas
 
-Se deberá tener en condideración que cuenten con:
+### SPAM
+
+Se ha de comprobar que tengan métodos anti spam los formularios (recaptcha y honeypot como mínimo en cf7 y forminator con recaptcha también). Para ello, se deberá tener en condideración que cuenten con:
 
 - Honeypot
 - Akismet
 - Flamingo
 
-Hay que dejar la tarea revisando durante unos días y avisar en la tarea. Se ha de inspeccionar durante los próximos días para garantizar que el Spam ha desaparecido o ha disminuido drásticamente.
-la clave de captcha va asociada a un grupo de dominio
+En tareas de revisión de Spam, hay que dejar la tarea en "REVISANDO" durante unos días y avisar en la tarea. Se ha de inspeccionar durante los próximos días para garantizar que el Spam ha desaparecido o ha disminuido drásticamente.
+la clave de captcha va asociada a un grupo de dominio.
+<br>
+
+### Caché
+Se ha de **borrar** la caché de WP Rocket
+
+<br>
+
+### Logs
+Se ha de REVISAR `/var/logs` antes de subir al repositorio para evitar subirlo con muchos errores. 
