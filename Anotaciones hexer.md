@@ -116,7 +116,7 @@ Además también se ha de tener en cuenta que se puede instalar de forma local, 
 
 <br>
 
-#### POSIBLES ERRORES
+#### Posibles errores de yarn
 Puede ser que cuando escribamos _yarn_, el sistema no encuentre el comando, y sugiera instalar cmdtest. ¡NO lo hagas! Ese paquete no es yarn de Node, sino otra herramienta completamente diferente que tiene el mismo nombre.
 
 ###### ¿Cómo solucionarlo correctamente?
