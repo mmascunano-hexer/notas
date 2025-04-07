@@ -82,7 +82,60 @@ Puede darse el caso que los enlaces dentro del sitio web no funcione bien. Para 
 # SAGE
 
 Para utilizar SAGE debemos ver qué versión de node necesita el proyecto. 
-Para SAGE 9 tenemos que utilizar una versión entre la 8 y la 12 de node.
+<br>
+
+
+### ¿Cómo saber qué versión de Sage tiene un proyecto?
+Abrimos el fichero package.json y revisamos la siguiente línea:
+`"@roots/sage": "^6.12.3"`
+
+En este caso concreto, significa que se está usando Sage 10, ya que:
+
+- La versión 6.x.x de @roots/sage corresponde a Sage 10.
+- Sage 9 usaba Laravel Mix, no Bud, y no tenía el sistema moderno basado en @roots.
+
+  **Para SAGE 9 tenemos que utilizar una versión entre la 8 y la 12 de node.*
+<br>
+
+
+### ¿He de ejecutar yarn antes de nada?
+
+Sí, se ha de ejecutar yarn (o npm install) al iniciar el proyecto por primera vez, o si se acaba de clonar/descargar el repositorio.
+
+Esto hace:
+
+- Instala todas las dependencias del package.json.
+- Prepara los comandos yarn dev, yarn build, etc.
+- Deja listo Bud (el compilador) y otros plugins para trabajar.
+
+Para realizar la ejecución de **Yarn** nos situamos sobre la carpeta del proyecto wp_content > themes > nombre_proyecto en la terminal e introducimos el comando `yarn` para cargar las dependencias. 
+
+Es importante saber que yarn se instala a nivel de versión de node, por lo que si se instala en la versión 12, para la 23 también habría que volver a instalarlo. 
+
+Además también se ha de tener en cuenta que se puede instalar de forma local, -global o de sistema operativo. Nosotros vamos a instalarlo en global dentro de la versión para que pueda ser utilizado en cualquier desde cualquier carpeta donde estemos situados. 
+
+<br>
+Por otro lado, deberemos mirar en el package.json los scripts que acepta yarn a fin de que pueda realizar la inyección y el volcado del codigo que se vaya a modificar. Dependiendo de la versión de Sage, los scripts que se utilicen serán diferentes.
+Así pues, para inicializarlo habrá que realizar un `yarn start` o un `yarn dev` dependiendo de la versión utilizada. 
+
+**SAGE 9**
+```json
+
+scripts": {
+    "build": "webpack --progress --config resources/assets/build/webpack.config.js",
+    "build:production": "webpack --env.production --progress --config resources/assets/build/webpack.config.js",
+    "build:profile": "webpack --progress --profile --json --config resources/assets/build/webpack.config.js",
+    "start": "webpack --hide-modules --watch --config resources/assets/build/webpack.config.js",
+    "rmdist": "rimraf dist",
+    "lint": "npm run -s lint:scripts && npm run -s lint:styles",
+    "lint:scripts": "eslint resources/assets/scripts resources/assets/build",
+    "lint:styles": "stylelint \"resources/assets/styles/**/*.{css,sass,scss,sss,less}\"",
+    "test": "npm run -s lint"
+  }
+```
+
+Una vez se hayan realizado las modificaciones habrá que realizar un `yarn build` y posteriormente `yarn build:production`
+
 
 <br>
 
@@ -96,13 +149,7 @@ Insertamos `nvm use 12` para ver si está instalado. En caso de no estarlo, intr
 
 <br>
 
-### Instalación de Yarn
 
-Es importante saber que yarn se instala a nivel de versión de node, por lo que si se instala en la versión 12, para la 23 también habría que volver a instalarlo. 
-
-Además también se ha de tener en cuenta que se puede instalar de forma local, -global o de sistema operativo. Nosotros vamos a instalarlo en global dentro de la versión para que pueda ser utilizado en cualquier desde cualquier carpeta donde estemos situados. 
-
-Para realizar la instalación de **Yarn** nos situamos sobre la carpeta del proyecto wp_content > themes > nombre_proyecto e introducimos el comando `yarn` para cargar las dependencias. 
 
 Deberemos mirar en el package.json los scripts que acepta yarn a fin de que pueda realizar la inyección y el volcado del codigo que se vaya a modificar. Dependiendo de la versión de Sage, los scripts que se utilicen serán diferentes.
 Así pues, para inicializarlo habrá que realizar un `yarn start` o un `yarn dev` dependiendo de la versión utilizada. 
