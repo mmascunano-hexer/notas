@@ -117,6 +117,7 @@ Además también se ha de tener en cuenta que se puede instalar de forma local, 
 <br>
 Por otro lado, deberemos mirar en el package.json los scripts que acepta yarn a fin de que pueda realizar la inyección y el volcado del codigo que se vaya a modificar. Dependiendo de la versión de Sage, los scripts que se utilicen serán diferentes.
 Así pues, para inicializarlo habrá que realizar un `yarn start` o un `yarn dev` dependiendo de la versión utilizada. 
+<br><br>
 
 **SAGE 9**
 ```json
@@ -135,8 +136,8 @@ scripts: {
 
 
 Una vez se hayan realizado las modificaciones habrá que realizar un `yarn build` y posteriormente `yarn build:production`
-
 <br>
+
 **SAGE 10**
 
 ```json
@@ -151,18 +152,40 @@ scripts: {
     "translate:mo": "wp i18n make-mo ./resources/lang ./resources/lang"
   }
 ```
-
+Una vez se hayan realizado las modificaciones habrá que realizar un `yarn dev` y posteriormente `yarn build`
 <br>
 
 <br>
 
-### Instalación de Node (SAGE 9)
+### ¿Qué es nvm y para qué sirve?
+
+NVM significa Node Version Manager. Es una herramienta que te permite:
+
+- Instalar múltiples versiones de Node.js.
+- Cambiar de versión fácilmente entre proyectos.
+
+Sage (y muchos proyectos modernos) requiere una versión específica de Node, y con nvm puedes asegurarte de usar la correcta sin romper otros proyectos.
+
+<br>
+
+### ¿Tengo la versión correcta de Node?
+Para visualizar esto necesitamos introducir el comando `node -v`
+
+En el package.json se especifica:
+```json
+"engines": {
+  "node": ">=X.X.X" (Donde X es la versión aconsejada de node)
+}
+```
+Sage 10 y Bud suelen funcionar mejor con versiones LTS estables, como v18.x o v20.x. La v23 aún es muy reciente y experimental. Así que, en caso de tener una versión muy alta, tendremos que bajarla para no romper el proyecto.
+
+<br>
 
 Nos vamos a la carpeta del proyecto y abrimos una nueva terminal sobre el directorio de wp_content > themes > nombre_proyecto. 
 
 Una vez dentro del directorio en la terminal insertamos `nmv -v` para conocer la versión que tenemos corriendo.
 
-Insertamos `nvm use 12` para ver si está instalado. En caso de no estarlo, introduciremos el comando `nvm install 12` para instalarlo y volveremos a comprobar la versión de node que está corriendo. 
+Insertamos `nvm use x` (donde x es la versión que queremos saber si está) para ver si está instalado. En caso de no estarlo, introduciremos el comando `nvm install 12` para instalar la versión 12 (por ejemplo) y volveremos a comprobar la versión de node que está corriendo. 
 
 <br>
 
