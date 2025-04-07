@@ -115,6 +115,25 @@ Es importante saber que yarn se instala a nivel de versión de node, por lo que 
 Además también se ha de tener en cuenta que se puede instalar de forma local, -global o de sistema operativo. Nosotros vamos a instalarlo en global dentro de la versión para que pueda ser utilizado en cualquier desde cualquier carpeta donde estemos situados. 
 
 <br>
+
+#### POSIBLES ERRORES
+Puede ser que cuando escribamos _yarn_, el sistema no encuentre el comando, y sugiera instalar cmdtest. ¡NO lo hagas! Ese paquete no es yarn de Node, sino otra herramienta completamente diferente que tiene el mismo nombre.
+
+###### ¿Cómo solucionarlo correctamente?
+
+- Opción 1: **Instalar yarn usando corepack (la más moderna y recomendada si tienes Node ≥16.10)**
+  Lo realizamos con la utilidad corepack, que gestiona herramientas como yarn con:
+  ```
+  corepack enable
+  corepack prepare yarn@stable --activate
+  ```
+  Y ahora volvermos a comprobar que funciona yarn con `yarn -v` <br>
+
+- Opción 2: **Instalarlo globalmente con npm**
+  Escribimos `npm install -g yarn` y verificamos la versión instalada con `yarn -v`.
+
+  
+<br>
 Por otro lado, deberemos mirar en el package.json los scripts que acepta yarn a fin de que pueda realizar la inyección y el volcado del codigo que se vaya a modificar. Dependiendo de la versión de Sage, los scripts que se utilicen serán diferentes.
 Así pues, para inicializarlo habrá que realizar un `yarn start` o un `yarn dev` dependiendo de la versión utilizada. 
 <br><br>
@@ -185,9 +204,15 @@ Nos vamos a la carpeta del proyecto y abrimos una nueva terminal sobre el direct
 
 Una vez dentro del directorio en la terminal insertamos `nmv -v` para conocer la versión que tenemos corriendo.
 
-Insertamos `nvm use x` (donde x es la versión que queremos saber si está) para ver si está instalado. En caso de no estarlo, introduciremos el comando `nvm install 12` para instalar la versión 12 (por ejemplo) y volveremos a comprobar la versión de node que está corriendo. 
-
+Insertamos `nvm use x` (donde x es la versión que queremos saber si está) para ver si está instalado. En caso de no estarlo, introduciremos el comando de instalación y el de uso de la versión con:
+```json
+nvm install 12
+nvm use 12
+```
+Acto seguido ahora volvemos a correr yarn para la versión de node especifica y se carguen las dependencias necesarias. 
 <br>
+
+
 
 
 Por último, realizamos un `git add .`, `git commit -m "mensaje con el commit hecho T:xxxxxx"` indicando la tarea y realizar un `git push`.
