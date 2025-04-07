@@ -120,8 +120,7 @@ Así pues, para inicializarlo habrá que realizar un `yarn start` o un `yarn dev
 
 **SAGE 9**
 ```json
-
-scripts": {
+scripts: {
     "build": "webpack --progress --config resources/assets/build/webpack.config.js",
     "build:production": "webpack --env.production --progress --config resources/assets/build/webpack.config.js",
     "build:profile": "webpack --progress --profile --json --config resources/assets/build/webpack.config.js",
@@ -134,8 +133,26 @@ scripts": {
   }
 ```
 
+
 Una vez se hayan realizado las modificaciones habrá que realizar un `yarn build` y posteriormente `yarn build:production`
 
+<br>
+**SAGE 10**
+
+```json
+scripts: {
+    "dev": "bud dev",
+    "build": "bud build",
+    "translate": "yarn translate:pot && yarn translate:update",
+    "translate:pot": "wp i18n make-pot . ./resources/lang/sage.pot --include=\"app,resources\"",
+    "translate:update": "wp i18n update-po ./resources/lang/sage.pot ./resources/lang/*.po",
+    "translate:compile": "yarn translate:mo && yarn translate:js",
+    "translate:js": "wp i18n make-json ./resources/lang --pretty-print",
+    "translate:mo": "wp i18n make-mo ./resources/lang ./resources/lang"
+  }
+```
+
+<br>
 
 <br>
 
@@ -149,28 +166,6 @@ Insertamos `nvm use 12` para ver si está instalado. En caso de no estarlo, intr
 
 <br>
 
-
-
-Deberemos mirar en el package.json los scripts que acepta yarn a fin de que pueda realizar la inyección y el volcado del codigo que se vaya a modificar. Dependiendo de la versión de Sage, los scripts que se utilicen serán diferentes.
-Así pues, para inicializarlo habrá que realizar un `yarn start` o un `yarn dev` dependiendo de la versión utilizada. 
-
-**SAGE 9**
-```json
-
-scripts": {
-    "build": "webpack --progress --config resources/assets/build/webpack.config.js",
-    "build:production": "webpack --env.production --progress --config resources/assets/build/webpack.config.js",
-    "build:profile": "webpack --progress --profile --json --config resources/assets/build/webpack.config.js",
-    "start": "webpack --hide-modules --watch --config resources/assets/build/webpack.config.js",
-    "rmdist": "rimraf dist",
-    "lint": "npm run -s lint:scripts && npm run -s lint:styles",
-    "lint:scripts": "eslint resources/assets/scripts resources/assets/build",
-    "lint:styles": "stylelint \"resources/assets/styles/**/*.{css,sass,scss,sss,less}\"",
-    "test": "npm run -s lint"
-  }
-```
-
-Una vez se hayan realizado las modificaciones habrá que realizar un `yarn build` y posteriormente `yarn build:production`
 
 Por último, realizamos un `git add .`, `git commit -m "mensaje con el commit hecho T:xxxxxx"` indicando la tarea y realizar un `git push`.
 
