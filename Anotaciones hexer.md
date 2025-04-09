@@ -246,11 +246,44 @@ Se ha de REVISAR `/var/logs` antes de subir al repositorio para evitar subirlo c
 
 # PRESTASHOP
 
-Antes de poder comenzar con un proyecto en prestashop hay que tener en cuenta 
-falsear dominio (mirar manual)
-- modificar host
-- crear certificados
-- 
-montar proyecto
+Para poder montar un proyecto en prestashop hay que seguir los siguientes pasos:
+<br>
+
+### 1. Descarga del repositorio
+
+### 2. Falsear Dominio para cargarlo en local
+Para realizar este proceso vamos a tener que tener en cuenta lo siguiente:
+- Modificación del fichero `/opt/lampp/etc/extra/httpd-vhosts.conf`
+  Ahí introduciremos el siguiente código e introduciremos los datos del proyecto:
+```xml
+######################### URL PROYECTO XXX #########################
+
+<VirtualHost *:80>
+    ServerAdmin xxxxxxx@hexer.dev
+    DocumentRoot "/opt/lampp/htdocs/dob-prestashop-xxxxxxxx"
+    ServerName xxxxxxx.xxx (se debe cambiar x por el dominio del proyecto)
+    ServerAlias www.xxxxxxxx.xxx  (se debe cambiar x por el dominio del proyecto)
+    ErrorLog "logs/web.local-error_log"
+</VirtualHost>
+
+<VirtualHost *:443>
+    DocumentRoot "/opt/lampp/htdocs/dob-prestashop-xxxxxxxxx"
+    ServerName xxxxxxx.xxx (se debe cambiar x por el dominio del proyecto)
+    ServerAlias xxxxxxx.xxx  (se debe cambiar x por el dominio del proyecto)
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/xxxxxxx.xxx-selfsigned.crt  (se sustituirá x por el nombre del certificado puesto)
+    SSLCertificateKeyFile /etc/ssl/private/xxxxxxxx.xxx-selfsigned.key
+</VirtualHost>
+```
+- Ahora crearemos los certificados para el navegador. Incluiremos el siguiente código
+
+  ```xml
+  sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/xxxxxxx.xxx-selfsigned.key -out /etc/ssl/certs/xxxxxxx.xxx-selfsigned.crt
+  ```
+Se deben sustituir las xxxxxx por el nombre del certificado que le hayamos dado en el fichero **httpd-vhosts.conf**
+
+### 3. Montar proyecto 
+Para hacer que el proyecto pueda abria la base de datos, tenemos que irnos al fichero **app>config>parameters.php**
 
 
