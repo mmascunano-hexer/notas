@@ -1,10 +1,11 @@
 # INDICE
-### 1. Mantenimiento de proyectos
-### 2. Sage
- - ### Yarn
- - ### Node
-### 3. Revisión de Spam
-### 4. Prestashop
+- [1. Mantenimiento de proyectos](#mantenimiento-de-proyectos)
+- [2. Sage](#sage)
+  - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
+  - [Node](#tengo-la-versión-correcta-de-node)
+- [3. Revisión de Spam](#revisión-de-spam)
+- [4. Prestashop](#prestashop)
+
 
 <br><br><br>
 =
