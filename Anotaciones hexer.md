@@ -299,12 +299,16 @@ Para realizar este proceso vamos a tener que tener en cuenta lo siguiente:
 Se deben sustituir las xxxxxx por el nombre del certificado que le hayamos dado en el fichero **httpd-vhosts.conf**
 <br>
 También ha de editarse el fichero **/etc/hosts**
-y agregar una nueva línea con **127.0.0.1** seguido del nombre del proyecto xxxxxxx.com www.xxxxxxxx.com (o .es según sea) deberá quedar tal que así:
+y agregar una nueva línea con **127.0.0.1** seguido del nombre del proyecto `xxxxxxx.com www.xxxxxxxx.com` (o .es según sea) deberá quedar tal que así:
 
 ```xml
 127.0.0.1 ejemplo.com www.ejemplo.com 
 ```
 Donde ejemplo.com se sistituirá por el dominio del proyecto que se está trabajando.
+Una vez concluido el trabajo en el proyecto se deberá comentar la línea para ver el resultado en producción.
+
+<br>
+
 ### 3. Montar proyecto 
 Para hacer que el proyecto pueda abrir la base de datos, tenemos que irnos al fichero **app > config > parameters.php** y modificar los parámetros pertinentes para ello. 
 
