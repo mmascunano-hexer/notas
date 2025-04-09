@@ -242,7 +242,7 @@ Se ha de **borrar** la caché de WP Rocket
 ### Logs
 Se ha de REVISAR `/var/logs` antes de subir al repositorio para evitar subirlo con muchos errores. 
 
-
+<br><br>
 
 # PRESTASHOP
 
@@ -284,6 +284,8 @@ Para realizar este proceso vamos a tener que tener en cuenta lo siguiente:
 Se deben sustituir las xxxxxx por el nombre del certificado que le hayamos dado en el fichero **httpd-vhosts.conf**
 
 ### 3. Montar proyecto 
-Para hacer que el proyecto pueda abria la base de datos, tenemos que irnos al fichero **app>config>parameters.php**
+Para hacer que el proyecto pueda abrir la base de datos, tenemos que irnos al fichero **app > config > parameters.php** y modificar los parámetros pertinentes para ello. 
 
-
+#### Posibles errores.
+Si nos da un error 500 puede ser que esté cacheado. Para ello nos vamos a dirigir a **proyecto > var > cache** y eliminamos la carpeta **prod**.
+Ahora volvemos a intentar acceder a la web y ya debería funcionar. 
