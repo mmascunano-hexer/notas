@@ -241,3 +241,16 @@ Se ha de **borrar** la caché de WP Rocket
 
 ### Logs
 Se ha de REVISAR `/var/logs` antes de subir al repositorio para evitar subirlo con muchos errores. 
+
+
+
+# PRESTASHOP
+
+Antes de poder comenzar con un proyecto en prestashop hay que tener en cuenta 
+falsear dominio (mirar manual)
+- modificar host
+- crear certificados
+- 
+montar proyecto
+
+
