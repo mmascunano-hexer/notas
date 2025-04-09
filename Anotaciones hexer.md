@@ -6,7 +6,9 @@
 ### 3. Revisión de Spam
 ### 4. Prestashop
 
-<br><br>
+<br><br><br>
+=
+
 
 # MANTENIMIENTO DE PROYECTOS 
 
@@ -231,9 +233,10 @@ Por último, realizamos un `git add .`, `git commit -m "mensaje con el commit he
 
 
 <br><br><br>
-# Revisión de páginas
+=
 
-### SPAM
+
+### Revisión de SPAM
 
 Se ha de comprobar que tengan métodos anti spam los formularios (recaptcha y honeypot como mínimo en cf7 y forminator con recaptcha también). Para ello, se deberá tener en condideración que cuenten con:
 
@@ -253,7 +256,8 @@ Se ha de **borrar** la caché de WP Rocket
 ### Logs
 Se ha de REVISAR `/var/logs` antes de subir al repositorio para evitar subirlo con muchos errores. 
 
-<br><br>
+<br><br><br>
+=
 
 # PRESTASHOP
 
