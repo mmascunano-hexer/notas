@@ -297,7 +297,7 @@ Ahora crearemos los certificados para el navegador. Incluiremos el siguiente có
   ```xml
   sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/xxxxxxx.xxx-selfsigned.key -out /etc/ssl/certs/xxxxxxx.xxx-selfsigned.crt
   ```
-Se deben sustituir las xxxxxx por el nombre del certificado que le hayamos dado en el fichero [Abrir httpd-vhosts.conf](file:///opt/lampp/etc/extra/httpd-vhosts.conf)
+Se deben sustituir las xxxxxx por el nombre del certificado que le hayamos dado en el fichero `/opt/lampp/etc/extra/httpd-vhosts.conf`
 
 <br>
 También ha de editarse el fichero **/etc/hosts**
