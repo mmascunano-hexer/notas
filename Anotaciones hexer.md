@@ -1,8 +1,8 @@
 # INDICE
 ### 1. Mantenimiento de proyectos
 ### 2. Sage
- ### Yarn
- ### Node
+ - ### Yarn
+ - ### Node
 ### 3. Revisión de Spam
 ### 4. Prestashop
 
@@ -86,7 +86,8 @@ Nos dirigimos al navegador y abirmos el proyecto en web.local
 
 Puede darse el caso que los enlaces dentro del sitio web no funcione bien. Para ello hay que ir al wordpress y, dentro de **AJUSTES** hay que pulsar **Enlaces permanentes** y guardar. De ese modo se regeneran los enlaces y el fichero .htaccess.
 
-<br>
+<br><br><br>
+=
 
 
 # SAGE
