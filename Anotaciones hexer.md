@@ -310,8 +310,9 @@ Donde ejemplo.com se sistituirá por el dominio del proyecto que se está trabaj
 Una vez concluido el trabajo en el proyecto se deberá comentar la línea para ver el resultado en producción.
 
 <br>
-De manera opcional, si queremos montar la web en local sin falsear el dominio deberemos modificar el fichero hosts e incluir una nueva línea con el dominio que vamos a crear ejemplo `127.0.0.1 proyecto.local www.proyecto.local`.
-Seguidamente en el fichero .htaccess deberemos cambiar todos los enlaces que apuntan al dominio de la web por el dominio que hemos creado en local.
+##### Opción para montar en local.
+De manera opcional, si queremos montar la web en local sin falsear el dominio deberemos modificar el fichero hosts e incluir una nueva línea con el dominio que vamos a crear ejemplo `127.0.0.1 proyecto.local www proyecto.local`.
+Seguidamente en el fichero .htaccess deberemos cambiar todos los enlaces que apuntan al dominio de la web por el dominio que hemos creado en local. <br>
 Por último, buscaremos en la base de datos de phpmyadmin el archivo `xxxxx.ps_shop_url`, y cambiar el dominio de la web por el nuestro local. 
 
 <br>
