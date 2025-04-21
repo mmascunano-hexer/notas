@@ -49,13 +49,15 @@ create database wp_xxxxxx.sql > mysql
 `pv xxxxxxxxxxxxxxxx.sql | mysql -u root -p wp_xxxxxxxxxx`
 El comando pv permite ver un progreso en la terminal.
 
+- Opción 2: 
+`mysql -u root -p wp_xxxxxx < /home/ruta/de/la/bbdd/xxxxxxx.sql`  
+
 ##### Posibles errores: 
 - Puede que de un error en la línea 1 del sql porque se haya inyectado código comentado. Se tiene que borrar, guardar y volver a repetir el paso.
 
 - Puede dar un error ERROR at line xxx: Unknown command '\0'. El mensaje de error indica que hay un problema con un carácter de byte NULL (“\0”) en el archivo de volcado SQL en la línea xxx. Esto puede ocurrir si el archivo de volcado está dañado o contiene datos binarios. Por lo tanto habrá que limpiar el archivo antes de volver a importarlo. 
 
-- Opción 2: 
-`mysql -u root -p wp_xxxxxx < /home/ruta/de/la/bbdd/xxxxxxx.sql`  
+
 
 <br>
 
