@@ -324,3 +324,13 @@ Para hacer que el proyecto pueda abrir la base de datos, tenemos que irnos al fi
 #### Posibles errores.
 Si nos da un error 500 puede ser que esté cacheado. Para ello nos vamos a dirigir a **proyecto > var > cache** y eliminamos la carpeta **prod**.
 Ahora volvemos a intentar acceder a la web y ya debería funcionar. 
+
+<br><br>
+
+# Mantenimientos preventivos
+
+se hace todo en local
+
+Mantenimientos profesionales: 2
+Mantenimientos básico: 1
+
