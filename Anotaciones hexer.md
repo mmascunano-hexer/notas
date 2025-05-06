@@ -324,9 +324,9 @@ Por último, buscaremos en la base de datos de phpmyadmin el archivo `xxxxx.ps_s
 
 ### 3. Montar proyecto 
 Para hacer que el proyecto pueda abrir la base de datos, tenemos que irnos al fichero **app > config > parameters.php** y modificar los parámetros pertinentes para ello. 
+<br>
 
 ### 4.  Posibles errores.
-<br>
 
 #### El proyecto en local no se carga:
 Debemos dirigirnos a la base de datos y buscar la carpeta **ps_shop_url** y modificar el dominio en él indicado por el dominio que tengamos puesto para el entorno local. 
