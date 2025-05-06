@@ -268,7 +268,7 @@ Para poder montar un proyecto en prestashop (falseando dominio) hay que seguir l
 <br>
 
 ### 1. Descarga del repositorio
-<br><br>
+<br>
 
 ### 2. Falsear Dominio para cargarlo en local
 Para realizar este proceso vamos a tener que tener en cuenta lo siguiente:
@@ -321,7 +321,7 @@ De manera opcional, si queremos montar la web en local sin falsear el dominio de
 Seguidamente en el fichero .htaccess deberemos cambiar todos los enlaces que apuntan al dominio de la web por el dominio que hemos creado en local. <br>
 Por último, buscaremos en la base de datos de phpmyadmin el archivo `xxxxx.ps_shop_url`, y cambiar el dominio de la web por el nuestro local. 
 
-<br><br>
+<br>
 
 ### 3. Montar proyecto 
 Para hacer que el proyecto pueda abrir la base de datos, tenemos que irnos al fichero **app > config > parameters.php** y modificar los parámetros pertinentes para ello. 
