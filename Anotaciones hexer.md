@@ -325,9 +325,14 @@ Por último, buscaremos en la base de datos de phpmyadmin el archivo `xxxxx.ps_s
 ### 3. Montar proyecto 
 Para hacer que el proyecto pueda abrir la base de datos, tenemos que irnos al fichero **app > config > parameters.php** y modificar los parámetros pertinentes para ello. 
 
-#### Posibles errores.
-Si nos da un error 500 puede ser que esté cacheado. Para ello nos vamos a dirigir a **proyecto > var > cache** y eliminamos la carpeta **prod**.
-Ahora volvemos a intentar acceder a la web y ya debería funcionar. 
+### 4.  Posibles errores.
+<br>
+
+#### El proyecto en local no se carga:
+Debemos dirigirnos a la base de datos y buscar la carpeta **ps_shop_url** y modificar el dominio en él indicado por el dominio que tengamos puesto para el entorno local. 
+
+#### El proyecto está cacheado o da error 500.
+Para ello nos vamos a dirigir a **proyecto > var > cache** y eliminamos la carpeta **prod**. Ahora volvemos a intentar acceder a la web y ya debería funcionar.
 
 <br><br>
 
