@@ -17,15 +17,15 @@ Utilizamos la directiva `git clone https://github.com/hexer-dev/dob-wordpress-xx
 
 #### PASO 2. Seleccionar la version de php del proyecto
 
-1. Desmontar la versión previa utilizada
+1. Desmontar la versión previa utilizada (Desactivamos la versión actual de PHP usada por LAMPP)
 
 `lvm disable`
 
-2. Seleccionar la versión de lampp pertinente para el proyecto.
+2. Seleccionar la versión de lampp pertinente para el proyecto (ejemplo 7.4 necesaria para muchos proyectos WordPress).
 
 `lvm use 7.4 (por ejemplo)`
 
-3. Reiniciamos el servicio en lampp.
+3. Reiniciamos Apache y MySQL para aplicar los cambios.
 `sudo lampp restart`
 <br>
 
@@ -87,10 +87,16 @@ Importante tener en cuenta:
 Nos dirigimos al navegador y abirmos el proyecto en web.local
 
 
-#### Navegación fallida entre páginas web
+#### Errores comunes 
 
+- Navegación fallida entre páginas web
 Puede darse el caso que los enlaces dentro del sitio web no funcione bien. Para ello hay que ir al wordpress y, dentro de **AJUSTES** hay que pulsar **Enlaces permanentes** y guardar. De ese modo se regeneran los enlaces y el fichero .htaccess.
 
+- Bloques que no aparecen en wordpress
+  Se debe recargar de nuevo los enlaces permanentes para que se genere de nuevo el .htaccess.
+
+- Bloques corruptos que dejan de aparecer
+  Puede deberse a una actualización de WordPress que ha dejado inhábiles los proyectos que incorporan carbon fields para crear bloques. En este punto habría que irse a la carpeta del proyecto (dentro del código), y dentro de la carpeta propia del tema del proyecto ejecutar un `composer update`. De este modo se actualizarán dependencias y casi con toda seguridad se solucionará el problema. 
 <br><br><br>
 =
 
@@ -110,7 +116,7 @@ En este caso concreto, significa que se está usando Sage 10, ya que:
 - La versión 6.x.x de @roots/sage corresponde a Sage 10.
 - Sage 9 usaba Laravel Mix, no Bud, y no tenía el sistema moderno basado en @roots.
 
-  **Para SAGE 9 tenemos que utilizar una versión entre la 8 y la 12 de node.*
+  **Para SAGE 9, se recomienda usar Node.js entre las versiones 10 y 14.*
 <br>
 
 
