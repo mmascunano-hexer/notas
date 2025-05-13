@@ -86,19 +86,21 @@ Importante tener en cuenta:
 
 Nos dirigimos al navegador y abirmos el proyecto en web.local
 
+<br>
 
-#### Errores comunes 
 
-- Navegación fallida entre páginas web
+### Errores comunes 
+
+- **Navegación fallida entre páginas web**<br>
 Puede darse el caso que los enlaces dentro del sitio web no funcione bien. Para ello hay que ir al wordpress y, dentro de **AJUSTES** hay que pulsar **Enlaces permanentes** y guardar. De ese modo se regeneran los enlaces y el fichero .htaccess.
 
-- Bloques que no aparecen en wordpress
+- **Bloques que no aparecen en wordpress**<br>
   Se debe recargar de nuevo los enlaces permanentes para que se genere de nuevo el .htaccess.
 
-- Bloques corruptos que dejan de aparecer
+- **Bloques corruptos que dejan de aparecer**<br>
   Puede deberse a una actualización de WordPress que ha dejado inhábiles los proyectos que incorporan carbon fields para crear bloques. En este punto habría que irse a la carpeta del proyecto (dentro del código), y dentro de la carpeta propia del tema del proyecto ejecutar un `composer update`. De este modo se actualizarán dependencias y casi con toda seguridad se solucionará el problema. 
 <br><br><br>
-=
+
 
 
 # SAGE
