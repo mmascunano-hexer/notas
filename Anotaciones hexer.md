@@ -5,6 +5,7 @@
   - [Node](#tengo-la-versión-correcta-de-node)
 - [3. Revisión de Spam](#revisión-de-spam)
 - [4. Prestashop](#prestashop)
+- [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
 
 <br><br>
 =
@@ -348,6 +349,10 @@ Para ello nos vamos a dirigir a **proyecto > var > cache** y eliminamos la carpe
 # Mantenimientos preventivos
 
 se hace todo en local
+
+<br><br>
+
+# Creación de Entornos - Nuevos proyectos
 
 Mantenimientos profesionales: 2
 Mantenimientos básico: 1
