@@ -339,7 +339,7 @@ Para hacer que el proyecto pueda abrir la base de datos, tenemos que irnos al fi
 ### 4.  Posibles errores.
 
 #### El proyecto en local no se carga:
-Debemos dirigirnos a la base de datos y buscar la carpeta **ps_shop_url** y modificar el dominio en él indicado por el dominio que tengamos puesto para el entorno local. 
+Debemos dirigirnos a la base de datos y buscar la tabla **ps_shop_url** y modificar el dominio en él indicado por el dominio que tengamos puesto para el entorno local. 
 
 #### El proyecto está cacheado o da error 500.
 Para ello nos vamos a dirigir a **proyecto > var > cache** y eliminamos la carpeta **prod**. Ahora volvemos a intentar acceder a la web y ya debería funcionar.
