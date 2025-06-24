@@ -119,19 +119,9 @@ En este caso concreto, significa que se está usando Sage 10, ya que:
 - La versión 6.x.x de @roots/sage corresponde a Sage 10.
 - Sage 9 usaba Laravel Mix, no Bud, y no tenía el sistema moderno basado en @roots.
 
-  **Para SAGE 9, se recomienda usar Node.js entre las versiones 10 y 14.*
+  **Para SAGE 9, se recomienda usar Node.js entre las versiones 10 y 14. Generalmente usaremos nvm 12.*
+  **Para SAGE 10, se recomienda usar Node.js desde las versión 16 o posteriores. Así pues, usaremos nvm 16 +*
 <br>
-
-Para SAGE 9 usar nvm 12.
-Para compilar la plantilla antes de hacer un push: 
-- yarn start
-- yarn build
-- yarn build:production
-
-Para SAGE 10 usar nvm16 >
-- yarn dev
-- yarn build
-
 
 ### ¿He de ejecutar yarn antes de nada?
 
@@ -189,7 +179,7 @@ scripts: {
 ```
 
 
-Una vez se hayan realizado las modificaciones habrá que realizar un `yarn build` y posteriormente `yarn build:production`
+Una vez se hayan realizado las modificaciones habrá que realizar un `yarn build` y posteriormente `yarn build:production` ante de hacer el push para actualizar el repositorio.
 <br>
 
 **SAGE 10**
@@ -206,7 +196,7 @@ scripts: {
     "translate:mo": "wp i18n make-mo ./resources/lang ./resources/lang"
   }
 ```
-Una vez se hayan realizado las modificaciones habrá que realizar un `yarn dev` y posteriormente `yarn build`
+Antes de realizar las modificaciones hay que hacer un `yarn start` y `yarn dev` para ejecutar el visor en vivo para ir visualizando los cambios. Una vez se hayan realizado las modificaciones habrá que realizar un `yarn build`. Posteriormente haremos el push para subir al repositorio.
 <br>
 
 <br>
