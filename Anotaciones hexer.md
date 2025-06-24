@@ -122,6 +122,16 @@ En este caso concreto, significa que se está usando Sage 10, ya que:
   **Para SAGE 9, se recomienda usar Node.js entre las versiones 10 y 14.*
 <br>
 
+Para SAGE 9 usar nvm 12.
+Para compilar la plantilla antes de hacer un push: 
+- yarn start
+- yarn build
+- yarn build:production
+
+Para SAGE 10 usar nvm16 >
+- yarn dev
+- yarn build
+
 
 ### ¿He de ejecutar yarn antes de nada?
 
