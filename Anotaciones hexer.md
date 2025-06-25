@@ -341,6 +341,13 @@ Para hacer que el proyecto pueda abrir la base de datos, tenemos que irnos al fi
 #### El proyecto en local no se carga:
 Debemos dirigirnos a la base de datos y buscar la tabla **ps_shop_url** y modificar el dominio en él indicado por el dominio que tengamos puesto para el entorno local. 
 
+#### Directory /opt/htdocs/dob-prestashop-mallasgalbis/var/logs is not writable
+Al no incluir subirse al repositorio la carpeta logs, se deberá generar de nuevo y aplicarle los permisos necesarios para ser escrita
+```
+mkdir -p var/logs
+chmod -R 775 var/logs
+```
+
 #### El proyecto está cacheado o da error 500.
 Para ello nos vamos a dirigir a **proyecto > var > cache** y eliminamos la carpeta **prod**. Ahora volvemos a intentar acceder a la web y ya debería funcionar.
 
