@@ -341,6 +341,10 @@ Para hacer que el proyecto pueda abrir la base de datos, tenemos que irnos al fi
 #### El proyecto en local no se carga:
 Debemos dirigirnos a la base de datos y buscar la tabla **ps_shop_url** y modificar el dominio en él indicado por el dominio que tengamos puesto para el entorno local. 
 
+#### ERROR 404:
+Mirar bien el fichero httpd-vhosts.conf que el ServerName y ServerAlias no tengan slash "/" al final, si no, no estará apuntando bien al dominio.
+Importante que existan las carpetas cache, logs y sessions dentro de la carpeta var.
+
 #### Directory /opt/htdocs/dob-prestashop-mallasgalbis/var/logs is not writable
 Al no incluir subirse al repositorio la carpeta logs, se deberá generar de nuevo y aplicarle los permisos necesarios para ser escrita
 ```
