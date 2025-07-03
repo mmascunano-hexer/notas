@@ -1,6 +1,6 @@
 # INDICE
 - [1. Mantenimiento de proyectos](#mantenimiento-de-proyectos)
-  - [1.1 Actualización de Wordpress y PHP](#actualizacion-de-wordpress)
+  - [1.1 Actualización de Wordpress y PHP](#actualizacion-de-wordpress-y-php)
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
   - [Node](#tengo-la-versión-correcta-de-node)
