@@ -1,5 +1,6 @@
 # INDICE
 - [1. Mantenimiento de proyectos](#mantenimiento-de-proyectos)
+  - [1.1 Actualización de Wordpress y PHP](#actualizacion-de-wordpress)
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
   - [Node](#tengo-la-versión-correcta-de-node)
@@ -102,6 +103,18 @@ Puede darse el caso que los enlaces dentro del sitio web no funcione bien. Para 
   Puede deberse a una actualización de WordPress que ha dejado inhábiles los proyectos que incorporan carbon fields para crear bloques. En este punto habría que irse a la carpeta del proyecto (dentro del código), y dentro de la carpeta propia del tema del proyecto ejecutar un `composer update`. De este modo se actualizarán dependencias y casi con toda seguridad se solucionará el problema. 
 <br><br><br>
 
+## ACTUALIZACIÓN DE WORDPRESS Y PHP
+
+Hay que tener en cuenta el orden para poder ir actualizando una página web antigua y evitar que colapse. Para ello, la actualización deberá ser paulatina y por partes. 
+  1) Actualizar tal y como está todos los plugins que se pueda a la última versión disponible
+  2) Intentar subir la versión de php (creo que esta tenía la 5) y ver que no pete nada
+  
+  si consigo el 2
+  
+  3) Deberían saltar nuevas actualizaciones de plugins. Actualizar uno a uno
+  4) Tras la actualización de los plugins, actualizar el tema
+  5) Actualizar Wordpress
+  6) Rezar 2 padres nuestros y 1 Ave María
 
 
 # SAGE
