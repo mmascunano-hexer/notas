@@ -376,7 +376,7 @@ se hace todo en local
 
 <br><br>
 
-# Creación de Entornos - Nuevos proyectos
+# Creación de Entornos
 
 Mantenimientos profesionales: 2
 Mantenimientos básico: 1
