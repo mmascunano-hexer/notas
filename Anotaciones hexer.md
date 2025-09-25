@@ -1,6 +1,7 @@
 # INDICE
 - [1. Mantenimiento de proyectos](#mantenimiento-de-proyectos)
   - [1.1 Actualización de Wordpress y PHP](#actualizacion-de-wordpress-y-php)
+  - [1.2 Mantenimientos preventivos](#mantenimientos-preventivos)
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
   - [Node](#tengo-la-versión-correcta-de-node)
@@ -115,6 +116,18 @@ Hay que tener en cuenta el orden para poder ir actualizando una página web anti
   4) Tras la actualización de los plugins, actualizar el tema
   5) Actualizar Wordpress
   6) Rezar 2 padres nuestros y 1 Ave María
+
+
+## Mantenimientos preventivos
+
+El mantenimiento preventivo ser realizará por completo para comprobar el perfecto funcionamiento del sitio web. Para ello se tendrán en cuenta los siguientes aspectos. Además, a la hora de cumplimentar la tarea, se ha de anotar en comentario al final de cada revisión el OK o KO en cada uno de los aspectos listados, así como las acciones llevadas a cabo para corregir aquellos que hayan presentado algún problema o requerido algún ajuste. 
+
+- Actualizaciones menores de la web y sus componentes.
+- Menús y navegación.
+- Maquetación.
+- Formularios.
+
+<br><br>
 
 
 # SAGE
@@ -370,16 +383,7 @@ Para ello nos vamos a dirigir a **proyecto > var > cache** y eliminamos la carpe
 
 <br><br>
 
-# Mantenimientos preventivos
 
-El mantenimiento preventivo ser realizará por completo para comprobar el perfecto funcionamiento del sitio web. Para ello se tendrán en cuenta los siguientes aspectos. Además, a la hora de cumplimentar la tarea, se ha de anotar en comentario al final de cada revisión el OK o KO en cada uno de los aspectos listados, así como las acciones llevadas a cabo para corregir aquellos que hayan presentado algún problema o requerido algún ajuste. 
-
-- Actualizaciones menores de la web y sus componentes.
-- Menús y navegación.
-- Maquetación.
-- Formularios.
-
-<br><br>
 
 # Creación de Entornos
 
