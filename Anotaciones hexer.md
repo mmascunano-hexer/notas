@@ -372,7 +372,12 @@ Para ello nos vamos a dirigir a **proyecto > var > cache** y eliminamos la carpe
 
 # Mantenimientos preventivos
 
-se hace todo en local
+El mantenimiento preventivo ser realizará por completo para comprobar el perfecto funcionamiento del sitio web. Para ello se tendrán en cuenta los siguientes aspectos. Además, a la hora de cumplimentar la tarea, se ha de anotar en comentario al final de cada revisión el OK o KO en cada uno de los aspectos listados, así como las acciones llevadas a cabo para corregir aquellos que hayan presentado algún problema o requerido algún ajuste. 
+
+- Actualizaciones menores de la web y sus componentes.
+- Menús y navegación.
+- Maquetación.
+- Formularios.
 
 <br><br>
 
