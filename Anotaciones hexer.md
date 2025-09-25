@@ -117,10 +117,12 @@ Hay que tener en cuenta el orden para poder ir actualizando una página web anti
   5) Actualizar Wordpress
   6) Rezar 2 padres nuestros y 1 Ave María
 
+ <br><br>
 
-## Mantenimientos preventivos
 
-El mantenimiento preventivo ser realizará por completo para comprobar el perfecto funcionamiento del sitio web. Para ello se tendrán en cuenta los siguientes aspectos. Además, a la hora de cumplimentar la tarea, se ha de anotar en comentario al final de cada revisión el OK o KO en cada uno de los aspectos listados, así como las acciones llevadas a cabo para corregir aquellos que hayan presentado algún problema o requerido algún ajuste. 
+## MANTENIMIENTOS PREVENTIVOS
+
+El mantenimiento preventivo ser realizará por completo cada 3 meses para comprobar el perfecto funcionamiento del sitio web. Para ello se tendrán en cuenta los siguientes aspectos. Además, a la hora de cumplimentar la tarea, se ha de anotar en comentario al final de cada revisión el OK o KO en cada uno de los aspectos listados, así como las acciones llevadas a cabo para corregir aquellos que hayan presentado algún problema o requerido algún ajuste. 
 
 - Actualizaciones menores de la web y sus componentes.
 - Menús y navegación.
