@@ -1,394 +1,600 @@
-# INDICE
+# ÍNDICE
 - [1. Mantenimiento de proyectos](#mantenimiento-de-proyectos)
   - [1.1 Actualización de Wordpress y PHP](#actualizacion-de-wordpress-y-php)
   - [1.2 Mantenimientos preventivos](#mantenimientos-preventivos)
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
   - [Node](#tengo-la-versión-correcta-de-node)
+  - [**NUEVO:** Migración de Gulp a Yarn](#migración-de-gulp-a-yarn)
 - [3. Revisión de Spam](#revisión-de-spam)
 - [4. Prestashop](#prestashop)
 - [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
 
-<br><br>
-=
+---
 
 # MANTENIMIENTO DE PROYECTOS 
 
-#### PASO 1. Descargar repositorio en htdocs
+## Configuración inicial del proyecto
 
-Utilizamos la directiva `git clone https://github.com/hexer-dev/dob-wordpress-xxxxxxxxxx.git` (sutituimos el nombre del repositorio por el del proyecto a editar). <br>
+### PASO 1. Descargar repositorio en htdocs
+Utilizamos la directiva `git clone https://github.com/hexer-dev/dob-wordpress-xxxxxxxxxx.git` (sustituimos el nombre del repositorio por el del proyecto a editar).
 
-#### PASO 2. Seleccionar la version de php del proyecto
+### PASO 2. Seleccionar la versión de PHP del proyecto
+1. **Desmontar la versión previa utilizada** (Desactivamos la versión actual de PHP usada por LAMPP)
+   ```bash
+   lvm disable
+   ```
 
-1. Desmontar la versión previa utilizada (Desactivamos la versión actual de PHP usada por LAMPP)
+2. **Seleccionar la versión de LAMPP pertinente** para el proyecto (ejemplo 7.4 necesaria para muchos proyectos WordPress).
+   ```bash
+   lvm use 7.4
+   ```
 
-`lvm disable`
+3. **Reiniciar Apache y MySQL** para aplicar los cambios.
+   ```bash
+   sudo lampp restart
+   ```
 
-2. Seleccionar la versión de lampp pertinente para el proyecto (ejemplo 7.4 necesaria para muchos proyectos WordPress).
+### PASO 3. Crear una base de datos y enlazarla a MySQL
+1. **Creación de base de datos con terminal**
+   - **Opción 1** (rápida):
+     ```bash
+     echo "create database wp_xxxxxxxxx" | mysql -u root -p
+     ```
+   
+   - **Opción 2** (paso a paso):
+     ```bash
+     mysql -u root -p
+     ```
+     ```sql
+     CREATE DATABASE wp_xxxxxx;
+     EXIT;
+     ```
 
-`lvm use 7.4 (por ejemplo)`
+### PASO 4. Importar la base de datos SQL a MySQL
+- **Opción 1** (con barra de progreso):
+  ```bash
+  pv xxxxxxxxxxxxxxxx.sql | mysql -u root -p wp_xxxxxxxxxx
+  ```
+  *El comando `pv` permite ver un progreso en la terminal.*
 
-3. Reiniciamos Apache y MySQL para aplicar los cambios.
-`sudo lampp restart`
-<br>
+- **Opción 2** (importación directa):
+  ```bash
+  mysql -u root -p wp_xxxxxx < /home/ruta/de/la/bbdd/xxxxxxx.sql
+  ```
 
-#### PASO 3. Crear una base de datos y enlazarla a mysql.  
+#### Posibles errores en importación:
+- **Error en línea 1**: El SQL puede contener código comentado al inicio. Elimínalo, guarda y vuelve a importar.
+- **ERROR: Unknown command '\0'**: El archivo contiene caracteres NULL. Limpia el archivo antes de importar:
+  ```bash
+  # Limpiar caracteres NULL
+  tr -d '\000' < archivo_original.sql > archivo_limpio.sql
+  ```
 
-1. Creación de base de datos con terminal 
+### PASO 5. Configurar enlace simbólico para web.local
+1. **Desvincular proyecto anterior**:
+   ```bash
+   unlink web.local
+   ```
 
-- Opción 1:
-`echo "create database wp_xxxxxxxxx" | mysql -u root -p`
+2. **Enlazar nuevo proyecto**:
+   ```bash
+   ln -s dob-wordpress-ejemplo/ web.local
+   ```
 
-- Opción 2:
-Entrar en mysql con:
-```mysql 
-mysql -u root -p
-create database wp_xxxxxx.sql > mysql
+### PASO 6. Configurar wp-config.php
+**Elementos importantes a verificar**:
+- Nombre correcto de la base de datos
+- Credenciales de acceso (usuario/contraseña)
+- Prefijo de tablas (si existe)
+- Configuración de debug (activar en desarrollo)
+
+**Ejemplo de configuración**:
+```php
+define('DB_NAME', 'wp_xxxxxxxxx');
+define('DB_USER', 'root');
+define('DB_PASSWORD', '');
+define('DB_HOST', 'localhost');
+define('DB_CHARSET', 'utf8');
+define('DB_COLLATE', '');
+
+// Debug en desarrollo
+define('WP_DEBUG', true);
+define('WP_DEBUG_LOG', true);
 ```
-<br>      
-                                             
-#### PASO 4. Enlazar la base de datos.zip o sql a la base de datos de mysql   
-- Opción 1:       
-`pv xxxxxxxxxxxxxxxx.sql | mysql -u root -p wp_xxxxxxxxxx`
-El comando pv permite ver un progreso en la terminal.
 
-- Opción 2: 
-`mysql -u root -p wp_xxxxxx < /home/ruta/de/la/bbdd/xxxxxxx.sql`  
+### PASO 7. Verificar funcionamiento
+Abre el navegador y accede a `web.local` para comprobar que todo funciona correctamente.
 
-##### Posibles errores: 
-- Puede que de un error en la línea 1 del sql porque se haya inyectado código comentado. Se tiene que borrar, guardar y volver a repetir el paso.
+## Solución de errores comunes
 
-- Puede dar un error ERROR at line xxx: Unknown command '\0'. El mensaje de error indica que hay un problema con un carácter de byte NULL (“\0”) en el archivo de volcado SQL en la línea xxx. Esto puede ocurrir si el archivo de volcado está dañado o contiene datos binarios. Por lo tanto habrá que limpiar el archivo antes de volver a importarlo. 
+### 🔧 Navegación fallida entre páginas
+**Síntoma**: Los enlaces internos del sitio no funcionan.
+**Solución**: 
+1. Ir a WordPress Admin → **Ajustes** → **Enlaces permanentes**
+2. Hacer clic en **Guardar cambios**
+3. Esto regenerará el archivo `.htaccess`
 
+### 🔧 Bloques que no aparecen en WordPress
+**Causa**: Problemas con el archivo `.htaccess`
+**Solución**: Regenerar enlaces permanentes (mismo proceso que el error anterior)
 
+### 🔧 Bloques corruptos (Carbon Fields)
+**Síntoma**: Bloques personalizados dejan de funcionar tras actualización
+**Causa**: Dependencias de Carbon Fields desactualizadas
+**Solución**:
+```bash
+# Navegar a la carpeta del tema
+cd wp-content/themes/nombre_del_tema
+# Actualizar dependencias de Composer
+composer update
+```
 
-<br>
-
-#### PASO 5. DESFIJAR WEB.LOCAL Y ASOCIARLO AL NUEVO PROYECTO
-
-Antes de unir otro proyecto y poder ser visualizado en web.local se ha de desvincular el anterior. Para ello se empleará el siguiente comando en terminal.
-
-`unlink web.local`
-
-Seguidamente se enlazará el siguiente proyecto
-
-`ln -s dob-wordpress-ejemplo/ web.local`
-
-<br>
-
-#### PASO 6. Cargar el config.php en el proyecto
-
-Importante tener en cuenta:
-- Base de datos que carga el proyecto
-- Mirar si la base de datos tiene algún prefijo
-
-<br>
-
-
-#### PASO 7. Abrir en host virtual
-
-Nos dirigimos al navegador y abirmos el proyecto en web.local
-
-<br>
-
-
-### Errores comunes 
-
-- **Navegación fallida entre páginas web**<br>
-Puede darse el caso que los enlaces dentro del sitio web no funcione bien. Para ello hay que ir al wordpress y, dentro de **AJUSTES** hay que pulsar **Enlaces permanentes** y guardar. De ese modo se regeneran los enlaces y el fichero .htaccess.
-
-- **Bloques que no aparecen en wordpress**<br>
-  Se debe recargar de nuevo los enlaces permanentes para que se genere de nuevo el .htaccess.
-
-- **Bloques corruptos que dejan de aparecer**<br>
-  Puede deberse a una actualización de WordPress que ha dejado inhábiles los proyectos que incorporan carbon fields para crear bloques. En este punto habría que irse a la carpeta del proyecto (dentro del código), y dentro de la carpeta propia del tema del proyecto ejecutar un `composer update`. De este modo se actualizarán dependencias y casi con toda seguridad se solucionará el problema. 
-<br><br><br>
+---
 
 ## ACTUALIZACIÓN DE WORDPRESS Y PHP
 
-Hay que tener en cuenta el orden para poder ir actualizando una página web antigua y evitar que colapse. Para ello, la actualización deberá ser paulatina y por partes. 
-  1) Actualizar tal y como está todos los plugins que se pueda a la última versión disponible
-  2) Intentar subir la versión de php (creo que esta tenía la 5) y ver que no pete nada
-  
-  si consigo el 2
-  
-  3) Deberían saltar nuevas actualizaciones de plugins. Actualizar uno a uno
-  4) Tras la actualización de los plugins, actualizar el tema
-  5) Actualizar Wordpress
-  6) Rezar 2 padres nuestros y 1 Ave María
+**⚠️ Orden crítico para evitar colapsos del sitio:**
 
- <br><br>
+### Proceso de actualización gradual:
+1. **Actualizar plugins** que sean compatibles con la versión actual
+2. **Actualizar PHP** gradualmente (ej: de 5.6 → 7.0 → 7.4)
+3. **Verificar funcionamiento** tras cada cambio
+4. **Actualizar plugins restantes** (aparecerán nuevas actualizaciones disponibles)
+5. **Actualizar tema** activo
+6. **Actualizar WordPress Core**
+7. **Verificación final** y testing completo
 
+### Recomendaciones adicionales:
+- **Hacer backup completo** antes de iniciar
+- **Probar en entorno de desarrollo** primero
+- **Documentar cada paso** y posibles errores
+- **Tener plan de rollback** preparado
+
+---
 
 ## MANTENIMIENTOS PREVENTIVOS
 
-El mantenimiento preventivo ser realizará por completo cada 3 meses para comprobar el perfecto funcionamiento del sitio web. Para ello se tendrán en cuenta los siguientes aspectos. Además, a la hora de cumplimentar la tarea, se ha de anotar en comentario al final de cada revisión el OK o KO en cada uno de los aspectos listados, así como las acciones llevadas a cabo para corregir aquellos que hayan presentado algún problema o requerido algún ajuste. 
+**Frecuencia**: Cada 3 meses
 
-- Actualizaciones menores de la web y sus componentes.
-- Menús y navegación.
-- Maquetación.
-- Formularios.
+### Lista de verificación:
+- [ ] **Actualizaciones menores** de WordPress, tema y plugins
+- [ ] **Menús y navegación** - verificar todos los enlaces
+- [ ] **Maquetación** - revisar responsive en diferentes dispositivos
+- [ ] **Formularios** - probar envío y recepción de emails
+- [ ] **Rendimiento** - analizar velocidad de carga
+- [ ] **Seguridad** - verificar plugins de seguridad
+- [ ] **Backups** - confirmar que se generan correctamente
+- [ ] **SSL** - verificar certificado válido
 
-<br><br>
+**📋 Documentación**: Anotar en comentarios de la tarea **OK/KO** para cada punto, incluyendo acciones correctivas realizadas.
 
+---
 
 # SAGE
 
-Para utilizar SAGE debemos ver qué versión de node necesita el proyecto. 
-<br>
-
+## Identificación de versión y configuración
 
 ### ¿Cómo saber qué versión de Sage tiene un proyecto?
-Abrimos el fichero package.json y revisamos la siguiente línea:
-`"@roots/sage": "^6.12.3"`
+Revisar el archivo `package.json`:
 
-En este caso concreto, significa que se está usando Sage 10, ya que:
+```json
+"@roots/sage": "^6.12.3"  // = Sage 10
+"laravel-mix": "^x.x.x"   // = Sage 9 (usa Mix en lugar de Bud)
+```
 
-- La versión 6.x.x de @roots/sage corresponde a Sage 10.
-- Sage 9 usaba Laravel Mix, no Bud, y no tenía el sistema moderno basado en @roots.
+**Correspondencias**:
+- `@roots/sage 6.x.x` = **Sage 10** (usa Bud)
+- Presencia de `laravel-mix` = **Sage 9** (usa Mix)
 
-  **Para SAGE 9, se recomienda usar Node.js entre las versiones 10 y 14. Generalmente usaremos nvm 12.*
-  **Para SAGE 10, se recomienda usar Node.js desde las versión 16 o posteriores. Así pues, usaremos nvm 16 +*
-<br>
+### Compatibilidad con Node.js:
+- **Sage 9**: Node.js 10-14 (recomendado: v12)
+- **Sage 10**: Node.js 16+ (recomendado: v16 o v18 LTS)
+
+## Instalación y configuración inicial
 
 ### ¿He de ejecutar yarn antes de nada?
+**Sí**, siempre ejecutar `yarn` al clonar o iniciar un proyecto por primera vez.
 
-Sí, se ha de ejecutar yarn (o npm install) al iniciar el proyecto por primera vez, o si se acaba de clonar/descargar el repositorio.
+**Ubicación**: `wp_content/themes/nombre_proyecto`
+**Comando**: 
+```bash
+cd wp_content/themes/nombre_proyecto
+yarn
+```
 
-Esto hace:
+**Esto hace**:
+- Instala dependencias del `package.json`
+- Prepara comandos `yarn dev`, `yarn build`, etc.
+- Configura Bud/Mix y otros compiladores
 
-- Instala todas las dependencias del package.json.
-- Prepara los comandos yarn dev, yarn build, etc.
-- Deja listo Bud (el compilador) y otros plugins para trabajar.
+### Instalación de Yarn (si no está disponible)
 
-Para realizar la ejecución de **Yarn** nos situamos sobre la carpeta del proyecto wp_content > themes > nombre_proyecto en la terminal e introducimos el comando `yarn` para cargar las dependencias. 
+#### ⚠️ Error común: 
+Si el sistema sugiere instalar `cmdtest`, **NO lo hagas**. No es el Yarn correcto.
 
-Es importante saber que yarn se instala a nivel de versión de node, por lo que si se instala en la versión 12, para la 23 también habría que volver a instalarlo. 
+#### ✅ Soluciones correctas:
 
-Además también se ha de tener en cuenta que se puede instalar de forma local, -global o de sistema operativo. Nosotros vamos a instalarlo en global dentro de la versión para que pueda ser utilizado en cualquier desde cualquier carpeta donde estemos situados. 
+**Opción 1: Usar Corepack (recomendado para Node ≥16.10)**
+```bash
+corepack enable
+corepack prepare yarn@stable --activate
+yarn -v  # verificar instalación
+```
 
-<br>
+**Opción 2: Instalar globalmente con npm**
+```bash
+npm install -g yarn
+yarn -v  # verificar instalación
+```
 
-#### Posibles errores de yarn
-Puede ser que cuando escribamos _yarn_, el sistema no encuentre el comando, y sugiera instalar cmdtest. ¡NO lo hagas! Ese paquete no es yarn de Node, sino otra herramienta completamente diferente que tiene el mismo nombre.
+## Scripts de desarrollo por versión
 
-###### ¿Cómo solucionarlo correctamente?
-
-- Opción 1: **Instalar yarn usando corepack (la más moderna y recomendada si tienes Node ≥16.10)**
-  Lo realizamos con la utilidad corepack, que gestiona herramientas como yarn con:
-  ```
-  corepack enable
-  corepack prepare yarn@stable --activate
-  ```
-  Y ahora volvermos a comprobar que funciona yarn con `yarn -v` <br>
-
-- Opción 2: **Instalarlo globalmente con npm**
-  Escribimos `npm install -g yarn` y verificamos la versión instalada con `yarn -v`.
-
-  
-<br>
-Por otro lado, deberemos mirar en el package.json los scripts que acepta yarn a fin de que pueda realizar la inyección y el volcado del codigo que se vaya a modificar. Dependiendo de la versión de Sage, los scripts que se utilicen serán diferentes.
-Así pues, para inicializarlo habrá que realizar un `yarn start` o un `yarn dev` dependiendo de la versión utilizada. 
-<br><br>
-
-**SAGE 9**
+### **SAGE 9** (usa Laravel Mix)
 ```json
-scripts: {
+{
+  "scripts": {
     "build": "webpack --progress --config resources/assets/build/webpack.config.js",
     "build:production": "webpack --env.production --progress --config resources/assets/build/webpack.config.js",
-    "build:profile": "webpack --progress --profile --json --config resources/assets/build/webpack.config.js",
     "start": "webpack --hide-modules --watch --config resources/assets/build/webpack.config.js",
     "rmdist": "rimraf dist",
-    "lint": "npm run -s lint:scripts && npm run -s lint:styles",
-    "lint:scripts": "eslint resources/assets/scripts resources/assets/build",
-    "lint:styles": "stylelint \"resources/assets/styles/**/*.{css,sass,scss,sss,less}\"",
-    "test": "npm run -s lint"
+    "lint": "npm run -s lint:scripts && npm run -s lint:styles"
   }
-```
-
-
-Una vez se hayan realizado las modificaciones habrá que realizar un `yarn build` y posteriormente `yarn build:production` ante de hacer el push para actualizar el repositorio.
-<br>
-
-**SAGE 10**
-
-```json
-scripts: {
-    "dev": "bud dev",
-    "build": "bud build",
-    "translate": "yarn translate:pot && yarn translate:update",
-    "translate:pot": "wp i18n make-pot . ./resources/lang/sage.pot --include=\"app,resources\"",
-    "translate:update": "wp i18n update-po ./resources/lang/sage.pot ./resources/lang/*.po",
-    "translate:compile": "yarn translate:mo && yarn translate:js",
-    "translate:js": "wp i18n make-json ./resources/lang --pretty-print",
-    "translate:mo": "wp i18n make-mo ./resources/lang ./resources/lang"
-  }
-```
-Antes de realizar las modificaciones hay que hacer un `yarn start` y `yarn dev` para ejecutar el visor en vivo para ir visualizando los cambios. Una vez se hayan realizado las modificaciones habrá que realizar un `yarn build`. Posteriormente haremos el push para subir al repositorio.
-<br>
-
-<br>
-
-### ¿Qué es nvm y para qué sirve?
-
-NVM significa Node Version Manager. Es una herramienta que te permite:
-
-- Instalar múltiples versiones de Node.js.
-- Cambiar de versión fácilmente entre proyectos.
-
-Sage (y muchos proyectos modernos) requiere una versión específica de Node, y con nvm puedes asegurarte de usar la correcta sin romper otros proyectos.
-
-<br>
-
-### ¿Tengo la versión correcta de Node?
-Para visualizar esto necesitamos introducir el comando `node -v`
-
-En el package.json se especifica:
-```json
-"engines": {
-  "node": ">=X.X.X" (Donde X es la versión aconsejada de node)
 }
 ```
-Sage 10 y Bud suelen funcionar mejor con versiones LTS estables, como v18.x o v20.x. La v23 aún es muy reciente y experimental. Así que, en caso de tener una versión muy alta, tendremos que bajarla para no romper el proyecto.
 
-<br>
+**Workflow Sage 9**:
+1. **Desarrollo**: `yarn start` (modo watch)
+2. **Build final**: `yarn build`
+3. **Producción**: `yarn build:production`
+4. **Git**: `git add .` → `git commit` → `git push`
 
-Nos vamos a la carpeta del proyecto y abrimos una nueva terminal sobre el directorio de wp_content > themes > nombre_proyecto. 
-
-Una vez dentro del directorio en la terminal insertamos `nmv -v` para conocer la versión que tenemos corriendo.
-
-Insertamos `nvm use x` (donde x es la versión que queremos saber si está) para ver si está instalado. En caso de no estarlo, introduciremos el comando de instalación y el de uso de la versión con:
+### **SAGE 10** (usa Bud)
 ```json
-nvm install 12
-nvm use 12
+{
+  "scripts": {
+    "dev": "bud dev",
+    "build": "bud build",
+    "translate": "yarn translate:pot && yarn translate:update"
+  }
+}
 ```
-Acto seguido ahora volvemos a correr yarn para la versión de node especifica y se carguen las dependencias necesarias. 
-<br>
 
+**Workflow Sage 10**:
+1. **Desarrollo**: `yarn dev` (modo watch con hot reload)
+2. **Build final**: `yarn build`
+3. **Git**: `git add .` → `git commit` → `git push`
 
+## Gestión de versiones Node.js
 
+### ¿Qué es NVM y para qué sirve?
+**Node Version Manager** permite:
+- Instalar múltiples versiones de Node.js
+- Cambiar entre versiones según proyecto
+- Evitar conflictos entre diferentes proyectos
 
-Por último, realizamos un `git add .`, `git commit -m "mensaje con el commit hecho T:xxxxxx"` indicando la tarea y realizar un `git push`.
+### Comandos NVM esenciales:
+```bash
+# Ver versión actual
+node -v
 
+# Ver versiones instaladas
+nvm list
 
+# Instalar versión específica
+nvm install 16
 
-<br><br><br>
-=
+# Cambiar a versión específica
+nvm use 16
 
+# Ver qué versión requiere el proyecto
+cat package.json | grep -A 5 '"engines"'
+```
 
-### Revisión de SPAM
+### Workflow completo con NVM:
+```bash
+# 1. Ir al directorio del tema
+cd wp_content/themes/nombre_proyecto
 
-Se ha de comprobar que tengan métodos anti spam los formularios (recaptcha y honeypot como mínimo en cf7 y forminator con recaptcha también). Para ello, se deberá tener en condideración que cuenten con:
+# 2. Verificar versión requerida
+cat package.json | grep '"node":'
 
-- Honeypot
-- Akismet
-- Flamingo
+# 3. Cambiar a versión correcta
+nvm use 16  # o la versión requerida
 
-En tareas de revisión de Spam, hay que dejar la tarea en "REVISANDO" durante unos días y avisar en la tarea. Se ha de inspeccionar durante los próximos días para garantizar que el Spam ha desaparecido o ha disminuido drásticamente.
-la clave de captcha va asociada a un grupo de dominio.
-<br>
+# 4. Instalar dependencias
+yarn
 
-### Caché
-Se ha de **borrar** la caché de WP Rocket
+# 5. Iniciar desarrollo
+yarn dev  # o yarn start según versión
+```
 
-<br>
+---
 
-### Logs
-Se ha de REVISAR `/var/logs` antes de subir al repositorio para evitar subirlo con muchos errores. 
+## 🆕 MIGRACIÓN DE GULP A YARN
 
-<br><br><br>
-=
+### ¿Cómo detectar un proyecto con Gulp?
+Buscar estos archivos en el proyecto:
+- `gulpfile.js`
+- `gulp.config.js`
+- En `package.json`: dependencias como `gulp`, `gulp-sass`, etc.
+
+### Proceso de migración paso a paso:
+
+#### 1. Análisis del proyecto actual
+```bash
+# Revisar estructura actual
+ls -la  # buscar gulpfile.js
+cat package.json  # revisar dependencias de gulp
+```
+
+#### 2. Backup del proyecto
+```bash
+# Crear rama para la migración
+git checkout -b migracion-gulp-to-yarn
+```
+
+#### 3. Instalación de Sage/Bud (recomendado)
+```bash
+# Opción A: Migrar a Sage 10 con Bud
+npm install @roots/bud --save-dev
+
+# Opción B: Usar Webpack directamente
+npm install webpack webpack-cli --save-dev
+```
+
+#### 4. Configuración nueva (ejemplo con Bud)
+Crear `bud.config.js`:
+```javascript
+export default async (bud) => {
+  bud
+    .entry('app', ['@scripts/app', '@styles/app'])
+    .entry('editor', ['@scripts/editor', '@styles/editor'])
+    .assets(['images'])
+    .copyDir('images')
+    .setUrl('http://localhost:3000')
+    .setProxyUrl('http://web.local')
+    .watch(['resources/views', 'app']);
+};
+```
+
+#### 5. Actualizar package.json
+Reemplazar scripts de Gulp:
+```json
+{
+  "scripts": {
+    "dev": "bud dev",
+    "build": "bud build",
+    "build:production": "bud build --mode=production"
+  }
+}
+```
+
+#### 6. Migrar archivos de assets
+```bash
+# Mover archivos según nueva estructura
+mkdir -p resources/{scripts,styles,images}
+# Mover archivos de assets/* a resources/*
+```
+
+#### 7. Testing y verificación
+```bash
+# Instalar dependencias
+yarn
+
+# Probar compilación
+yarn dev
+
+# Verificar que todo funciona
+yarn build
+```
+
+#### 8. Limpieza
+```bash
+# Eliminar archivos obsoletos de Gulp
+rm gulpfile.js
+rm gulp.config.js
+# Limpiar dependencias obsoletas del package.json
+```
+
+### Errores comunes en migración:
+- **Rutas incorrectas**: Verificar que las rutas de assets coincidan
+- **Dependencias faltantes**: Instalar loaders específicos (sass-loader, etc.)
+- **Configuración proxy**: Ajustar URLs locales en la config
+
+---
+
+# REVISIÓN DE SPAM
+
+## Herramientas anti-spam obligatorias
+
+### Lista de verificación:
+- [ ] **Honeypot** activado en formularios
+- [ ] **reCAPTCHA** configurado (v2 o v3)
+- [ ] **Akismet** activo y configurado
+- [ ] **Flamingo** instalado para registro de mensajes
+
+### Plugins específicos:
+- **Contact Form 7**: Honeypot + reCAPTCHA
+- **Forminator**: reCAPTCHA integrado
+- **WPForms**: Protección anti-spam incluida
+
+### Proceso de revisión:
+1. **Configurar herramientas** anti-spam
+2. **Cambiar tarea a "REVISANDO"** 
+3. **Monitorear durante 5-7 días**
+4. **Documentar resultados** (reducción de spam)
+5. **Finalizar tarea** con reporte
+
+### Configuración reCAPTCHA:
+- Clave asociada a **grupo de dominios**
+- Configurar tanto dominio principal como subdominios
+- Verificar que funciona en formularios de contacto
+
+## Mantenimiento adicional
+
+### Caché:
+- **Borrar caché de WP Rocket** después de cambios
+- Verificar que formularios funcionan sin caché
+
+### Logs:
+- **Revisar `/var/logs`** antes de subir cambios
+- Eliminar logs con errores críticos
+- Documentar errores recurrentes
+
+---
 
 # PRESTASHOP
 
-Para poder montar un proyecto en prestashop (falseando dominio) hay que seguir los siguientes pasos:
-<br>
+## Configuración de entorno local
 
 ### 1. Descarga del repositorio
-<br>
+```bash
+git clone https://github.com/hexer-dev/dob-prestashop-xxxxxxxxx.git
+cd dob-prestashop-xxxxxxxxx
+```
 
-### 2. Falsear Dominio para cargarlo en local
-Para realizar este proceso vamos a tener que tener en cuenta lo siguiente:
-- Modificación del fichero `/opt/lampp/etc/extra/httpd-vhosts.conf`
-  Ahí introduciremos el siguiente código e introduciremos los datos del proyecto:
+### 2. Configuración de dominio falso
+
+#### Modificar virtual hosts
+Editar `/opt/lampp/etc/extra/httpd-vhosts.conf`:
 ```xml
 ######################### URL PROYECTO XXX #########################
-
 <VirtualHost *:80>
     ServerAdmin xxxxxxx@hexer.dev
     DocumentRoot "/opt/lampp/htdocs/dob-prestashop-xxxxxxxx"
-    ServerName xxxxxxx.xxx (se debe cambiar x por el dominio del proyecto)
-    ServerAlias www.xxxxxxxx.xxx  (se debe cambiar x por el dominio del proyecto)
-    ErrorLog "logs/web.local-error_log"
+    ServerName xxxxxxx.com
+    ServerAlias www.xxxxxxx.com
+    ErrorLog "logs/prestashop-error_log"
 </VirtualHost>
 
 <VirtualHost *:443>
     DocumentRoot "/opt/lampp/htdocs/dob-prestashop-xxxxxxxxx"
-    ServerName xxxxxxx.xxx (se debe cambiar x por el dominio del proyecto)
-    ServerAlias xxxxxxx.xxx  (se debe cambiar x por el dominio del proyecto)
-
+    ServerName xxxxxxx.com
+    ServerAlias www.xxxxxxx.com
     SSLEngine on
-    SSLCertificateFile /etc/ssl/certs/xxxxxxx.xxx-selfsigned.crt  (se sustituirá x por el nombre del certificado puesto)
-    SSLCertificateKeyFile /etc/ssl/private/xxxxxxxx.xxx-selfsigned.key
+    SSLCertificateFile /etc/ssl/certs/xxxxxxx.com-selfsigned.crt
+    SSLCertificateKeyFile /etc/ssl/private/xxxxxxx.com-selfsigned.key
 </VirtualHost>
 ```
-<br>
 
-Ahora crearemos los certificados para el navegador. Incluiremos el siguiente código
-
-  ```xml
-  sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/xxxxxxx.xxx-selfsigned.key -out /etc/ssl/certs/xxxxxxx.xxx-selfsigned.crt
-  ```
-Se deben sustituir las xxxxxx por el nombre del certificado que le hayamos dado en el fichero `/opt/lampp/etc/extra/httpd-vhosts.conf`
-
-<br>
-También ha de editarse el fichero **/etc/hosts**
-y agregar una nueva línea con **127.0.0.1** seguido del nombre del proyecto `xxxxxxx.com www.xxxxxxxx.com` (o .es según sea) deberá quedar tal que así:
-
-```xml
-127.0.0.1 ejemplo.com www.ejemplo.com 
-```
-Donde ejemplo.com se sistituirá por el dominio del proyecto que se está trabajando.
-Una vez concluido el trabajo en el proyecto se deberá comentar la línea para ver el resultado en producción.
-
-<br>
-
-##### Opción para montar en local.
-De manera opcional, si queremos montar la web en local sin falsear el dominio, también deberemos modificar el fichero hosts e incluir una nueva línea con el dominio que vamos a crear ejemplo `127.0.0.1 proyecto.local www proyecto.local`.
-Seguidamente en el fichero .htaccess deberemos cambiar todos los enlaces que apuntan al dominio de la web por el dominio que hemos creado en local. <br>
-Por último, buscaremos en la base de datos de phpmyadmin el archivo `xxxxx.ps_shop_url`, y cambiar el dominio de la web por el nuestro local. 
-
-<br>
-
-### 3. Montar proyecto 
-Para hacer que el proyecto pueda abrir la base de datos, tenemos que irnos al fichero **app > config > parameters.php** y modificar los parámetros pertinentes para ello. 
-<br><br>
-
-### 4.  Posibles errores.
-
-#### El proyecto en local no se carga:
-Debemos dirigirnos a la base de datos y buscar la tabla **ps_shop_url** y modificar el dominio en él indicado por el dominio que tengamos puesto para el entorno local. 
-
-#### ERROR 404:
-Mirar bien el fichero httpd-vhosts.conf que el ServerName y ServerAlias no tengan slash "/" al final, si no, no estará apuntando bien al dominio.
-Importante que existan las carpetas cache, logs y sessions dentro de la carpeta var.
-
-#### Directory /opt/htdocs/dob-prestashop-mallasgalbis/var/logs is not writable
-Al no incluir subirse al repositorio la carpeta logs, se deberá generar de nuevo y aplicarle los permisos necesarios para ser escrita
-```
-mkdir -p var/logs
-chmod -R 775 var/logs
+#### Crear certificados SSL
+```bash
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/ssl/private/xxxxxxx.com-selfsigned.key \
+  -out /etc/ssl/certs/xxxxxxx.com-selfsigned.crt
 ```
 
-#### El proyecto está cacheado o da error 500.
-Para ello nos vamos a dirigir a **proyecto > var > cache** y eliminamos la carpeta **prod**. Ahora volvemos a intentar acceder a la web y ya debería funcionar.
+#### Configurar hosts
+Editar `/etc/hosts`:
+```
+127.0.0.1 xxxxxxx.com www.xxxxxxx.com
+```
 
-<br><br>
+### 3. Configurar base de datos
+Editar `app/config/parameters.php`:
+```php
+<?php return array (
+  'parameters' => array (
+    'database_host' => 'localhost',
+    'database_port' => '',
+    'database_name' => 'prestashop_xxxxxx',
+    'database_user' => 'root',
+    'database_password' => '',
+    'database_prefix' => 'ps_',
+    'database_engine' => 'InnoDB',
+    'mailer_transport' => 'smtp',
+    'mailer_host' => 'localhost',
+    'mailer_user' => null,
+    'mailer_password' => null,
+    'secret' => 'xxxxxxxxxxxxx',
+    'ps_caching' => 'CacheMemcache',
+    'ps_cache_enable' => false,
+    'ps_creation_date' => '2024-01-01',
+  ),
+);
+```
 
+## Solución de errores comunes
 
+### 🔧 Proyecto no carga en local
+**Causa**: URL incorrecta en base de datos
+**Solución**:
+1. Ir a phpMyAdmin
+2. Buscar tabla `ps_shop_url`
+3. Cambiar dominio por el local (ej: `proyecto.local`)
 
-# Creación de Entornos
+### 🔧 Error 404
+**Verificar**:
+- `ServerName` y `ServerAlias` en vhosts (sin `/` al final)
+- Existencia de carpetas: `var/cache`, `var/logs`, `var/sessions`
 
-Mantenimientos profesionales: 2
-Mantenimientos básico: 1
+### 🔧 Directory not writable
+```bash
+# Crear carpetas faltantes
+mkdir -p var/logs var/cache var/sessions
 
+# Aplicar permisos
+chmod -R 775 var/
+chown -R www-data:www-data var/
+```
+
+### 🔧 Error 500 / Caché corrupto
+```bash
+# Eliminar caché de producción
+rm -rf var/cache/prod/
+
+# Limpiar caché completo
+rm -rf var/cache/*
+
+# Regenerar caché
+php bin/console cache:clear --env=prod
+```
+
+---
+
+# CREACIÓN DE ENTORNOS
+
+## Tipos de mantenimiento
+
+### Mantenimiento Profesional (Nivel 2)
+**Frecuencia**: Trimestral
+**Incluye**:
+- Auditoría completa de seguridad
+- Optimización de rendimiento
+- Actualización completa de componentes
+- Análisis de logs detallado
+- Backup y restauración test
+- Informe técnico completo
+
+### Mantenimiento Básico (Nivel 1)  
+**Frecuencia**: Mensual
+**Incluye**:
+- Actualización de plugins menores
+- Verificación de funcionamiento básico
+- Limpieza de spam
+- Backup básico
+- Verificación de formularios
+
+## Checklist de nuevo entorno
+
+### Configuración inicial:
+- [ ] **Repositorio** clonado correctamente
+- [ ] **PHP** versión correcta configurada
+- [ ] **Base de datos** creada e importada
+- [ ] **Archivos de configuración** actualizados
+- [ ] **Permisos** de archivos configurados
+- [ ] **SSL** certificados generados (si aplica)
+
+### Verificación funcional:
+- [ ] **Sitio carga** correctamente
+- [ ] **Navegación** funciona entre páginas  
+- [ ] **Formularios** envían emails
+- [ ] **Imágenes** se muestran correctamente
+- [ ] **Admin** accesible y funcional
+
+### Documentación:
+- [ ] **Credenciales** documentadas
+- [ ] **Configuraciones** especiales anotadas
+- [ ] **Errores** conocidos listados
+- [ ] **Procedimientos** específicos documentados
