@@ -9,6 +9,7 @@
 - [3. Revisión de Spam](#revisión-de-spam)
 - [4. Prestashop](#prestashop)
 - [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
+- [6. PHP](#php)
 
 ---
 
@@ -598,3 +599,11 @@ php bin/console cache:clear --env=prod
 - [ ] **Configuraciones** especiales anotadas
 - [ ] **Errores** conocidos listados
 - [ ] **Procedimientos** específicos documentados
+
+---
+
+# PHP
+
+Se puede dar el caso que un proyecto, en un momento concreto, nos pida la instalación de PHP, bien porque lo requiere al hacer un composer update o por lo que sea. Tenemos que decirle que no queremos hacer esta instalación y, en su lugar, hacer que apunte a la carpeta lampp ya que tiene creados enlaces que apuntan a la versión de lampp levantada para el proyecto concreto con LVM. 
+
+Si por casualidad se nos instalase PHP en una versión a nivel de sistema, tendremos que eliminarlo y hacer que el enlace apunte a la carpeta de lampp para que administre de manera automática la versión que levante lvm.
