@@ -516,6 +516,9 @@ Editar `app/config/parameters.php`:
 );
 ```
 
+### 4. Vaciar caché
+Eliminar la carpeta `/var/cache`
+
 ## Solución de errores comunes
 
 ### 🔧 Activar modo Debug
