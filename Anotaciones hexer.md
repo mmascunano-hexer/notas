@@ -518,6 +518,11 @@ Editar `app/config/parameters.php`:
 
 ## Solución de errores comunes
 
+### 🔧 Activar modo Debug
+**Si necesitamos ver el error que se está generando**
+1. Nos dirigimos, en el proyeco, a la carpeta /config/define.inc.php:
+2. cambiar el condicional del debug _PS_MODE_DEV_ de false a -> true
+
 ### 🔧 Proyecto no carga en local
 **Causa**: URL incorrecta en base de datos
 **Solución**:
