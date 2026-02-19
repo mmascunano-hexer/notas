@@ -6,7 +6,7 @@
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
   - [Node](#tengo-la-versión-correcta-de-node)
-  - [**NUEVO:** Migración de Gulp a Yarn](#migración-de-gulp-a-yarn)
+  - [Migración de Gulp a Yarn](#migración-de-gulp-a-yarn)
 - [3. Revisión de Spam](#revisión-de-spam)
 - [4. Prestashop](#prestashop)
 - [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
@@ -399,7 +399,7 @@ yarn dev  # o yarn start según versión
 
 ---
 
-## 🆕 MIGRACIÓN DE GULP A YARN
+## MIGRACIÓN DE GULP A YARN
 
 ### ¿Cómo detectar un proyecto con Gulp?
 Buscar estos archivos en el proyecto:
