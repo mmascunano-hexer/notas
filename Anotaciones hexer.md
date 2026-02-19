@@ -1,6 +1,7 @@
 # ÍNDICE
 - [1. Mantenimiento de proyectos](#mantenimiento-de-proyectos)
   - [1.1 Actualización de Wordpress y PHP](#actualizacion-de-wordpress-y-php)
+    - [1.1.1 Carbon Fields - Flujo](#carbon-fields)
   - [1.2 Mantenimientos preventivos](#mantenimientos-preventivos)
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
@@ -153,6 +154,72 @@ composer update
 - **Tener plan de rollback** preparado
 
 ---
+
+## CARBON FIELDS
+
+---
+
+### 1. El Registro (Definición del Campo)
+**Fichero:** `app/Options/Options.php` (o donde se definan las `theme_options`)
+
+Es el primer paso. Aquí definimos la existencia del campo y su ID único.
+
+```php
+// Ejemplo: Añadir un campo de texto en una pestaña existente
+->add_tab(__('Contacto'), [
+    Field::make('text', 'ID_UNICO_DEL_CAMPO', __('Etiqueta Visible')),
+])
+```
+ID Único: Es el nombre técnico que usaremos para recuperar el dato (ej: theme_shortcode_form_header).
+Tipo de campo: Puede ser text, image, complex, select, etc.
+
+### 2. La Gestión (Backoffice)
+Lugar: Panel de Administración de WordPress
+
+Una vez registrado el código, aparecerá visualmente en el panel.
+
+Navega hasta la sección (ej: Ajustes del Sitio > Contacto).
+
+Rellena el campo con la información (ej: El shortcode de Contact Form 7).
+
+Importante: Haz clic en Guardar. Sin este paso, la base de datos no tendrá información que enviar al frontend.
+
+### 3. El Procesamiento (Controller)
+Fichero: app/Controllers/App.php (o el controlador específico de la vista)
+
+Sage separa la lógica del diseño. El controlador actúa como puente entre la base de datos y la vista.
+
+A. Crear la función de recuperación
+```php
+public function getMiNuevoDato() : string
+{
+    // Recupera el valor guardado usando el ID único del paso 1
+    return carbon_get_theme_option('ID_UNICO_DEL_CAMPO') ?: '';
+}
+```
+B. Inyectar en la vista (Método with)
+Para que la variable esté disponible en el archivo .blade.php, debe incluirse en el array de retorno del método with().
+
+```php
+public function with()
+{
+    return [
+        'variableEnBlade' => $this->getMiNuevoDato(),
+    ];
+}
+```
+
+### 4. La Visualización (Frontend / View)
+Fichero: resources/views/*.blade.php
+
+Es el último paso, donde "pintamos" el dato en el HTML.
+
+Para texto plano: {{ $variableEnBlade }}
+
+Para código HTML o Shortcodes: {!! do_shortcode($variableEnBlade) !!}
+
+---
+
 
 ## MANTENIMIENTOS PREVENTIVOS
 
