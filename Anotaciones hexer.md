@@ -160,6 +160,7 @@ composer update
 ---
 
 ### 1. El Registro (Definición del Campo)
+
 **Fichero:** `app/Options/Options.php` (o donde se definan las `theme_options`)
 
 Es el primer paso. Aquí definimos la existencia del campo y su ID único.
@@ -173,18 +174,20 @@ Es el primer paso. Aquí definimos la existencia del campo y su ID único.
 ID Único: Es el nombre técnico que usaremos para recuperar el dato (ej: theme_shortcode_form_header).
 Tipo de campo: Puede ser text, image, complex, select, etc.
 
+
 ### 2. La Gestión (Backoffice)
+
 Lugar: Panel de Administración de WordPress
 
-Una vez registrado el código, aparecerá visualmente en el panel.
-
-Navega hasta la sección (ej: Ajustes del Sitio > Contacto).
-
-Rellena el campo con la información (ej: El shortcode de Contact Form 7).
+- Una vez registrado el código, aparecerá visualmente en el panel. 
+- Navega hasta la sección (ej: Ajustes del Sitio > Contacto).
+- Rellena el campo con la información (ej: El shortcode de Contact Form 7).
 
 Importante: Haz clic en Guardar. Sin este paso, la base de datos no tendrá información que enviar al frontend.
 
+
 ### 3. El Procesamiento (Controller)
+
 Fichero: app/Controllers/App.php (o el controlador específico de la vista)
 
 Sage separa la lógica del diseño. El controlador actúa como puente entre la base de datos y la vista.
@@ -209,14 +212,31 @@ public function with()
 }
 ```
 
-### 4. La Visualización (Frontend / View)
-Fichero: resources/views/*.blade.php
 
-Es el último paso, donde "pintamos" el dato en el HTML.
+### 4. Renderizado (Frontend)
+Fichero: resources/views/partials/header.blade.php (o la vista correspondiente)
 
-Para texto plano: {{ $variableEnBlade }}
+Es donde transformamos el dato en HTML visible.
 
-Para código HTML o Shortcodes: {!! do_shortcode($variableEnBlade) !!}
+```php
+
+<div class="servicios-content__form">
+  @if ($getFormHeader)
+    <section class="form-header">
+      {{-- Usamos {!! !!} para renderizar el shortcode como HTML y no como texto plano --}}
+      {!! do_shortcode($getFormHeader) !!}
+    </section>
+  @endif
+</div>
+```
+### Guía de Resolución de Problemas (Debug)
+Si el elemento no aparece en el navegador, sigue este orden de verificación:
+
+1. Fuga de datos: ¿Está el ID en Options.php escrito exactamente igual que en carbon_get_theme_option?
+2. Visibilidad en Blade: ¿Se ha añadido la variable al array with() del controlador?
+3. Persistencia: ¿Si recargas el panel de administración, el dato sigue escrito en la caja de texto? (Si desaparece, hay un error en la definición del campo).
+4. Sintaxis Blade: ¿Estás usando {{ }} para texto o {!! !!} para shortcodes/HTML?
+
 
 ---
 
