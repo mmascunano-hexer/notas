@@ -3,7 +3,7 @@
   - [1.1 Actualización de Wordpress y PHP](#actualizacion-de-wordpress-y-php)
     - [1.1.1 Carbon Fields - Flujo](#carbon-fields)
   - [1.2 Mantenimientos preventivos](#mantenimientos-preventivos)
-  - [1.3 Migrar de Gulp a Yarn]([#migraci%C3%B3n-de-gulp-a-yarn])
+  - [1.3 Migrar de Gulp a Yarn]([#migrar-de-gulp-a-yarn])
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
   - [Node](#node)
