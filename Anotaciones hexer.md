@@ -3,7 +3,7 @@
   - [1.1 Actualización de Wordpress y PHP](#actualizacion-de-wordpress-y-php)
     - [1.1.1 Carbon Fields - Flujo](#carbon-fields)
   - [1.2 Mantenimientos preventivos](#mantenimientos-preventivos)
-  - [1.3 Migración de Gulp a Yarn](#[migraci%C3%B3n-de-gulp-a-yarn])
+  - [1.3 Migrar de Gulp a Yarn]([#migraci%C3%B3n-de-gulp-a-yarn])
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
   - [Node](#node)
@@ -134,6 +134,7 @@ composer update
 
 ---
 <br>
+
 ## ACTUALIZACIÓN DE WORDPRESS Y PHP
 
 **⚠️ Orden crítico para evitar colapsos del sitio:**
@@ -157,7 +158,7 @@ composer update
 
 ## CARBON FIELDS
 
----
+
 
 ### 1. El Registro (Definición del Campo)
 
@@ -241,6 +242,7 @@ Si el elemento no aparece en el navegador, sigue este orden de verificación:
 ---
 
 <br>
+
 ## MANTENIMIENTOS PREVENTIVOS
 
 **Frecuencia**: Cada 3 meses
@@ -260,6 +262,7 @@ Si el elemento no aparece en el navegador, sigue este orden de verificación:
 
 --- 
 <br>
+
 ## 🧩 MIGRACIÓN DE GULP A YARN
 
 ### 📁 1. Estructura recomendada
