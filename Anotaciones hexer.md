@@ -399,96 +399,148 @@ yarn dev  # o yarn start según versión
 
 ---
 
-## MIGRACIÓN DE GULP A YARN
+## 🧩 MIGRACIÓN DE GULP A YARN
 
-### ¿Cómo detectar un proyecto con Gulp?
-Buscar estos archivos en el proyecto:
-- `gulpfile.js`
-- `gulp.config.js`
-- En `package.json`: dependencias como `gulp`, `gulp-sass`, etc.
+### 📁 1. Estructura recomendada
 
-### Proceso de migración paso a paso:
-
-#### 1. Análisis del proyecto actual
+Dentro del tema:
 ```bash
-# Revisar estructura actual
-ls -la  # buscar gulpfile.js
-cat package.json  # revisar dependencias de gulp
+mi-tema/
+│
+├── css/
+│   ├── sass/          ← SOLO .sass / .scss (fuentes)
+│   │   ├── base.sass
+│   │   ├── custom.sass
+│   │   └── all.sass   ← entrypoint
+│   │
+│   ├── css/           ← compilado intermedio (se regenera)
+│   │   └── all.css
+│   │
+│   └── min.css        ← archivo final que carga WordPress
+│
+├── package.json
+├── postcss.config.js
+└── node_modules/
 ```
 
-#### 2. Backup del proyecto
-```bash
-# Crear rama para la migración
-git checkout -b migracion-gulp-to-yarn
-```
+### ⚠️ Nunca mezclar:
 
-#### 3. Instalación de Sage/Bud (recomendado)
-```bash
-# Opción A: Migrar a Sage 10 con Bud
-npm install @roots/bud --save-dev
+- .css dentro de css/sass/
+- .min.css dentro de css/css/
 
-# Opción B: Usar Webpack directamente
-npm install webpack webpack-cli --save-dev
-```
+### ⚙️ 2. Instalar dependencias
 
-#### 4. Configuración nueva (ejemplo con Bud)
-Crear `bud.config.js`:
-```javascript
-export default async (bud) => {
-  bud
-    .entry('app', ['@scripts/app', '@styles/app'])
-    .entry('editor', ['@scripts/editor', '@styles/editor'])
-    .assets(['images'])
-    .copyDir('images')
-    .setUrl('http://localhost:3000')
-    .setProxyUrl('http://web.local')
-    .watch(['resources/views', 'app']);
+Desde la raíz del tema:
+
+yarn init -y
+yarn add -D sass postcss postcss-cli postcss-import cssnano autoprefixer concurrently
+🧠 3. Crear el entrypoint SASS
+
+Si usas .sass (indented):
+
+css/sass/all.sass
+
+@import "base"
+@import "custom"
+
+Si usas .scss:
+
+css/sass/all.scss
+
+@import "base";
+@import "custom";
+
+Puedes añadir más imports según tu proyecto:
+
+@import "variables"
+@import "mixins"
+@import "header"
+@import "footer"
+🛠 4. postcss.config.js
+
+Crear en la raíz del tema:
+
+module.exports = {
+  plugins: [
+    require("postcss-import"),
+    require("autoprefixer"),
+    require("cssnano")({ preset: "default" }),
+  ],
 };
-```
-
-#### 5. Actualizar package.json
-Reemplazar scripts de Gulp:
-```json
+📦 5. package.json plantilla final reutilizable
+🔹 Para .sass
 {
+  "name": "mi-tema",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
   "scripts": {
-    "dev": "bud dev",
-    "build": "bud build",
-    "build:production": "bud build --mode=production"
-  }
+    "scss": "sass css/sass/all.sass css/css/all.css --no-source-map",
+    "minify": "postcss css/css/all.css -o css/min.css",
+    "build": "yarn scss && yarn minify",
+    "watch": "concurrently \"sass --watch css/sass/all.sass:css/css/all.css --no-source-map\" \"postcss css/css/all.css -o css/min.css --watch\""
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.24",
+    "concurrently": "^9.2.1",
+    "cssnano": "^7.1.2",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "postcss-import": "^16.1.1",
+    "sass": "^1.97.1"
+  },
+  "packageManager": "yarn@1.22.19"
 }
-```
+🔹 Para .scss
 
-#### 6. Migrar archivos de assets
-```bash
-# Mover archivos según nueva estructura
-mkdir -p resources/{scripts,styles,images}
-# Mover archivos de assets/* a resources/*
-```
+Solo cambia:
 
-#### 7. Testing y verificación
-```bash
-# Instalar dependencias
-yarn
+all.sass → all.scss
 
-# Probar compilación
-yarn dev
+en los scripts.
 
-# Verificar que todo funciona
+🚀 6. Uso diario
+Compilar una vez:
 yarn build
-```
+Desarrollo con watch:
+yarn watch
+🧱 7. functions.php (no tocar si ya usa min.css)
 
-#### 8. Limpieza
-```bash
-# Eliminar archivos obsoletos de Gulp
-rm gulpfile.js
-rm gulp.config.js
-# Limpiar dependencias obsoletas del package.json
-```
+Si el tema antiguo tiene:
 
-### Errores comunes en migración:
-- **Rutas incorrectas**: Verificar que las rutas de assets coincidan
-- **Dependencias faltantes**: Instalar loaders específicos (sass-loader, etc.)
-- **Configuración proxy**: Ajustar URLs locales en la config
+wp_enqueue_style('cssTema', get_template_directory_uri() . '/css/min.css');
+
+No necesitas cambiar nada.
+
+🧹 8. Limpieza recomendada para migraciones desde Gulp
+
+Eliminar:
+
+gulpfile.js
+
+node_modules antiguos
+
+package-lock.json si usaba npm
+
+cualquier *.min.css generado por Gulp
+
+Luego:
+
+rm -rf node_modules
+yarn install
+⚠️ Errores típicos en migraciones
+❌ “Input Error: You must pass a valid list of files to parse”
+
+No existe css/css/all.css → revisa que all.sass existe.
+
+❌ “Cannot find module 'autoprefixer'”
+
+No está instalado → yarn add -D autoprefixer
+
+❌ Duplicados .min.min.css
+
+Estás minificando *.min.css.
+Solo minifica all.css.
 
 ---
 
