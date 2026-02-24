@@ -1,7 +1,5 @@
 # Guía interna de desarrollo
-Documentación operativa para alumnos y nuevas incorporaciones (mantenimiento, entornos locales y workflows).
 
-> Nota: Este documento **no inventa** información del proyecto; únicamente reordena y clarifica lo ya documentado.
 
 ---
 
