@@ -263,7 +263,7 @@ Si el elemento no aparece en el navegador, sigue este orden de verificación:
 --- 
 <br>
 
-## 🧩 MIGRACIÓN DE GULP A YARN
+## 🧩 MIGRAR DE GULP A YARN
 
 ### 📁 1. Estructura recomendada
 
