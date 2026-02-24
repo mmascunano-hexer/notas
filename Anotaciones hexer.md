@@ -6,7 +6,7 @@
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
   - [Node](#tengo-la-versión-correcta-de-node)
-  - [Migración de Gulp a Yarn](#migración-de-gulp-a-yarn)
+  - [🧩 Migración de Gulp a Yarn](#🧩-migracion-de-gulp-a-yarn)
 - [3. Revisión de Spam](#revisión-de-spam)
 - [4. Prestashop](#prestashop)
 - [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
@@ -432,34 +432,44 @@ mi-tema/
 
 Desde la raíz del tema:
 
+```bash
 yarn init -y
 yarn add -D sass postcss postcss-cli postcss-import cssnano autoprefixer concurrently
-🧠 3. Crear el entrypoint SASS
+```
+
+
+### 🧠 3. Crear el entrypoint SASS
 
 Si usas .sass (indented):
 
 css/sass/all.sass
-
-@import "base"
-@import "custom"
+```bash
+@use "base"
+@use "custom"
+```
 
 Si usas .scss:
 
-css/sass/all.scss
 
-@import "base";
-@import "custom";
+css/sass/all.scss
+```bash
+@use "base";
+@use "custom";
+```
 
 Puedes añadir más imports según tu proyecto:
+```bash
+@use "variables"
+@use "mixins"
+@use "header"
+@use "footer"
+```
 
-@import "variables"
-@import "mixins"
-@import "header"
-@import "footer"
-🛠 4. postcss.config.js
+
+### 🛠 4. postcss.config.js
 
 Crear en la raíz del tema:
-
+```javascript
 module.exports = {
   plugins: [
     require("postcss-import"),
@@ -467,8 +477,12 @@ module.exports = {
     require("cssnano")({ preset: "default" }),
   ],
 };
-📦 5. package.json plantilla final reutilizable
+```
+
+
+### 📦 5. package.json plantilla final reutilizable
 🔹 Para .sass
+```json
 {
   "name": "mi-tema",
   "version": "1.0.0",
@@ -491,56 +505,66 @@ module.exports = {
   },
   "packageManager": "yarn@1.22.19"
 }
+```
+
 🔹 Para .scss
 
 Solo cambia:
-
+```bash
 all.sass → all.scss
-
+```
 en los scripts.
 
-🚀 6. Uso diario
+
+### 🚀 6. Uso diario
+
 Compilar una vez:
+```bash
 yarn build
+```
 Desarrollo con watch:
+```bash
 yarn watch
-🧱 7. functions.php (no tocar si ya usa min.css)
+```
+
+
+### 🧱 7. functions.php (no tocar si ya usa min.css)
 
 Si el tema antiguo tiene:
-
+```bash
 wp_enqueue_style('cssTema', get_template_directory_uri() . '/css/min.css');
+```
 
 No necesitas cambiar nada.
 
-🧹 8. Limpieza recomendada para migraciones desde Gulp
+
+### 🧹 8. Limpieza recomendada para migraciones desde Gulp
 
 Eliminar:
 
-gulpfile.js
-
-node_modules antiguos
-
-package-lock.json si usaba npm
-
-cualquier *.min.css generado por Gulp
+- `gulpfile.js`
+- `node_modules` antiguos
+- `package-lock.json` si usaba npm
+- cualquier `*.min.css` generado por Gulp
 
 Luego:
-
+```bash
 rm -rf node_modules
 yarn install
-⚠️ Errores típicos en migraciones
-❌ “Input Error: You must pass a valid list of files to parse”
+```
 
-No existe css/css/all.css → revisa que all.sass existe.
 
-❌ “Cannot find module 'autoprefixer'”
+### ⚠️ Errores típicos en migraciones
+#### ❌ “Input Error: You must pass a valid list of files to parse”
+No existe `css/css/all.css` → revisa que `all.sass` existe.
 
-No está instalado → yarn add -D autoprefixer
+#### ❌ “Cannot find module 'autoprefixer'”
+No está instalado → `yarn add -D autoprefixer`
 
-❌ Duplicados .min.min.css
+#### ❌ Duplicados .min.min.css
 
-Estás minificando *.min.css.
-Solo minifica all.css.
+Estás minificando `*.min.css`.
+Solo minifica `all.css`.
 
 ---
 
