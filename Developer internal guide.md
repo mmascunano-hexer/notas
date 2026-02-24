@@ -1,49 +1,57 @@
-# Guía Interna de Desarrollo
+# HANDBOOK TÉCNICO INTERNO
 
-Manual operativo unificado para mantenimiento, entornos locales y
-workflows técnicos.
+Manual Operativo Oficial -- Departamento de Desarrollo
 
-> Este documento consolida toda la información relacionada con **Yarn,
-> Node, PHP y gestión de entornos** para evitar duplicidades y
-> contradicciones.
-
-------------------------------------------------------------------------
-
-# Índice
-
-1.  Entornos y Configuración Base
-2.  Gestión Unificada de PHP (LAMPP + LVM)
-3.  Gestión Unificada de Node y Yarn
-4.  WordPress -- Configuración y Mantenimiento
-5.  Sage (según versión)
-6.  Migración de Gulp a Yarn
-7.  Prestashop -- Entorno Local
-8.  Revisión de Spam
-9.  Tipos de Mantenimiento
+Versión: 1.0 Alcance: WordPress, Sage, Prestashop, Entornos Locales,
+Gestión de PHP, Node y Yarn Uso: Onboarding de nuevos desarrolladores y
+referencia operativa interna
 
 ------------------------------------------------------------------------
 
-# 1. Entornos y Configuración Base
+# 1. Arquitectura de Entornos
 
-## Clonado de repositorios
+## 1.1 Filosofía del Entorno
 
-``` bash
-git clone https://github.com/hexer-dev/nombre-proyecto.git
+El equipo trabaja bajo el siguiente principio:
+
+-   PHP gestionado exclusivamente por LAMPP + LVM
+-   Node gestionado exclusivamente por NVM
+-   Yarn como gestor estándar de dependencias frontend
+-   Nunca instalar versiones globales no controladas
+
+------------------------------------------------------------------------
+
+## 1.2 Diagrama General de Entorno
+
+``` mermaid
+flowchart TD
+    A[Repositorio Git] --> B[Clonado en htdocs]
+    B --> C[LAMPP]
+    C --> D[LVM selecciona versión PHP]
+    B --> E[NVM selecciona versión Node]
+    E --> F[Yarn instala dependencias]
+    F --> G[Entorno listo para desarrollo]
 ```
 
-Trabajar siempre dentro de `htdocs` si es WordPress o Prestashop en
-LAMPP.
-
 ------------------------------------------------------------------------
 
-# 2. Gestión Unificada de PHP (LAMPP + LVM)
+# 2. Gestión Profesional de PHP
 
-## Regla del equipo
+## 2.1 Norma obligatoria
 
-NO instalar PHP a nivel de sistema. Siempre usar PHP gestionado por
-**LAMPP + LVM**.
+Nunca instalar PHP a nivel sistema. Siempre usar versiones controladas
+mediante LVM.
 
-## Cambiar versión de PHP
+## 2.2 Flujo de cambio de versión
+
+``` mermaid
+flowchart LR
+    A[lvm disable] --> B[lvm use X.X]
+    B --> C[sudo lampp restart]
+    C --> D[Verificación entorno]
+```
+
+## 2.3 Comandos oficiales
 
 ``` bash
 lvm disable
@@ -51,41 +59,27 @@ lvm use 7.4
 sudo lampp restart
 ```
 
-## Si PHP se instala a nivel sistema por error
-
-1.  Desinstalar PHP del sistema
-2.  Asegurar que los binarios apuntan a LAMPP
-3.  Volver a activar versión con LVM
-
 ------------------------------------------------------------------------
 
-# 3. Gestión Unificada de Node y Yarn
+# 3. Gestión Profesional de Node y Yarn
 
-Toda la gestión de Node debe hacerse mediante **NVM**.
+## 3.1 Gestión con NVM
 
-## Instalar versión requerida
+Instalar y usar versión:
 
 ``` bash
 nvm install 16
 nvm use 16
-```
-
-Ver versión activa:
-
-``` bash
 node -v
 ```
 
-------------------------------------------------------------------------
+## 3.2 Instalación estándar de Yarn
 
-## Instalación correcta de Yarn
-
-### Opción recomendada (Node ≥16)
+### Método recomendado
 
 ``` bash
 corepack enable
 corepack prepare yarn@stable --activate
-yarn -v
 ```
 
 ### Alternativa
@@ -94,148 +88,180 @@ yarn -v
 npm install -g yarn
 ```
 
-Nunca instalar `cmdtest`.
+Nunca instalar cmdtest.
 
 ------------------------------------------------------------------------
 
-## Procedimiento estándar al clonar un proyecto con frontend
+## 3.3 Flujo completo frontend
 
-``` bash
-cd wp-content/themes/nombre_tema
-nvm use <version_requerida>
-yarn
+``` mermaid
+flowchart TD
+    A[Entrar en tema] --> B[nvm use versión]
+    B --> C[yarn]
+    C --> D[yarn dev]
+    D --> E[Desarrollo activo]
 ```
 
 ------------------------------------------------------------------------
 
-# 4. WordPress -- Configuración y Mantenimiento
+# 4. WordPress -- Proceso Estándar de Arranque
 
-## Base de datos
-
-Crear:
+## 4.1 Base de datos
 
 ``` bash
 echo "create database wp_proyecto" | mysql -u root -p
-```
-
-Importar:
-
-``` bash
 mysql -u root -p wp_proyecto < archivo.sql
 ```
 
-## Enlace simbólico
+## 4.2 Enlace simbólico
 
 ``` bash
 unlink web.local
 ln -s nombre-proyecto/ web.local
 ```
 
-## wp-config.php (ejemplo)
+## 4.3 Validación final
 
-``` php
-define('DB_NAME', 'wp_proyecto');
-define('DB_USER', 'root');
-define('DB_PASSWORD', '');
-define('DB_HOST', 'localhost');
-define('WP_DEBUG', true);
-define('WP_DEBUG_LOG', true);
-```
+-   Acceso frontend
+-   Acceso admin
+-   Navegación correcta
+-   Formularios funcionales
 
 ------------------------------------------------------------------------
 
-# 5. Sage
+# 5. Sage -- Arquitectura y Workflows
 
-## Identificar versión
+## 5.1 Identificación de versión
 
-En `package.json`:
+  Indicador en package.json   Versión
+  --------------------------- ---------
+  @roots/sage                 Sage 10
+  laravel-mix                 Sage 9
 
--   `@roots/sage` → Sage 10
--   `laravel-mix` → Sage 9
-
-## Compatibilidad Node
+## 5.2 Compatibilidad Node
 
   Sage   Node recomendado
   ------ ------------------
   9      12
-  10     16 o 18 LTS
+  10     16 / 18 LTS
 
-## Workflow estándar
+## 5.3 Workflow Oficial
 
 ``` bash
 yarn
-yarn dev     # desarrollo
-yarn build   # producción
+yarn dev
+yarn build
 ```
 
 ------------------------------------------------------------------------
 
 # 6. Migración de Gulp a Yarn
 
-## Instalar dependencias
+## 6.1 Arquitectura recomendada
+
+``` text
+mi-tema/
+ ├── css/
+ │   ├── sass/
+ │   ├── css/
+ │   └── min.css
+ ├── package.json
+ └── postcss.config.js
+```
+
+## 6.2 Instalación dependencias
 
 ``` bash
 yarn init -y
 yarn add -D sass postcss postcss-cli postcss-import cssnano autoprefixer concurrently
 ```
 
-## Scripts recomendados
+## 6.3 Flujo compilación
 
-``` json
-"scripts": {
-  "scss": "sass css/sass/all.sass css/css/all.css --no-source-map",
-  "minify": "postcss css/css/all.css -o css/min.css",
-  "build": "yarn scss && yarn minify",
-  "watch": "concurrently \"sass --watch css/sass/all.sass:css/css/all.css --no-source-map\" \"postcss css/css/all.css -o css/min.css --watch\""
-}
-```
-
-Uso diario:
-
-``` bash
-yarn build
-yarn watch
+``` mermaid
+flowchart LR
+    A[SASS] --> B[all.css]
+    B --> C[PostCSS]
+    C --> D[min.css]
+    D --> E[WordPress enqueue]
 ```
 
 ------------------------------------------------------------------------
 
-# 7. Prestashop -- Entorno Local
+# 7. Prestashop -- Arquitectura Local
 
-## Activar debug
+## 7.1 Diagrama de entorno
 
-Editar `/config/define.inc.php`:
+``` mermaid
+flowchart TD
+    A[Repositorio] --> B[LAMPP vhost]
+    B --> C[Certificado SSL]
+    C --> D[Base de datos]
+    D --> E[Proyecto funcional]
+```
 
-    _PS_MODE_DEV_ = true;
-
-## Limpiar caché
+## 7.2 Limpieza caché
 
 ``` bash
 rm -rf var/cache/*
 ```
 
+## 7.3 Activar debug
+
+Editar: /config/define.inc.php
+
+Cambiar:
+
+    _PS_MODE_DEV_ = true;
+
 ------------------------------------------------------------------------
 
-# 8. Revisión de Spam
+# 8. Seguridad y Anti-Spam
 
-Checklist:
+Checklist obligatorio:
 
 -   Honeypot
 -   reCAPTCHA
 -   Akismet
 -   Flamingo
 
-Monitorizar 5-7 días antes de cerrar tarea.
+Flujo revisión:
+
+``` mermaid
+flowchart LR
+    A[Configurar herramientas] --> B[Monitorizar 5-7 días]
+    B --> C[Evaluar reducción spam]
+    C --> D[Cerrar tarea]
+```
 
 ------------------------------------------------------------------------
 
 # 9. Tipos de Mantenimiento
 
-  ------------------------------------------------------------------------
-  Tipo             Frecuencia                     Incluye
-  ---------------- ------------------------------ ------------------------
-  Básico           Mensual                        Plugins menores,
-                                                  formularios, backups
+  Tipo          Frecuencia   Nivel
+  ------------- ------------ --------------------
+  Básico        Mensual      Operativo
+  Profesional   Trimestral   Auditoría completa
 
-  Profesional      Trimestral                     Seguridad, rendimiento,
-                                                  auditoría completa
-  ------------------------------------------------------------------------
+------------------------------------------------------------------------
+
+# 10. Checklist Global de Validación de Proyecto
+
+## Entorno
+
+-   PHP correcto vía LVM
+-   Node correcto vía NVM
+-   Yarn instalado correctamente
+-   Dependencias instaladas
+
+## Proyecto
+
+-   Base de datos conectada
+-   Navegación correcta
+-   Formularios funcionales
+-   Caché limpia
+-   Logs revisados
+
+------------------------------------------------------------------------
+
+Fin del documento.
