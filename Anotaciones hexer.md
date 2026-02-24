@@ -746,6 +746,15 @@ php bin/console cache:clear --env=prod
 
 ## Tipos de mantenimiento
 
+### Mantenimiento Básico (Nivel 1)  
+**Frecuencia**: Trimestral
+**Incluye**:
+- Actualizaciones menores de la web y sus componentes (plugins)
+- Menús y navegación
+- Revisión de maquetación en web y responsive
+- Verificación de formularios
+- Verificación de funcionamiento básico
+
 ### Mantenimiento Profesional (Nivel 2)
 **Frecuencia**: Trimestral
 **Incluye**:
@@ -755,15 +764,6 @@ php bin/console cache:clear --env=prod
 - Análisis de logs detallado
 - Backup y restauración test
 - Informe técnico completo
-
-### Mantenimiento Básico (Nivel 1)  
-**Frecuencia**: Mensual
-**Incluye**:
-- Actualización de plugins menores
-- Verificación de funcionamiento básico
-- Limpieza de spam
-- Backup básico
-- Verificación de formularios
 
 ## Checklist de nuevo entorno
 
