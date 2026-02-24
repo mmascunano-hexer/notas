@@ -531,7 +531,7 @@ En caso de usar bud
 }
 ```
 
-Puedes migrar y utilizar yarn volviendo a revisar el apartado de [migración de gulp a yarn[(#migrar-gulp-a-yarn)
+Puedes migrar y utilizar yarn volviendo a revisar el apartado de [migración de gulp a yarn](#migrar-gulp-a-yarn)
 
 **Workflow Sage 10**:
 1. **Desarrollo**: `yarn dev` (modo watch con hot reload)
