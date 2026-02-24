@@ -433,6 +433,7 @@ Solo minifica `all.css`.
 
 ---
 <br>
+
 # SAGE
 
 ## Identificación de versión y configuración
@@ -494,6 +495,7 @@ yarn -v  # verificar instalación
 ---
 
 <br>
+
 ### **SAGE 9** (usa Laravel Mix)
 ```json
 {
@@ -513,7 +515,12 @@ yarn -v  # verificar instalación
 3. **Producción**: `yarn build:production`
 4. **Git**: `git add .` → `git commit` → `git push`
 
-### **SAGE 10** (usa Bud)
+<br>
+
+### **SAGE 10**
+
+En caso de usar bud
+
 ```json
 {
   "scripts": {
@@ -523,6 +530,8 @@ yarn -v  # verificar instalación
   }
 }
 ```
+
+Puedes migrar y utilizar yarn volviendo a revisar el apartado de [migración de gulp a yarn[(#migrar-gulp-a-yarn)
 
 **Workflow Sage 10**:
 1. **Desarrollo**: `yarn dev` (modo watch con hot reload)
