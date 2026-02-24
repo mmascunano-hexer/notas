@@ -3,10 +3,10 @@
   - [1.1 Actualización de Wordpress y PHP](#actualizacion-de-wordpress-y-php)
     - [1.1.1 Carbon Fields - Flujo](#carbon-fields)
   - [1.2 Mantenimientos preventivos](#mantenimientos-preventivos)
+  - [1.3 Migración de Gulp a Yarn](#migración-de-gulp-a-yarn)
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
   - [Node](#tengo-la-versión-correcta-de-node)
-  - [🧩 Migración de Gulp a Yarn](#🧩-migracion-de-gulp-a-yarn)
 - [3. Revisión de Spam](#revisión-de-spam)
 - [4. Prestashop](#prestashop)
 - [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
@@ -257,147 +257,8 @@ Si el elemento no aparece en el navegador, sigue este orden de verificación:
 
 **📋 Documentación**: Anotar en comentarios de la tarea **OK/KO** para cada punto, incluyendo acciones correctivas realizadas.
 
----
 
-# SAGE
 
-## Identificación de versión y configuración
-
-### ¿Cómo saber qué versión de Sage tiene un proyecto?
-Revisar el archivo `package.json`:
-
-```json
-"@roots/sage": "^6.12.3"  // = Sage 10
-"laravel-mix": "^x.x.x"   // = Sage 9 (usa Mix en lugar de Bud)
-```
-
-**Correspondencias**:
-- `@roots/sage 6.x.x` = **Sage 10** (usa Bud)
-- Presencia de `laravel-mix` = **Sage 9** (usa Mix)
-
-### Compatibilidad con Node.js:
-- **Sage 9**: Node.js 10-14 (recomendado: v12)
-- **Sage 10**: Node.js 16+ (recomendado: v16 o v18 LTS)
-
-## Instalación y configuración inicial
-
-### ¿He de ejecutar yarn antes de nada?
-**Sí**, siempre ejecutar `yarn` al clonar o iniciar un proyecto por primera vez.
-
-**Ubicación**: `wp_content/themes/nombre_proyecto`
-**Comando**: 
-```bash
-cd wp_content/themes/nombre_proyecto
-yarn
-```
-
-**Esto hace**:
-- Instala dependencias del `package.json`
-- Prepara comandos `yarn dev`, `yarn build`, etc.
-- Configura Bud/Mix y otros compiladores
-
-### Instalación de Yarn (si no está disponible)
-
-#### ⚠️ Error común: 
-Si el sistema sugiere instalar `cmdtest`, **NO lo hagas**. No es el Yarn correcto.
-
-#### ✅ Soluciones correctas:
-
-**Opción 1: Usar Corepack (recomendado para Node ≥16.10)**
-```bash
-corepack enable
-corepack prepare yarn@stable --activate
-yarn -v  # verificar instalación
-```
-
-**Opción 2: Instalar globalmente con npm**
-```bash
-npm install -g yarn
-yarn -v  # verificar instalación
-```
-
-## Scripts de desarrollo por versión
-
-### **SAGE 9** (usa Laravel Mix)
-```json
-{
-  "scripts": {
-    "build": "webpack --progress --config resources/assets/build/webpack.config.js",
-    "build:production": "webpack --env.production --progress --config resources/assets/build/webpack.config.js",
-    "start": "webpack --hide-modules --watch --config resources/assets/build/webpack.config.js",
-    "rmdist": "rimraf dist",
-    "lint": "npm run -s lint:scripts && npm run -s lint:styles"
-  }
-}
-```
-
-**Workflow Sage 9**:
-1. **Desarrollo**: `yarn start` (modo watch)
-2. **Build final**: `yarn build`
-3. **Producción**: `yarn build:production`
-4. **Git**: `git add .` → `git commit` → `git push`
-
-### **SAGE 10** (usa Bud)
-```json
-{
-  "scripts": {
-    "dev": "bud dev",
-    "build": "bud build",
-    "translate": "yarn translate:pot && yarn translate:update"
-  }
-}
-```
-
-**Workflow Sage 10**:
-1. **Desarrollo**: `yarn dev` (modo watch con hot reload)
-2. **Build final**: `yarn build`
-3. **Git**: `git add .` → `git commit` → `git push`
-
-## Gestión de versiones Node.js
-
-### ¿Qué es NVM y para qué sirve?
-**Node Version Manager** permite:
-- Instalar múltiples versiones de Node.js
-- Cambiar entre versiones según proyecto
-- Evitar conflictos entre diferentes proyectos
-
-### Comandos NVM esenciales:
-```bash
-# Ver versión actual
-node -v
-
-# Ver versiones instaladas
-nvm list
-
-# Instalar versión específica
-nvm install 16
-
-# Cambiar a versión específica
-nvm use 16
-
-# Ver qué versión requiere el proyecto
-cat package.json | grep -A 5 '"engines"'
-```
-
-### Workflow completo con NVM:
-```bash
-# 1. Ir al directorio del tema
-cd wp_content/themes/nombre_proyecto
-
-# 2. Verificar versión requerida
-cat package.json | grep '"node":'
-
-# 3. Cambiar a versión correcta
-nvm use 16  # o la versión requerida
-
-# 4. Instalar dependencias
-yarn
-
-# 5. Iniciar desarrollo
-yarn dev  # o yarn start según versión
-```
-
----
 
 ## 🧩 MIGRACIÓN DE GULP A YARN
 
@@ -567,6 +428,149 @@ Estás minificando `*.min.css`.
 Solo minifica `all.css`.
 
 ---
+
+---
+
+# SAGE
+
+## Identificación de versión y configuración
+
+### ¿Cómo saber qué versión de Sage tiene un proyecto?
+Revisar el archivo `package.json`:
+
+```json
+"@roots/sage": "^6.12.3"  // = Sage 10
+"laravel-mix": "^x.x.x"   // = Sage 9 (usa Mix en lugar de Bud)
+```
+
+**Correspondencias**:
+- `@roots/sage 6.x.x` = **Sage 10** (usa Bud)
+- Presencia de `laravel-mix` = **Sage 9** (usa Mix)
+
+### Compatibilidad con Node.js:
+- **Sage 9**: Node.js 10-14 (recomendado: v12)
+- **Sage 10**: Node.js 16+ (recomendado: v16 o v18 LTS)
+
+## Instalación y configuración inicial
+
+### ¿He de ejecutar yarn antes de nada?
+**Sí**, siempre ejecutar `yarn` al clonar o iniciar un proyecto por primera vez.
+
+**Ubicación**: `wp_content/themes/nombre_proyecto`
+**Comando**: 
+```bash
+cd wp_content/themes/nombre_proyecto
+yarn
+```
+
+**Esto hace**:
+- Instala dependencias del `package.json`
+- Prepara comandos `yarn dev`, `yarn build`, etc.
+- Configura Bud/Mix y otros compiladores
+
+### Instalación de Yarn (si no está disponible)
+
+#### ⚠️ Error común: 
+Si el sistema sugiere instalar `cmdtest`, **NO lo hagas**. No es el Yarn correcto.
+
+#### ✅ Soluciones correctas:
+
+**Opción 1: Usar Corepack (recomendado para Node ≥16.10)**
+```bash
+corepack enable
+corepack prepare yarn@stable --activate
+yarn -v  # verificar instalación
+```
+
+**Opción 2: Instalar globalmente con npm**
+```bash
+npm install -g yarn
+yarn -v  # verificar instalación
+```
+
+## Scripts de desarrollo por versión
+
+### **SAGE 9** (usa Laravel Mix)
+```json
+{
+  "scripts": {
+    "build": "webpack --progress --config resources/assets/build/webpack.config.js",
+    "build:production": "webpack --env.production --progress --config resources/assets/build/webpack.config.js",
+    "start": "webpack --hide-modules --watch --config resources/assets/build/webpack.config.js",
+    "rmdist": "rimraf dist",
+    "lint": "npm run -s lint:scripts && npm run -s lint:styles"
+  }
+}
+```
+
+**Workflow Sage 9**:
+1. **Desarrollo**: `yarn start` (modo watch)
+2. **Build final**: `yarn build`
+3. **Producción**: `yarn build:production`
+4. **Git**: `git add .` → `git commit` → `git push`
+
+### **SAGE 10** (usa Bud)
+```json
+{
+  "scripts": {
+    "dev": "bud dev",
+    "build": "bud build",
+    "translate": "yarn translate:pot && yarn translate:update"
+  }
+}
+```
+
+**Workflow Sage 10**:
+1. **Desarrollo**: `yarn dev` (modo watch con hot reload)
+2. **Build final**: `yarn build`
+3. **Git**: `git add .` → `git commit` → `git push`
+
+## Gestión de versiones Node.js
+
+### ¿Qué es NVM y para qué sirve?
+**Node Version Manager** permite:
+- Instalar múltiples versiones de Node.js
+- Cambiar entre versiones según proyecto
+- Evitar conflictos entre diferentes proyectos
+
+### Comandos NVM esenciales:
+```bash
+# Ver versión actual
+node -v
+
+# Ver versiones instaladas
+nvm list
+
+# Instalar versión específica
+nvm install 16
+
+# Cambiar a versión específica
+nvm use 16
+
+# Ver qué versión requiere el proyecto
+cat package.json | grep -A 5 '"engines"'
+```
+
+### Workflow completo con NVM:
+```bash
+# 1. Ir al directorio del tema
+cd wp_content/themes/nombre_proyecto
+
+# 2. Verificar versión requerida
+cat package.json | grep '"node":'
+
+# 3. Cambiar a versión correcta
+nvm use 16  # o la versión requerida
+
+# 4. Instalar dependencias
+yarn
+
+# 5. Iniciar desarrollo
+yarn dev  # o yarn start según versión
+```
+
+
+
 
 # REVISIÓN DE SPAM
 
