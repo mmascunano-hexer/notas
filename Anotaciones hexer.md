@@ -16,6 +16,55 @@
 
 # MANTENIMIENTO DE PROYECTOS 
 
+## Tipos de mantenimiento
+
+### Mantenimiento Básico (Nivel 1)  
+**Frecuencia**: Trimestral
+**Incluye**:
+- Actualizaciones menores de la web y sus componentes (plugins)
+- Menús y navegación
+- Revisión de maquetación en web y responsive
+- Verificación de formularios
+- Verificación de funcionamiento básico
+
+### Mantenimiento Profesional (Nivel 2)
+**Frecuencia**: Trimestral
+**Incluye**:
+- Auditoría completa de seguridad
+- Optimización de rendimiento
+- Actualización completa de componentes
+- Análisis de logs detallado
+- Backup y restauración test
+- Informe técnico completo
+
+## Checklist de nuevo entorno
+
+### Configuración inicial:
+- [ ] **Repositorio** clonado correctamente
+- [ ] **PHP** versión correcta configurada
+- [ ] **Base de datos** creada e importada
+- [ ] **Archivos de configuración** actualizados
+- [ ] **Permisos** de archivos configurados
+- [ ] **SSL** certificados generados (si aplica)
+
+### Verificación funcional:
+- [ ] **Sitio carga** correctamente
+- [ ] **Navegación** funciona entre páginas  
+- [ ] **Formularios** envían emails
+- [ ] **Imágenes** se muestran correctamente
+- [ ] **Admin** accesible y funcional
+
+### Documentación:
+- [ ] **Credenciales** documentadas
+- [ ] **Configuraciones** especiales anotadas
+- [ ] **Errores** conocidos listados
+- [ ] **Procedimientos** específicos documentados
+
+<br>
+
+# MONTAJE DE ENTORNO LOCAL
+      
+
 ## Configuración inicial del proyecto
 
 ### PASO 1. Descargar repositorio en htdocs
@@ -740,53 +789,6 @@ rm -rf var/cache/*
 php bin/console cache:clear --env=prod
 ```
 
----
-
-# CREACIÓN DE ENTORNOS
-
-## Tipos de mantenimiento
-
-### Mantenimiento Básico (Nivel 1)  
-**Frecuencia**: Trimestral
-**Incluye**:
-- Actualizaciones menores de la web y sus componentes (plugins)
-- Menús y navegación
-- Revisión de maquetación en web y responsive
-- Verificación de formularios
-- Verificación de funcionamiento básico
-
-### Mantenimiento Profesional (Nivel 2)
-**Frecuencia**: Trimestral
-**Incluye**:
-- Auditoría completa de seguridad
-- Optimización de rendimiento
-- Actualización completa de componentes
-- Análisis de logs detallado
-- Backup y restauración test
-- Informe técnico completo
-
-## Checklist de nuevo entorno
-
-### Configuración inicial:
-- [ ] **Repositorio** clonado correctamente
-- [ ] **PHP** versión correcta configurada
-- [ ] **Base de datos** creada e importada
-- [ ] **Archivos de configuración** actualizados
-- [ ] **Permisos** de archivos configurados
-- [ ] **SSL** certificados generados (si aplica)
-
-### Verificación funcional:
-- [ ] **Sitio carga** correctamente
-- [ ] **Navegación** funciona entre páginas  
-- [ ] **Formularios** envían emails
-- [ ] **Imágenes** se muestran correctamente
-- [ ] **Admin** accesible y funcional
-
-### Documentación:
-- [ ] **Credenciales** documentadas
-- [ ] **Configuraciones** especiales anotadas
-- [ ] **Errores** conocidos listados
-- [ ] **Procedimientos** específicos documentados
 
 ---
 
