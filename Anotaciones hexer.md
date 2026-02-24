@@ -3,10 +3,10 @@
   - [1.1 Actualización de Wordpress y PHP](#actualizacion-de-wordpress-y-php)
     - [1.1.1 Carbon Fields - Flujo](#carbon-fields)
   - [1.2 Mantenimientos preventivos](#mantenimientos-preventivos)
-  - [1.3 Migración de Gulp a Yarn](#migración-de-gulp-a-yarn)
+  - [1.3 Migración de Gulp a Yarn](#[migraci%C3%B3n-de-gulp-a-yarn])
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
-  - [Node](#tengo-la-versión-correcta-de-node)
+  - [Node](#node)
 - [3. Revisión de Spam](#revisión-de-spam)
 - [4. Prestashop](#prestashop)
 - [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
@@ -133,7 +133,7 @@ composer update
 ```
 
 ---
-
+<br>
 ## ACTUALIZACIÓN DE WORDPRESS Y PHP
 
 **⚠️ Orden crítico para evitar colapsos del sitio:**
@@ -240,7 +240,7 @@ Si el elemento no aparece en el navegador, sigue este orden de verificación:
 
 ---
 
-
+<br>
 ## MANTENIMIENTOS PREVENTIVOS
 
 **Frecuencia**: Cada 3 meses
@@ -258,8 +258,8 @@ Si el elemento no aparece en el navegador, sigue este orden de verificación:
 **📋 Documentación**: Anotar en comentarios de la tarea **OK/KO** para cada punto, incluyendo acciones correctivas realizadas.
 
 
-
-
+--- 
+<br>
 ## 🧩 MIGRACIÓN DE GULP A YARN
 
 ### 📁 1. Estructura recomendada
@@ -427,10 +427,9 @@ No está instalado → `yarn add -D autoprefixer`
 Estás minificando `*.min.css`.
 Solo minifica `all.css`.
 
----
 
 ---
-
+<br>
 # SAGE
 
 ## Identificación de versión y configuración
@@ -489,7 +488,9 @@ yarn -v  # verificar instalación
 ```
 
 ## Scripts de desarrollo por versión
+---
 
+<br>
 ### **SAGE 9** (usa Laravel Mix)
 ```json
 {
