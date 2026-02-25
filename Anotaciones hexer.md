@@ -483,6 +483,13 @@ Solo minifica `all.css`.
 ---
 <br>
 
+## ERRORES
+### Error_log
+
+### Error SSL
+
+
+
 # SAGE
 
 ## Identificación de versión y configuración
