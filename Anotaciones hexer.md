@@ -494,11 +494,11 @@ Cuando un proyecto presenta algún tipo de error de backend en local, normalment
 ¿Qué hacer?
 1. Abrir el fichero error_log del servidor local.
 2. Buscar la fecha y hora en que ocurrió el error.
-3. Identificar el tipo de error PHP y su gravedad. Por ejemplo:
+3. Identificar el tipo de error PHP y su gravedad.
 
 Ejemplo:
 
-```
+```bash
 [Wed Feb 25 13:57:52.023268 2026] [php:error] [pid 48737] [client 127.0.0.1:33540] PHP Fatal error:  Uncaught TypeError: sizeof(): Argument #1 ($value) must be of type Countable|array, stdClass given in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php:246\nStack trace:\n#0 /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php(86): Docu..... etc
 ```
 Yéndonos al fichero `error_log` podremos observalo y deducir de él que el error PHP es el siguiente: `Uncaught TypeError: sizeof(): Argument #1 ($value) must be of type Countable|array`. 
