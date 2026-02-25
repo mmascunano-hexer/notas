@@ -4,6 +4,9 @@
     - [1.1.1 Carbon Fields - Flujo](#carbon-fields)
   - [1.2 Mantenimientos preventivos](#mantenimientos-preventivos)
   - [1.3 Migrar de Gulp a Yarn](#migrar-de-gulp-a-yarn)
+  - [1.4 Errores]
+    - [1.4.1 Error_log](#error_log)
+    - [1.4.2 Error SSL](#error-ssl)
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
   - [Node](#node)
