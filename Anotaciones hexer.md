@@ -5,7 +5,7 @@
   - [1.2 Mantenimientos preventivos](#mantenimientos-preventivos)
   - [1.3 Migrar de Gulp a Yarn](#migrar-de-gulp-a-yarn)
   - [1.4 Errores](#errores)
-    - [1.4.1 Error_log](#error_log)
+    - [1.4.1 Revisar error_log](#revisar-error_log)
     - [1.4.2 Error SSL](#error-ssl)
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
@@ -487,23 +487,62 @@ Solo minifica `all.css`.
 <br>
 
 ## ERRORES
-### Error_log
+Cuando un proyecto presenta algún tipo de error de backend en local, normalmente aparecerá reflejado en el fichero error_log. Este fichero es la primera fuente de información para diagnosticar problemas en PHP. 
+
+### Revisar error_log
+
+¿Qué hacer?
+1. Abrir el fichero error_log del servidor local.
+2. Buscar la fecha y hora en que ocurrió el error.
+3. Identificar el tipo de error PHP y su gravedad. Por ejemplo:
+
+Ejemplo:
+
+```
+[Wed Feb 25 13:57:52.023268 2026] [php:error] [pid 48737] [client 127.0.0.1:33540] PHP Fatal error:  Uncaught TypeError: sizeof(): Argument #1 ($value) must be of type Countable|array, stdClass given in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php:246\nStack trace:\n#0 /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php(86): Docu..... etc
+```
+Yéndonos al fichero `error_log` podremos observalo y deducir de él que el error PHP es el siguiente: `Uncaught TypeError: sizeof(): Argument #1 ($value) must be of type Countable|array`. 
+
+4. Localizar el fichero y línea de código donde se produjo el error:
+
+Posteriormente nos indica en qué fichero se encuentra el problema y la línea del código: `stdClass given in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php:246` 
+
+5. Analizar el código en esa ubicación para entender qué función o variable ha causado el problema.
+
+<strong> Consejo: <strong>
+
+- No todos los errores requieren la misma solución; la forma de resolverlos dependerá de la versión de PHP, del tipo de proyecto y de la función implicada.
+- Siempre se recomienda no ignorar los errores fatales o warnings que aparecen en error_log, ya que son la fuente más fiable para depurar.
+- 💡 Mantener siempre abierto error_log mientras se trabaja en local ayuda a identificar problemas antes de que afecten al flujo de la aplicación. Es la primera herramienta de depuración que todo desarrollador de PHP debería consultar.
 
 
 ### Error SSL
-Hay momentos en los que error_log nos arroja un tipo de error en el que nos marca acudir al file_get_contents(....). Este error puede ser común al intentar validar el certificado SSL y, como éste no es validado, hace petar la página. para ello hay que recurrir a todas las partes del código que tengan la fila con la llamada al método file_get_contents y donde tiene el valor true ponerle false y todo lo que viene detrás
-
-`file_get_contents(of_get_option('logo2', ''),false, stream_context_create($arrContextOptions) );`
-
-Justo antes de la llamada hay que igualar la variable de array $arrContextOptions incluyendo este código:
+Hay momentos en los que error_log nos arroja un tipo de error en el que nos marca acudir al file_get_contents(....) con el siguiente síntoma de ejemplo:
 
 ```bash
-$arrContextOptions=array(
-    "ssl"=>array(
-    "verify_peer"=>false,
-    "verify_peer_name"=>false,
+Warning:  file_get_contents(): SSL operation failed with code 1. OpenSSL Error messages:\nerror:1416F086:SSL routines:tls_process_server_certificate:certificate verify failed in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/PlantillaHTML.php on line 20, referer: https://web.local/wp-admin/admin.php?page=clientes
+```
+
+¿Qué indica?
+
+- PHP intenta acceder a un recurso HTTPS pero no puede verificar el certificado SSL.
+- Provoca que la página “pete” al ejecutar file_get_contents().
+
+Para ello hay que recurrir a todas las partes del código que tengan la fila con la llamada al método file_get_contents y donde tiene el valor true ponerle false y todo lo que viene detrás
+
+Solución temporal en desarrollo local:
+
+Justo antes de la llamada hay que igualar la variable de array $arrContextOptions incluyendo este código y detrás la llamada del método file_get_contents():
+
+```php
+$arrContextOptions = array(
+    "ssl" => array(
+        "verify_peer" => false,
+        "verify_peer_name" => false,
     ),
 );
+
+file_get_contents(of_get_option('logo2', ''), false, stream_context_create($arrContextOptions));
 ```
 
 
