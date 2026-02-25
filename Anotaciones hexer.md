@@ -4,7 +4,7 @@
     - [1.1.1 Carbon Fields - Flujo](#carbon-fields)
   - [1.2 Mantenimientos preventivos](#mantenimientos-preventivos)
   - [1.3 Migrar de Gulp a Yarn](#migrar-de-gulp-a-yarn)
-  - [1.4 Errores]
+  - [1.4 Errores](#errores)
     - [1.4.1 Error_log](#error_log)
     - [1.4.2 Error SSL](#error-ssl)
 - [2. Sage](#sage)
@@ -489,8 +489,22 @@ Solo minifica `all.css`.
 ## ERRORES
 ### Error_log
 
-### Error SSL
 
+### Error SSL
+Hay momentos en los que error_log nos arroja un tipo de error en el que nos marca acudir al file_get_contents(....). Este error puede ser común al intentar validar el certificado SSL y, como éste no es validado, hace petar la página. para ello hay que recurrir a todas las partes del código que tengan la fila con la llamada al método file_get_contents y donde tiene el valor true ponerle false y todo lo que viene detrás
+
+`file_get_contents(of_get_option('logo2', ''),false, stream_context_create($arrContextOptions) );`
+
+Justo antes de la llamada hay que igualar la variable de array $arrContextOptions incluyendo este código:
+
+```bash
+$arrContextOptions=array(
+    "ssl"=>array(
+    "verify_peer"=>false,
+    "verify_peer_name"=>false,
+    ),
+);
+```
 
 
 # SAGE
