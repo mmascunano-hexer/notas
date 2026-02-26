@@ -487,7 +487,7 @@ Solo minifica `all.css`.
 <br>
 
 ## ERRORES
-Cuando un proyecto presenta algún tipo de error de backend en local, normalmente aparecerá reflejado en el fichero error_log. Este fichero es la primera fuente de información para diagnosticar problemas en PHP. 
+Cuando un proyecto presenta algún tipo de error de backend en local, normalmente aparecerá reflejado en el fichero `error_log`. Este fichero es la primera fuente de información para diagnosticar problemas en PHP. 
 
 ### Revisar error_log
 
@@ -509,15 +509,15 @@ Posteriormente nos indica en qué fichero se encuentra el problema y la línea d
 
 5. Analizar el código en esa ubicación para entender qué función o variable ha causado el problema.
 
-<strong> Consejo: <strong>
+<strong> Consejo: </strong>
 
 - No todos los errores requieren la misma solución; la forma de resolverlos dependerá de la versión de PHP, del tipo de proyecto y de la función implicada.
-- Siempre se recomienda no ignorar los errores fatales o warnings que aparecen en error_log, ya que son la fuente más fiable para depurar.
-- 💡 Mantener siempre abierto error_log mientras se trabaja en local ayuda a identificar problemas antes de que afecten al flujo de la aplicación. Es la primera herramienta de depuración que todo desarrollador de PHP debería consultar.
+- Siempre se recomienda no ignorar los errores fatales o warnings que aparecen en `error_log`, ya que son la fuente más fiable para depurar.
+- 💡 Mantener siempre abierto `error_log` mientras se trabaja en local ayuda a identificar problemas antes de que afecten al flujo de la aplicación. Es la primera herramienta de depuración que todo desarrollador de PHP debería consultar.
 
 
 ### Error SSL
-Hay momentos en los que error_log nos arroja un tipo de error en el que nos marca acudir al file_get_contents(....) con el siguiente síntoma de ejemplo:
+Hay momentos en los que `error_log` nos arroja un tipo de error en el que nos marca acudir al file_get_contents(....) con el siguiente síntoma de ejemplo:
 
 ```html
 Warning:  file_get_contents(): SSL operation failed with code 1. OpenSSL Error messages:\nerror:1416F086:SSL routines:tls_process_server_certificate:certificate verify failed in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/PlantillaHTML.php on line 20, referer: https://web.local/wp-admin/admin.php?page=clientes
@@ -526,13 +526,13 @@ Warning:  file_get_contents(): SSL operation failed with code 1. OpenSSL Error m
 ¿Qué indica?
 
 - PHP intenta acceder a un recurso HTTPS pero no puede verificar el certificado SSL.
-- Provoca que la página “pete” al ejecutar file_get_contents().
+- Provoca que la página “pete” al ejecutar `file_get_contents()`.
 
-Para ello hay que recurrir a todas las partes del código que tengan la fila con la llamada al método file_get_contents y donde tiene el valor true ponerle false y todo lo que viene detrás
+Para ello hay que recurrir a todas las partes del código que tengan la fila con la llamada al método `file_get_contents()` y donde tiene el valor true ponerle false y todo lo que viene detrás
 
 Solución temporal en desarrollo local:
 
-Justo antes de la llamada hay que igualar la variable de array $arrContextOptions incluyendo este código y detrás la llamada del método file_get_contents():
+Justo antes de la llamada hay que igualar la variable de array $arrContextOptions incluyendo este código y detrás la llamada del método `file_get_contents()`:
 
 ```php
 $arrContextOptions = array(
