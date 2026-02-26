@@ -810,11 +810,23 @@ Eliminar la carpeta `/var/cache`
 **Solución**:
 1. Ir a phpMyAdmin
 2. Buscar tabla `ps_shop_url`
-3. Cambiar dominio por el local (ej: `proyecto.local`)
+3. Verificar los campos:
+   - domain
+   - domain_ssl
+4. Cambiar dominio por el local (ej: `proyecto.local`)
+5. Verificar que el campo physical_uri sea /.
+
+⚠️ Si sigue sin cargar, revisar también la tabla ps_configuration (PS_SHOP_DOMAIN y PS_SHOP_DOMAIN_SSL).
 
 ### 🔧 Error 404
 **Verificar**:
 - `ServerName` y `ServerAlias` en vhosts (sin `/` al final)
+- Que el módulo mod_rewrite esté activo.
+- Existencia y permisos de las carpetas:
+  - `var/cache`
+  - `var/logs`
+  - `var/sessions`
+- Que el archivo `.htaccess` exista.
 - Existencia de carpetas: `var/cache`, `var/logs`, `var/sessions`
 
 ### 🔧 Directory not writable
@@ -838,7 +850,18 @@ rm -rf var/cache/*
 # Regenerar caché
 php bin/console cache:clear --env=prod
 ```
+### 🔧 Imágenes no cargan y enlaces no funcionan o lanzan un error
+**Causa**: .htaccess mal/incorrecto
+**Solución**:
 
+1. Ir a:
+    <strong>Configurar → Parámetros de la tienda → Tráfico & SEO</strong>
+2. Ir a la sección Formato de los enlaces.
+3. Pulsar Guardar (aunque no cambies nada).
+
+Esto regenerará automáticamente el archivo .htaccess.
+
+⚠️ Asegúrate de que Apache tenga permisos para escribir el archivo.
 
 ---
 
