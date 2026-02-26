@@ -498,8 +498,10 @@ Cuando un proyecto presenta algún tipo de error de backend en local, normalment
 
 Ejemplo:
 
-```html
-[Wed Feb 25 13:57:52.023268 2026] [php:error] [pid 48737] [client 127.0.0.1:33540] PHP Fatal error:  Uncaught TypeError: sizeof(): Argument #1 ($value) must be of type Countable|array, stdClass given in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php:246\nStack trace:\n#0 /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php(86): Docu..... etc
+```bash
+[Wed Feb 25 13:57:52.023268 2026] [php:error] [pid 48737] [client 127.0.0.1:33540] PHP Fatal error:  Uncaught TypeError: sizeof():
+Argument #1 ($value) must be of type Countable|array, stdClass given in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php:246\nStack
+trace:\n#0 /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php(86): Docu..... etc
 ```
 Yéndonos al fichero `error_log` podremos observalo y deducir de él que el error PHP es el siguiente: `Uncaught TypeError: sizeof(): Argument #1 ($value) must be of type Countable|array`. 
 
@@ -519,8 +521,10 @@ Posteriormente nos indica en qué fichero se encuentra el problema y la línea d
 ### Error SSL
 Hay momentos en los que `error_log` nos arroja un tipo de error en el que nos marca acudir al file_get_contents(....) con el siguiente síntoma de ejemplo:
 
-```html
-Warning:  file_get_contents(): SSL operation failed with code 1. OpenSSL Error messages:\nerror:1416F086:SSL routines:tls_process_server_certificate:certificate verify failed in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/PlantillaHTML.php on line 20, referer: https://web.local/wp-admin/admin.php?page=clientes
+```bash
+Warning:  file_get_contents(): SSL operation failed with code 1. OpenSSL Error messages:\nerror:1416F086:SSL
+routines:tls_process_server_certificate:certificate verify failed in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/PlantillaHTML.php
+on line 20, referer: https://web.local/wp-admin/admin.php?page=clientes
 ```
 
 ¿Qué indica?
