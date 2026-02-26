@@ -19,9 +19,9 @@
 
 # MANTENIMIENTO DE PROYECTOS 
 
-## Tipos de mantenimiento
+## Tipos de mantenimiento preventivo
 
-### Mantenimiento Básico (Nivel 1)  
+### Mantenimiento Preventivo Básico (Nivel 1)  
 **Frecuencia**: Trimestral
 **Incluye**:
 - Actualizaciones menores de la web y sus componentes (plugins)
@@ -30,7 +30,7 @@
 - Verificación de formularios
 - Verificación de funcionamiento básico
 
-### Mantenimiento Profesional (Nivel 2)
+### Mantenimiento Preventivo Profesional (Nivel 2)
 **Frecuencia**: Trimestral
 **Incluye**:
 - Auditoría completa de seguridad
@@ -39,6 +39,8 @@
 - Análisis de logs detallado
 - Backup y restauración test
 - Informe técnico completo
+
+**📋 Documentación**: Anotar en comentarios de la tarea **OK/KO** para cada punto, incluyendo acciones correctivas realizadas.
 
 ## Checklist de nuevo entorno
 
@@ -291,27 +293,6 @@ Si el elemento no aparece en el navegador, sigue este orden de verificación:
 4. Sintaxis Blade: ¿Estás usando {{ }} para texto o {!! !!} para shortcodes/HTML?
 
 
----
-
-<br>
-
-## MANTENIMIENTOS PREVENTIVOS
-
-**Frecuencia**: Cada 3 meses
-
-### Lista de verificación:
-- [ ] **Actualizaciones menores** de WordPress, tema y plugins
-- [ ] **Menús y navegación** - verificar todos los enlaces
-- [ ] **Maquetación** - revisar responsive en diferentes dispositivos
-- [ ] **Formularios** - probar envío y recepción de emails
-- [ ] **Rendimiento** - analizar velocidad de carga
-- [ ] **Seguridad** - verificar plugins de seguridad
-- [ ] **Backups** - confirmar que se generan correctamente
-- [ ] **SSL** - verificar certificado válido
-
-**📋 Documentación**: Anotar en comentarios de la tarea **OK/KO** para cada punto, incluyendo acciones correctivas realizadas.
-
-
 --- 
 <br>
 
@@ -499,8 +480,9 @@ Cuando un proyecto presenta algún tipo de error de backend en local, normalment
 Ejemplo:
 
 ```bash
-[Wed Feb 25 13:57:52.023268 2026] [php:error] [pid 48737] [client 127.0.0.1:33540] PHP Fatal error:  Uncaught TypeError: sizeof():
-Argument #1 ($value) must be of type Countable|array, stdClass given in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php:246\nStack
+[Wed Feb 25 13:57:52.023268 2026] [php:error] [pid 48737] [client 127.0.0.1:33540] PHP Fatal error:
+Uncaught TypeError: sizeof():Argument #1 ($value) must be of type Countable|array, stdClass
+ given in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php:246\nStack
 trace:\n#0 /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php(86): Docu..... etc
 ```
 Yéndonos al fichero `error_log` podremos observalo y deducir de él que el error PHP es el siguiente: `Uncaught TypeError: sizeof(): Argument #1 ($value) must be of type Countable|array`. 
@@ -523,7 +505,8 @@ Hay momentos en los que `error_log` nos arroja un tipo de error en el que nos ma
 
 ```bash
 Warning:  file_get_contents(): SSL operation failed with code 1. OpenSSL Error messages:\nerror:1416F086:SSL
-routines:tls_process_server_certificate:certificate verify failed in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/PlantillaHTML.php
+routines:tls_process_server_certificate:certificate verify
+failed in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/PlantillaHTML.php
 on line 20, referer: https://web.local/wp-admin/admin.php?page=clientes
 ```
 
