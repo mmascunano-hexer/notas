@@ -532,6 +532,11 @@ $arrContextOptions = array(
 file_get_contents(of_get_option('logo2', ''), false, stream_context_create($arrContextOptions));
 ```
 
+### Error al cargar backoffice (descarga fichero)
+Puede haber un problema cuando se intenta cargar el backoffice en el cual se descarga un fichero e impide la carga de wordpress.
+
+Solución: Hay que borrar el fichero .htaccess y hacer que se regenere de nuevo. Con ello se soluciona y vuelve a cargar el backoffice.
+
 
 # SAGE
 
