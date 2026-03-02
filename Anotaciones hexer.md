@@ -532,6 +532,8 @@ $arrContextOptions = array(
 file_get_contents(of_get_option('logo2', ''), false, stream_context_create($arrContextOptions));
 ```
 
+Cuando comprobemos que realmente funciona, nos encargamos de borrar de nuevo el código que hemos puesto de prueba y commiteamos, ya que esto responde a un error exclusivo del backend
+
 ### Error al cargar backoffice (descarga fichero)
 Puede haber un problema cuando se intenta cargar el backoffice en el cual se descarga un fichero e impide la carga de wordpress.
 
