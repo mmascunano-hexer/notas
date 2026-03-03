@@ -888,8 +888,8 @@ Si por casualidad se nos instalase PHP en una versión a nivel de sistema, tendr
 # 7. GIT
 
 1️⃣ Eliminar solo el último commit
-git reset --hard HEAD~1
-git push origin dev --force
+`git reset --hard HEAD~1`
+`git push origin dev --force`
 
 Esto elimina solo el último commit.
 
