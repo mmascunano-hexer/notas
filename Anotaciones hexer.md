@@ -14,6 +14,7 @@
 - [4. Prestashop](#prestashop)
 - [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
 - [6. PHP](#php)
+- [7. Git](#git)
 
 ---
 
@@ -877,3 +878,21 @@ Esto regenerará automáticamente el archivo .htaccess.
 Se puede dar el caso que un proyecto, en un momento concreto, nos pida la instalación de PHP, bien porque lo requiere al hacer un composer update o por lo que sea. Tenemos que decirle que no queremos hacer esta instalación y, en su lugar, hacer que apunte a la carpeta lampp ya que tiene creados enlaces que apuntan a la versión de lampp levantada para el proyecto concreto con LVM. 
 
 Si por casualidad se nos instalase PHP en una versión a nivel de sistema, tendremos que eliminarlo y hacer que el enlace apunte a la carpeta de lampp para que administre de manera automática la versión que levante lvm.
+
+
+
+---
+
+<br>
+
+# 8. GIT
+
+1️⃣ Eliminar solo el último commit
+git reset --hard HEAD~1
+git push origin dev --force
+
+Esto elimina solo el último commit.
+
+Tu carpeta de trabajo se ajusta al commit anterior.
+
+El remoto se actualiza con --force.
