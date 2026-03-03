@@ -14,7 +14,7 @@
 - [4. Prestashop](#prestashop)
 - [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
 - [6. PHP](#php)
-- [7. Git](#git)
+- [7. Git](#7.-git)
 
 ---
 
@@ -885,7 +885,7 @@ Si por casualidad se nos instalase PHP en una versión a nivel de sistema, tendr
 
 <br>
 
-# 8. GIT
+# 7. GIT
 
 1️⃣ Eliminar solo el último commit
 git reset --hard HEAD~1
