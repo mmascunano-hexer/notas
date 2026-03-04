@@ -14,8 +14,8 @@
 - [4. Prestashop](#prestashop)
 - [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
 - [6. PHP](#php)
-- [7. Git](#7.-git)
-- [8. Administración de servidor (Linux)](8.-administrador-de-servidor)
+- [7. Git](#7.git)
+- [8. Administración de servidor (Linux)](8.administrador-de-servidor-(linux))
 
 ---
 
@@ -902,7 +902,7 @@ El remoto se actualiza con --force.
 
 ---
 
-
+# 8. Administración de servidor (Linux)
 ### Flush DNS
 
 En Ubuntu 24.04, el comando:
