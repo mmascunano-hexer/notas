@@ -15,7 +15,7 @@
 - [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
 - [6. PHP](#php)
 - [7. Git](#7.git)
-- [8. Administración de servidor (Linux)](8.administrador-de-servidor-(linux))
+- [8. Administración de servidor (Linux)](#8.administrador-de-servidor-(linux))
 
 ---
 
