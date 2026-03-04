@@ -886,7 +886,7 @@ Si por casualidad se nos instalase PHP en una versión a nivel de sistema, tendr
 
 <br>
 
-# 7. GIT
+# 7.GIT
 
 1️⃣ Eliminar solo el último commit
 `git reset --hard HEAD~1`
@@ -902,7 +902,7 @@ El remoto se actualiza con --force.
 
 ---
 
-# 8. Administración de servidor (Linux)
+# 8.Administración de servidor (Linux)
 ### Flush DNS
 
 En Ubuntu 24.04, el comando:
