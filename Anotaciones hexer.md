@@ -15,6 +15,7 @@
 - [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
 - [6. PHP](#php)
 - [7. Git](#7.-git)
+- [8. Administración de servidor (Linux)](8.-administrador-de-servidor)
 
 ---
 
@@ -896,3 +897,33 @@ Esto elimina solo el último commit.
 Tu carpeta de trabajo se ajusta al commit anterior.
 
 El remoto se actualiza con --force.
+
+<br>
+
+---
+
+
+### Flush DNS
+
+En Ubuntu 24.04, el comando:
+
+`sudo resolvectl flush-caches`
+
+se utiliza para vaciar la caché DNS del sistema.
+
+En los sistemas modernos de Ubuntu, el servicio systemd-resolved almacena temporalmente las respuestas de los servidores DNS para acelerar la resolución de nombres de dominio. Esto significa que cuando accedemos a una web o servicio (por ejemplo, un dominio que apunta a un servidor), el sistema puede recordar la dirección IP sin tener que consultarla de nuevo al servidor DNS externo.
+
+Vaciar la caché DNS es útil en tareas de mantenimiento cuando:
+
+Se han realizado cambios en registros DNS (por ejemplo, migraciones de servidor).
+
+Un dominio apunta a una IP antigua y el sistema sigue resolviendo la dirección anterior.
+
+Existen problemas de conexión aparentemente inexplicables.
+
+Se están realizando pruebas de propagación DNS.
+
+Al ejecutar este comando, el sistema elimina todas las resoluciones almacenadas y obliga a que la próxima consulta DNS se realice directamente al servidor configurado, garantizando que se utilice la información más actualizada.
+
+Es una herramienta básica pero importante en tareas de administración de servidores y diagnóstico de red.
+
