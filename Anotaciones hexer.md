@@ -42,6 +42,11 @@
 - Backup y restauración test
 - Informe técnico completo
 
+#### TIENDA WOOCOMMERCE
+
+#### TIENDA PRESTASHOP
+
+
 **📋 Documentación**: Anotar en comentarios de la tarea **OK/KO** para cada punto, incluyendo acciones correctivas realizadas.
 
 ## Checklist de nuevo entorno
