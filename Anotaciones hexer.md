@@ -816,7 +816,7 @@ Eliminar la carpeta `/var/cache`
 
 ### 🔧 Activar modo Debug
 **Si necesitamos ver el error que se está generando**
-1. Nos dirigimos, en el proyeco, a la carpeta /config/define.inc.php:
+1. Nos dirigimos, en el proyeco, a la carpeta /config/defines.inc.php:
 2. cambiar el condicional del debug _PS_MODE_DEV_ de false a -> true
 
 ### 🔧 Proyecto no carga en local
