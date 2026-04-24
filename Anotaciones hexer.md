@@ -14,8 +14,8 @@
 - [4. Prestashop](#prestashop)
 - [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
 - [6. PHP](#php)
-- [7. Git](#7.git)
-- [8. Administración de servidor (Linux)](#8.administrador-de-servidor-(linux))
+- [7. Git](#git)
+- [8. Administración de servidor (Linux)](#administrador-de-servidor-(linux))
 
 ---
 
