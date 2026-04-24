@@ -891,7 +891,7 @@ Si por casualidad se nos instalase PHP en una versión a nivel de sistema, tendr
 
 <br>
 
-# 7.GIT
+# GIT
 
 1. Eliminar solo el último commit
 `git reset --hard HEAD~1`
@@ -924,7 +924,7 @@ Esto comitee sobre el mismo commit anterior, en este caso, sin cambiar el nombre
 
 ---
 
-# 8.Administración de servidor (Linux)
+# Administración de servidor (Linux)
 ### Flush DNS
 
 En Ubuntu 24.04, el comando:
