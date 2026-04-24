@@ -893,7 +893,7 @@ Si por casualidad se nos instalase PHP en una versión a nivel de sistema, tendr
 
 # 7.GIT
 
-1️⃣ Eliminar solo el último commit
+1. Eliminar solo el último commit
 `git reset --hard HEAD~1`
 `git push origin dev --force`
 
@@ -904,6 +904,23 @@ Tu carpeta de trabajo se ajusta al commit anterior.
 El remoto se actualiza con --force.
 
 <br>
+
+2. Añadir nuevos ficheros al último commit o cambiar nombre del commit
+`git add nombrechero` Primero hay que añadir el fichero al stage
+`git commit --amend -m "nombre del commit que ya se ha hecho anteriormente"`
+
+Esto comitee sobre el mismo commit anterior y además podrías cambiar el nombre del commit.
+
+<br>
+
+3. Añadir nuevos ficheros al último commit sin editar el nombre del commit
+`git add nombrechero` Primero hay que añadir el fichero al stage
+`git commit --amend --no-edit -m "nombre del commit que ya se ha hecho anteriormente"` importante añadir el --no-edit
+
+Esto comitee sobre el mismo commit anterior, en este caso, sin cambiar el nombre del commit.
+
+<br>
+
 
 ---
 
