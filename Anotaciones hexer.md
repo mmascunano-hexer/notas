@@ -893,7 +893,7 @@ Si por casualidad se nos instalase PHP en una versión a nivel de sistema, tendr
 
 # GIT
 
-#### Eliminar solo el último commit<br>
+#### · Eliminar solo el último commit<br>
 ```bash
 `git reset --hard HEAD~1`
 `git push origin dev --force`
@@ -906,9 +906,9 @@ El remoto se actualiza con --force.
 
 <br>
 
-#### Añadir nuevos ficheros al último commit o cambiar nombre del commit<br>
+#### · Añadir nuevos ficheros al último commit o cambiar nombre del commit<br>
 ```bash
-`git add nombrechero` Primero hay que añadir el fichero al stage
+`git add nombrefichero` Primero hay que añadir el fichero al stage
 `git commit --amend -m "nombre del commit que ya se ha hecho anteriormente"`
 ```
 
@@ -916,7 +916,7 @@ Esto comitee sobre el mismo commit anterior y además podrías cambiar el nombre
 
 <br>
 
-#### Añadir nuevos ficheros al último commit sin editar el nombre del commit <br>
+#### · Añadir nuevos ficheros al último commit sin editar el nombre del commit <br>
 ```bash
 `git add nombrechero` Primero hay que añadir el fichero al stage
 `git commit --amend --no-edit -m "nombre del commit que ya se ha hecho anteriormente"` importante añadir el --no-edit
