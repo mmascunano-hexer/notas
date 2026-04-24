@@ -7,6 +7,7 @@
   - [1.4 Errores](#errores)
     - [1.4.1 Revisar error_log](#revisar-error_log)
     - [1.4.2 Error SSL](#error-ssl)
+    - [1.4.4 Error 400](#error-400)
 - [2. Sage](#sage)
   - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
   - [Node](#node)
@@ -545,7 +546,12 @@ Cuando comprobemos que realmente funciona, nos encargamos de borrar de nuevo el 
 Puede haber un problema cuando se intenta cargar el backoffice en el cual se descarga un fichero e impide la carga de wordpress.
 
 Solución: Hay que borrar el fichero .htaccess y hacer que se regenere de nuevo. Con ello se soluciona y vuelve a cargar el backoffice.
+<br><br>
 
+### Error 400
+El problema son las cookies del navegador. Curl devuelve 301 (correcto), pero el navegador envía cookies acumuladas de sesiones anteriores de WordPress en web.local, lo que supera el límite de cabecera HTTP de Apache (8190 bytes) → Apache devuelve 400 Bad Request.
+
+Prueba a borrar las cookies de web.local en el navegador (DevTools → Application → Cookies → https://web.local → borrarlas todas) y recarga.
 
 # SAGE
 
