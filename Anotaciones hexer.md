@@ -17,6 +17,7 @@
 - [6. PHP](#php)
 - [7. Git](#git)
 - [8. Administración de servidor (Linux)](#administrador-de-servidor-(linux))
+- 
 
 ---
 
@@ -960,3 +961,25 @@ Al ejecutar este comando, el sistema elimina todas las resoluciones almacenadas 
 
 Es una herramienta básica pero importante en tareas de administración de servidores y diagnóstico de red.
 
+
+IMPORTACIÓN DE BASES DE DATOS
+
+ERRORES AL IMPORTAR
+
+SUBIR BUFFER PARA IMPORTACIONES.
+
+Nos dirigimos a nuestra versión de lampp y vamos al fichero ./opt/lampp/etc/my.cnf y modificamos los siguiente campos añadiéndole un 0 detrás. Así multiplicamos por 10 el buffer predefinido.
+# The MySQL server
+default-character-set=utf8mb4
+[mysqld]
+user=mysql
+port=3306
+socket		=/opt/lampp/var/mysql/mysql.sock
+key_buffer=512M
+max_allowed_packet=100M
+table_open_cache=6400
+sort_buffer_size=51200K
+net_buffer_length=800K
+read_buffer_size=25600K
+read_rnd_buffer_size=51200K
+myisam_sort_buffer_size=800M
