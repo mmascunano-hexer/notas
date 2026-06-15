@@ -900,12 +900,17 @@ Si por casualidad se nos instalase PHP en una versión a nivel de sistema, tendr
 
 # GIT
 
-#### · Eliminar solo el último commit<br>
+#### · Vuelve tu proyecto local al commit anterior (eliminando los cambios del último commit)<br>
 ```bash
 `git reset --hard HEAD~1`
-`git push origin dev --force`
 ```
-Esto elimina solo el último commit.
+
+#### · Fuerza la actualización en el servidor para borrar el commit incompleto del remoto<br>
+```bash
+`git push origin NOMBRE_DE_TU_RAMA --force`
+```
+
+Esto borra el último commit de la historia como si jamás lo hubieras hecho.
 
 Tu carpeta de trabajo se ajusta al commit anterior.
 
