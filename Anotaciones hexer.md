@@ -1,6 +1,6 @@
 # ÍNDICE
 - [1. Mantenimiento de proyectos](#mantenimiento-de-proyectos)
-  - [1.1 Actualización de Wordpress y PHP](#actualizacion-de-wordpress-y-php)
+  - [1.1 Actualización de Wordpress y PHP](#actualización-de-wordpress-y-php)
     - [1.1.1 Carbon Fields - Flujo](#carbon-fields)
   - [1.2 Migrar de Gulp a Yarn](#migrar-de-gulp-a-yarn)
   - [1.3 Errores](#errores)
