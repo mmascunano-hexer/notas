@@ -899,41 +899,104 @@ Si por casualidad se nos instalase PHP en una versión a nivel de sistema, tendr
 
 # GIT
 
-#### · Vuelve tu proyecto local al commit anterior (eliminando los cambios del último commit)<br>
+> 📌 Notas personales de comandos y flujos de Git.
+
+---
+
+## Índice
+
+- [Deshacer el último commit localmente](#deshacer-el-último-commit-localmente)
+- [Borrar un commit también del remoto](#borrar-un-commit-también-del-remoto)
+- [Modificar el último commit (amend)](#modificar-el-último-commit-amend)
+  - [Añadir un fichero y cambiar el mensaje](#añadir-un-fichero-y-cambiar-el-mensaje)
+  - [Añadir un fichero sin cambiar el mensaje](#añadir-un-fichero-sin-cambiar-el-mensaje)
+- [Flujo completo: sobrescribir el último commit en local y en remoto](#flujo-completo-sobrescribir-el-último-commit-en-local-y-en-remoto)
+- [⚠️ Advertencia sobre `--force`](#️-advertencia-sobre---force)
+
+---
+
+## Deshacer el último commit localmente
+
+Vuelve tu proyecto local al commit anterior, **eliminando** los cambios del último commit.
+
 ```bash
-`git reset --hard HEAD~1`
+git reset --hard HEAD~1
 ```
 
-#### · Fuerza la actualización en el servidor para borrar el commit incompleto del remoto<br>
+- `HEAD~1` = "un commit hacia atrás desde el actual".
+- `--hard` descarta los cambios también en tu carpeta de trabajo.
+- Tu carpeta de trabajo se ajusta al commit anterior.
+
+---
+
+## Borrar un commit también del remoto
+
+Si ya hiciste `push` del commit que acabas de borrar localmente, necesitas forzar la actualización en el servidor:
+
 ```bash
-`git push origin NOMBRE_DE_TU_RAMA --force`
+git push origin NOMBRE_DE_TU_RAMA --force
+```
+Con esto el histórico remoto queda como si ese commit jamás hubiera existido.
+
+## Modificar el último commit (amend)
+`git commit --amend` te permite "reabrir" el último commit para añadir cosas o cambiarle el mensaje, en lugar de crear un commit nuevo.
+
+### Añadir un fichero y cambiar el mensaje
+```bash
+git add nombrefichero
+git commit --amend -m "nuevo mensaje del commit"
+```
+1. Primero añades el fichero al stage con git add.
+2. Luego haces amend con -m para escribir el mensaje (puede ser el mismo u otro).
+
+### Añadir un fichero sin cambiar el mensaje
+
+```bash
+git add nombrefichero
+git commit --amend --no-edit
+```
+La clave aquí es --no-edit: le dice a Git que mantenga el mensaje que ya tenía el commit.
+
+## Flujo completo: sobrescribir el último commit en local y en remoto
+Este es el caso típico de: "ya hice push, pero quiero retocar cosas y que parezca que solo hubo un commit desde el principio".
+
+```bash
+git add -A
+git commit --amend --no-edit
+git push origin master --force
 ```
 
-Esto borra el último commit de la historia como si jamás lo hubieras hecho.
+¿Qué hace cada paso?
 
-Tu carpeta de trabajo se ajusta al commit anterior.
+#### git add -A
+Añade todos los cambios al stage (ficheros nuevos, modificados y borrados).
 
-El remoto se actualiza con --force.
+#### git commit --amend --no-edit
+Sobrescribe el último commit con lo que hay en el stage, manteniendo el mismo mensaje.
 
-<br>
+#### git push origin master --force
+Fuerza al remoto a aceptar tu versión reescrita del histórico.
 
-#### · Añadir nuevos ficheros al último commit o cambiar nombre del commit<br>
-```bash
-`git add nombrefichero` Primero hay que añadir el fichero al stage
-`git commit --amend -m "nombre del commit que ya se ha hecho anteriormente"`
-```
+Resultado: en GitHub no aparece un commit nuevo. El último commit queda actualizado con tus cambios, como si siempre hubiera sido así.
+💡 Si solo quieres añadir un fichero concreto y no todo, usa git add nombrefichero en lugar de git add -A.
 
-Esto comitee sobre el mismo commit anterior y además podrías cambiar el nombre del commit.
+⚠️ Advertencia sobre --force
+`git push --force` reescribe el histórico del remoto. Úsalo con cuidado:
 
-<br>
+✅ Vale cuando trabajas solo en una rama propia.
+❌ Evítalo en ramas compartidas (main, master, ramas de equipo), porque puedes borrar el trabajo de otras personas.
 
-#### · Añadir nuevos ficheros al último commit sin editar el nombre del commit <br>
-```bash
-`git add nombrechero` Primero hay que añadir el fichero al stage
-`git commit --amend --no-edit -m "nombre del commit que ya se ha hecho anteriormente"` importante añadir el --no-edit
-```
+Alternativa más segura en entornos colaborativos: `git push --force-with-lease`, que solo fuerza si nadie más ha empujado cambios nuevos.
 
-Esto comitee sobre el mismo commit anterior, en este caso, sin cambiar el nombre del commit.
+
+---
+
+## Notas sobre los cambios
+
+- He puesto `git add -A` en el flujo nuevo porque es lo que me dijiste, pero ojo: si en algún momento no quieres meter **todo**, cambia a `git add <fichero>`. Lo he dejado anotado con el 💡.
+- La tabla queda bastante legible en GitHub y ayuda a ver el flujo de un vistazo.
+- El índice con anclas funciona automáticamente en GitHub con los títulos de sección.
+- He añadido `--force-with-lease` de propina porque es el siguiente paso lógico cuando aprendes `--force`. Si no lo has visto aún, puedes quitar esa línea o dejarla como apunte futuro.
 
 <br>
 
