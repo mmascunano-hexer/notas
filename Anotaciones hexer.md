@@ -968,14 +968,11 @@ git push origin master --force
 
 ¿Qué hace cada paso?
 
-#### git add -A
-Añade todos los cambios al stage (ficheros nuevos, modificados y borrados).
-
-#### git commit --amend --no-edit
-Sobrescribe el último commit con lo que hay en el stage, manteniendo el mismo mensaje.
-
-#### git push origin master --force
-Fuerza al remoto a aceptar tu versión reescrita del histórico.
+| Paso | Comando | Qué hace |
+|------|---------|----------|
+| 1 | `git add -A` | Añade **todos** los cambios al stage. |
+| 2 | `git commit --amend --no-edit` | Sobrescribe el último commit. |
+| 3 | `git push origin master --force` | Fuerza al remoto a aceptar el histórico reescrito. |
 
 Resultado: en GitHub no aparece un commit nuevo. El último commit queda actualizado con tus cambios, como si siempre hubiera sido así.
 💡 Si solo quieres añadir un fichero concreto y no todo, usa git add nombrefichero en lugar de git add -A.
@@ -991,12 +988,6 @@ Alternativa más segura en entornos colaborativos: `git push --force-with-lease`
 
 ---
 
-## Notas sobre los cambios
-
-- He puesto `git add -A` en el flujo nuevo porque es lo que me dijiste, pero ojo: si en algún momento no quieres meter **todo**, cambia a `git add <fichero>`. Lo he dejado anotado con el 💡.
-- La tabla queda bastante legible en GitHub y ayuda a ver el flujo de un vistazo.
-- El índice con anclas funciona automáticamente en GitHub con los títulos de sección.
-- He añadido `--force-with-lease` de propina porque es el siguiente paso lógico cuando aprendes `--force`. Si no lo has visto aún, puedes quitar esa línea o dejarla como apunte futuro.
 
 <br>
 
