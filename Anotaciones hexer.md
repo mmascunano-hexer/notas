@@ -1,30 +1,33 @@
+# Notas Técnicas — Desarrollo Web
+
 # ÍNDICE
-- [1. Mantenimiento de proyectos](#mantenimiento-de-proyectos)
-  - [1.1 Actualización de Wordpress y PHP](#actualización-de-wordpress-y-php)
-    - [1.1.1 Carbon Fields - Flujo](#carbon-fields)
-  - [1.2 Migrar de Gulp a Yarn](#migrar-de-gulp-a-yarn)
-  - [1.3 Errores](#errores)
-    - [1.3.1 Revisar error_log](#revisar-error_log)
-    - [1.3.2 Error SSL](#error-ssl)
-    - [1.3.4 Error 400](#error-400)
-- [2. Sage](#sage)
-  - [Yarn](#he-de-ejecutar-yarn-antes-de-nada)
-  - [Node](#node)
-- [3. Revisión de Spam](#revisión-de-spam)
-- [4. Prestashop](#prestashop)
-- [5. Creación de entornos - nuevos proyectos](#creación-de-entornos)
-- [6. PHP](#php)
-- [7. Git](#git)
-- [8. Administración de servidor (Linux)](#administrador-de-servidor-(linux))
-- 
+
+- [1. Mantenimiento de proyectos](#1-mantenimiento-de-proyectos)
+  - [1.1 Actualización de WordPress y PHP](#11-actualización-de-wordpress-y-php)
+    - [1.1.1 Carbon Fields — Flujo](#111-carbon-fields--flujo)
+  - [1.2 Migrar de Gulp a Yarn](#12-migrar-de-gulp-a-yarn)
+  - [1.3 Errores](#13-errores)
+    - [1.3.1 Revisar error_log](#131-revisar-error_log)
+    - [1.3.2 Error SSL](#132-error-ssl)
+    - [1.3.3 Error al cargar backoffice](#133-error-al-cargar-backoffice-descarga-fichero)
+    - [1.3.4 Error 400](#134-error-400)
+- [2. Sage](#2-sage)
+  - [2.1 ¿He de ejecutar yarn antes de nada?](#21-he-de-ejecutar-yarn-antes-de-nada)
+  - [2.2 Node](#22-gestión-de-versiones-nodejs)
+- [3. Revisión de Spam](#3-revisión-de-spam)
+- [4. PrestaShop](#4-prestashop)
+- [5. Creación de entornos — nuevos proyectos](#5-creación-de-entornos--nuevos-proyectos)
+- [6. PHP](#6-php)
+- [7. Git](#7-git)
+- [8. Administración de servidor (Linux)](#8-administración-de-servidor-linux)
 
 ---
 
-# MANTENIMIENTO DE PROYECTOS 
+# 1. MANTENIMIENTO DE PROYECTOS
 
 ## Tipos de mantenimiento preventivo
 
-### Mantenimiento Preventivo Básico (Nivel 1)  
+### Mantenimiento Preventivo Básico (Nivel 1)
 **Frecuencia**: Trimestral
 **Incluye**:
 - Actualizaciones menores de la web y sus componentes (plugins)
@@ -43,12 +46,9 @@
 - Backup y restauración test
 - Informe técnico completo
 
-#### TIENDA WOOCOMMERCE
+Aplicable a: **Tienda WooCommerce**, **Tienda PrestaShop**.
 
-#### TIENDA PRESTASHOP
-
-
-**📋 Documentación**: Anotar en comentarios de la tarea **OK/KO** para cada punto, incluyendo acciones correctivas realizadas.
+📋 **Documentación**: Anotar en comentarios de la tarea **OK/KO** para cada punto, incluyendo acciones correctivas realizadas.
 
 ## Checklist de nuevo entorno
 
@@ -62,7 +62,7 @@
 
 ### Verificación funcional:
 - [ ] **Sitio carga** correctamente
-- [ ] **Navegación** funciona entre páginas  
+- [ ] **Navegación** funciona entre páginas
 - [ ] **Formularios** envían emails
 - [ ] **Imágenes** se muestran correctamente
 - [ ] **Admin** accesible y funcional
@@ -73,135 +73,12 @@
 - [ ] **Errores** conocidos listados
 - [ ] **Procedimientos** específicos documentados
 
-<br>
-
-# MONTAJE DE ENTORNO LOCAL
-      
-
-## Configuración inicial del proyecto
-
-### PASO 1. Descargar repositorio en htdocs
-Utilizamos la directiva `git clone https://github.com/hexer-dev/dob-wordpress-xxxxxxxxxx.git` (sustituimos el nombre del repositorio por el del proyecto a editar).
-
-### PASO 2. Seleccionar la versión de PHP del proyecto
-1. **Desmontar la versión previa utilizada** (Desactivamos la versión actual de PHP usada por LAMPP)
-   ```bash
-   lvm disable
-   ```
-
-2. **Seleccionar la versión de LAMPP pertinente** para el proyecto (ejemplo 7.4 necesaria para muchos proyectos WordPress).
-   ```bash
-   lvm use 7.4
-   ```
-
-3. **Reiniciar Apache y MySQL** para aplicar los cambios.
-   ```bash
-   sudo lampp restart
-   ```
-
-### PASO 3. Crear una base de datos y enlazarla a MySQL
-1. **Creación de base de datos con terminal**
-   - **Opción 1** (rápida):
-     ```bash
-     echo "create database wp_xxxxxxxxx" | mysql -u root -p
-     ```
-   
-   - **Opción 2** (paso a paso):
-     ```bash
-     mysql -u root -p
-     ```
-     ```sql
-     CREATE DATABASE wp_xxxxxx;
-     EXIT;
-     ```
-
-### PASO 4. Importar la base de datos SQL a MySQL
-- **Opción 1** (con barra de progreso):
-  ```bash
-  pv xxxxxxxxxxxxxxxx.sql | mysql -u root -p wp_xxxxxxxxxx
-  ```
-  *El comando `pv` permite ver un progreso en la terminal.*
-
-- **Opción 2** (importación directa):
-  ```bash
-  mysql -u root -p wp_xxxxxx < /home/ruta/de/la/bbdd/xxxxxxx.sql
-  ```
-
-#### Posibles errores en importación:
-- **Error en línea 1**: El SQL puede contener código comentado al inicio. Elimínalo, guarda y vuelve a importar.
-- **ERROR: Unknown command '\0'**: El archivo contiene caracteres NULL. Limpia el archivo antes de importar:
-  ```bash
-  # Limpiar caracteres NULL
-  tr -d '\000' < archivo_original.sql > archivo_limpio.sql
-  ```
-
-### PASO 5. Configurar enlace simbólico para web.local
-1. **Desvincular proyecto anterior**:
-   ```bash
-   unlink web.local
-   ```
-
-2. **Enlazar nuevo proyecto**:
-   ```bash
-   ln -s dob-wordpress-ejemplo/ web.local
-   ```
-
-### PASO 6. Configurar wp-config.php
-**Elementos importantes a verificar**:
-- Nombre correcto de la base de datos
-- Credenciales de acceso (usuario/contraseña)
-- Prefijo de tablas (si existe)
-- Configuración de debug (activar en desarrollo)
-
-**Ejemplo de configuración**:
-```php
-define('DB_NAME', 'wp_xxxxxxxxx');
-define('DB_USER', 'root');
-define('DB_PASSWORD', '');
-define('DB_HOST', 'localhost');
-define('DB_CHARSET', 'utf8');
-define('DB_COLLATE', '');
-
-// Debug en desarrollo
-define('WP_DEBUG', true);
-define('WP_DEBUG_LOG', true);
-```
-
-### PASO 7. Verificar funcionamiento
-Abre el navegador y accede a `web.local` para comprobar que todo funciona correctamente.
-
-## Solución de errores comunes
-
-### 🔧 Navegación fallida entre páginas
-**Síntoma**: Los enlaces internos del sitio no funcionan.
-**Solución**: 
-1. Ir a WordPress Admin → **Ajustes** → **Enlaces permanentes**
-2. Hacer clic en **Guardar cambios**
-3. Esto regenerará el archivo `.htaccess`
-
-### 🔧 Bloques que no aparecen en WordPress
-**Causa**: Problemas con el archivo `.htaccess`
-**Solución**: Regenerar enlaces permanentes (mismo proceso que el error anterior)
-
-### 🔧 Bloques corruptos (Carbon Fields)
-**Síntoma**: Bloques personalizados dejan de funcionar tras actualización
-**Causa**: Dependencias de Carbon Fields desactualizadas
-**Solución**:
-```bash
-# Navegar a la carpeta del tema
-cd wp-content/themes/nombre_del_tema
-# Actualizar dependencias de Composer
-composer update
-```
-
 ---
-<br>
 
-## ACTUALIZACIÓN DE WORDPRESS Y PHP
+## 1.1 ACTUALIZACIÓN DE WORDPRESS Y PHP
 
 **⚠️ Orden crítico para evitar colapsos del sitio:**
 
-### Proceso de actualización gradual:
 1. **Actualizar plugins** que sean compatibles con la versión actual
 2. **Actualizar PHP** gradualmente (ej: de 5.6 → 7.0 → 7.4)
 3. **Verificar funcionamiento** tras cada cambio
@@ -211,16 +88,14 @@ composer update
 7. **Verificación final** y testing completo
 
 ### Recomendaciones adicionales:
-- **Hacer backup completo** antes de iniciar
-- **Probar en entorno de desarrollo** primero
-- **Documentar cada paso** y posibles errores
-- **Tener plan de rollback** preparado
+- Hacer backup completo antes de iniciar
+- Probar en entorno de desarrollo primero
+- Documentar cada paso y posibles errores
+- Tener plan de rollback preparado
 
 ---
 
-## CARBON FIELDS
-
-
+## 1.1.1 CARBON FIELDS — FLUJO
 
 ### 1. El Registro (Definición del Campo)
 
@@ -234,28 +109,26 @@ Es el primer paso. Aquí definimos la existencia del campo y su ID único.
     Field::make('text', 'ID_UNICO_DEL_CAMPO', __('Etiqueta Visible')),
 ])
 ```
-ID Único: Es el nombre técnico que usaremos para recuperar el dato (ej: theme_shortcode_form_header).
-Tipo de campo: Puede ser text, image, complex, select, etc.
-
+- **ID único**: nombre técnico que usaremos para recuperar el dato (ej: `theme_shortcode_form_header`).
+- **Tipo de campo**: puede ser `text`, `image`, `complex`, `select`, etc.
 
 ### 2. La Gestión (Backoffice)
 
-Lugar: Panel de Administración de WordPress
+Lugar: Panel de Administración de WordPress.
 
-- Una vez registrado el código, aparecerá visualmente en el panel. 
+- Una vez registrado el código, aparecerá visualmente en el panel.
 - Navega hasta la sección (ej: Ajustes del Sitio > Contacto).
-- Rellena el campo con la información (ej: El shortcode de Contact Form 7).
+- Rellena el campo con la información (ej: el shortcode de Contact Form 7).
 
-Importante: Haz clic en Guardar. Sin este paso, la base de datos no tendrá información que enviar al frontend.
-
+**Importante**: Haz clic en Guardar. Sin este paso, la base de datos no tendrá información que enviar al frontend.
 
 ### 3. El Procesamiento (Controller)
 
-Fichero: app/Controllers/App.php (o el controlador específico de la vista)
+Fichero: `app/Controllers/App.php` (o el controlador específico de la vista).
 
 Sage separa la lógica del diseño. El controlador actúa como puente entre la base de datos y la vista.
 
-A. Crear la función de recuperación
+**A. Crear la función de recuperación:**
 ```php
 public function getMiNuevoDato() : string
 {
@@ -263,8 +136,10 @@ public function getMiNuevoDato() : string
     return carbon_get_theme_option('ID_UNICO_DEL_CAMPO') ?: '';
 }
 ```
-B. Inyectar en la vista (Método with)
-Para que la variable esté disponible en el archivo .blade.php, debe incluirse en el array de retorno del método with().
+
+**B. Inyectar en la vista (método `with`):**
+
+Para que la variable esté disponible en el archivo `.blade.php`, debe incluirse en el array de retorno del método `with()`.
 
 ```php
 public function with()
@@ -275,14 +150,13 @@ public function with()
 }
 ```
 
-
 ### 4. Renderizado (Frontend)
-Fichero: resources/views/partials/header.blade.php (o la vista correspondiente)
+
+Fichero: `resources/views/partials/header.blade.php` (o la vista correspondiente).
 
 Es donde transformamos el dato en HTML visible.
 
-```php
-
+```blade
 <div class="servicios-content__form">
   @if ($getFormHeader)
     <section class="form-header">
@@ -292,24 +166,23 @@ Es donde transformamos el dato en HTML visible.
   @endif
 </div>
 ```
-### Guía de Resolución de Problemas (Debug)
+
+### Guía de resolución de problemas (Debug)
+
 Si el elemento no aparece en el navegador, sigue este orden de verificación:
+1. **Fuga de datos**: ¿está el ID en `Options.php` escrito exactamente igual que en `carbon_get_theme_option`?
+2. **Visibilidad en Blade**: ¿se ha añadido la variable al array `with()` del controlador?
+3. **Persistencia**: ¿si recargas el panel de administración, el dato sigue escrito en la caja de texto? (Si desaparece, hay un error en la definición del campo.)
+4. **Sintaxis Blade**: ¿estás usando `{{ }}` para texto o `{!! !!}` para shortcodes/HTML?
 
-1. Fuga de datos: ¿Está el ID en Options.php escrito exactamente igual que en carbon_get_theme_option?
-2. Visibilidad en Blade: ¿Se ha añadido la variable al array with() del controlador?
-3. Persistencia: ¿Si recargas el panel de administración, el dato sigue escrito en la caja de texto? (Si desaparece, hay un error en la definición del campo).
-4. Sintaxis Blade: ¿Estás usando {{ }} para texto o {!! !!} para shortcodes/HTML?
+---
 
+## 1.2 MIGRAR DE GULP A YARN
 
---- 
-<br>
-
-## MIGRAR DE GULP A YARN
-
-### 📁 1. Estructura recomendada
+### 📁 Estructura recomendada
 
 Dentro del tema:
-```bash
+```
 mi-tema/
 │
 ├── css/
@@ -328,50 +201,41 @@ mi-tema/
 └── node_modules/
 ```
 
-### ⚠️ Nunca mezclar:
+⚠️ **Nunca mezclar:**
+- `.css` dentro de `css/sass/`
+- `.min.css` dentro de `css/css/`
 
-- .css dentro de css/sass/
-- .min.css dentro de css/css/
-
-### ⚙️ 2. Instalar dependencias
+### ⚙️ Instalar dependencias
 
 Desde la raíz del tema:
-
 ```bash
 yarn init -y
 yarn add -D sass postcss postcss-cli postcss-import cssnano autoprefixer concurrently
 ```
 
+### 🧠 Crear el entrypoint SASS
 
-### 🧠 3. Crear el entrypoint SASS
-
-Si usas .sass (indented):
-
-css/sass/all.sass
-```bash
+Si usas `.sass` (indented) — `css/sass/all.sass`:
+```sass
 @use "base"
 @use "custom"
 ```
 
-Si usas .scss:
-
-
-css/sass/all.scss
-```bash
+Si usas `.scss` — `css/sass/all.scss`:
+```scss
 @use "base";
 @use "custom";
 ```
 
 Puedes añadir más imports según tu proyecto:
-```bash
+```sass
 @use "variables"
 @use "mixins"
 @use "header"
 @use "footer"
 ```
 
-
-### 🛠 4. postcss.config.js
+### 🛠 postcss.config.js
 
 Crear en la raíz del tema:
 ```javascript
@@ -384,9 +248,9 @@ module.exports = {
 };
 ```
 
+### 📦 package.json plantilla final reutilizable
 
-### 📦 5. package.json plantilla final reutilizable
-🔹 Para .sass
+🔹 **Para `.sass`:**
 ```json
 {
   "name": "mi-tema",
@@ -412,16 +276,9 @@ module.exports = {
 }
 ```
 
-🔹 Para .scss
+🔹 **Para `.scss`:** solo cambia `all.sass → all.scss` en los scripts.
 
-Solo cambia:
-```bash
-all.sass → all.scss
-```
-en los scripts.
-
-
-### 🚀 6. Uso diario
+### 🚀 Uso diario
 
 Compilar una vez:
 ```bash
@@ -432,21 +289,17 @@ Desarrollo con watch:
 yarn watch
 ```
 
+### 🧱 functions.php
 
-### 🧱 7. functions.php (no tocar si ya usa min.css)
-
-Si el tema antiguo tiene:
-```bash
+Si el tema antiguo ya tiene:
+```php
 wp_enqueue_style('cssTema', get_template_directory_uri() . '/css/min.css');
 ```
-
 No necesitas cambiar nada.
 
-
-### 🧹 8. Limpieza recomendada para migraciones desde Gulp
+### 🧹 Limpieza recomendada para migraciones desde Gulp
 
 Eliminar:
-
 - `gulpfile.js`
 - `node_modules` antiguos
 - `package-lock.json` si usaba npm
@@ -458,76 +311,66 @@ rm -rf node_modules
 yarn install
 ```
 
-
 ### ⚠️ Errores típicos en migraciones
-#### ❌ “Input Error: You must pass a valid list of files to parse”
-No existe `css/css/all.css` → revisa que `all.sass` existe.
 
-#### ❌ “Cannot find module 'autoprefixer'”
-No está instalado → `yarn add -D autoprefixer`
-
-#### ❌ Duplicados .min.min.css
-
-Estás minificando `*.min.css`.
-Solo minifica `all.css`.
-
+| Error | Causa / Solución |
+|---|---|
+| `Input Error: You must pass a valid list of files to parse` | No existe `css/css/all.css` → revisa que `all.sass` existe |
+| `Cannot find module 'autoprefixer'` | No está instalado → `yarn add -D autoprefixer` |
+| Duplicados `.min.min.css` | Estás minificando `*.min.css`. Solo minifica `all.css` |
 
 ---
-<br>
 
-## ERRORES
-Cuando un proyecto presenta algún tipo de error de backend en local, normalmente aparecerá reflejado en el fichero `error_log`. Este fichero es la primera fuente de información para diagnosticar problemas en PHP. 
+## 1.3 ERRORES
 
-### Revisar error_log
+Cuando un proyecto presenta algún tipo de error de backend en local, normalmente aparecerá reflejado en el fichero `error_log`. Este fichero es la primera fuente de información para diagnosticar problemas en PHP.
 
-¿Qué hacer?
-1. Abrir el fichero error_log del servidor local.
+### 1.3.1 Revisar error_log
+
+**¿Qué hacer?**
+1. Abrir el fichero `error_log` del servidor local.
 2. Buscar la fecha y hora en que ocurrió el error.
 3. Identificar el tipo de error PHP y su gravedad.
 
 Ejemplo:
-
-```bash
+```
 [Wed Feb 25 13:57:52.023268 2026] [php:error] [pid 48737] [client 127.0.0.1:33540] PHP Fatal error:
 Uncaught TypeError: sizeof():Argument #1 ($value) must be of type Countable|array, stdClass given in
-/opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php:246\nStack
-trace:\n#0 /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php(86):...
+/opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php:246
+Stack trace:
+#0 /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php(86):...
 ```
-Yéndonos al fichero `error_log` podremos observalo y deducir de él que el error PHP es el siguiente: `Uncaught TypeError: sizeof(): Argument #1 ($value) must be of type Countable|array`. 
 
-4. Localizar el fichero y línea de código donde se produjo el error:
+Del `error_log` se deduce que el error PHP es: `Uncaught TypeError: sizeof(): Argument #1 ($value) must be of type Countable|array`.
 
-Posteriormente nos indica en qué fichero se encuentra el problema y la línea del código: `stdClass given in /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/DocumentosDAO.php:246` 
-
+4. Localizar el fichero y línea de código donde se produjo el error — en este caso: `DocumentosDAO.php:246`.
 5. Analizar el código en esa ubicación para entender qué función o variable ha causado el problema.
 
-<strong> Consejo: </strong>
-
+**Consejo:**
 - No todos los errores requieren la misma solución; la forma de resolverlos dependerá de la versión de PHP, del tipo de proyecto y de la función implicada.
-- Siempre se recomienda no ignorar los errores fatales o warnings que aparecen en `error_log`, ya que son la fuente más fiable para depurar.
+- No ignorar los errores fatales o warnings que aparecen en `error_log`, ya que son la fuente más fiable para depurar.
 - 💡 Mantener siempre abierto `error_log` mientras se trabaja en local ayuda a identificar problemas antes de que afecten al flujo de la aplicación. Es la primera herramienta de depuración que todo desarrollador de PHP debería consultar.
 
+### 1.3.2 Error SSL
 
-### Error SSL
-Hay momentos en los que `error_log` nos arroja un tipo de error en el que nos marca acudir al file_get_contents(....) con el siguiente síntoma de ejemplo:
+Hay momentos en los que `error_log` arroja un error relacionado con `file_get_contents(...)`, con un síntoma como este:
 
-```bash
-Warning:  file_get_contents(): SSL operation failed with code 1. OpenSSL Error messages:\nerror:1416F086:SSL
-routines:tls_process_server_certificate:certificate verify failed in
+```
+Warning:  file_get_contents(): SSL operation failed with code 1. OpenSSL Error messages:
+error:1416F086:SSL routines:tls_process_server_certificate:certificate verify failed in
 /opt/htdocs/dob-wordpress-gruposierramorena/wp-content/themes/plantilla-dobuss/codigo/lib/PlantillaHTML.php
 on line 20, referer: https://web.local/wp-admin/admin.php?page=clientes
 ```
 
-¿Qué indica?
-
+**¿Qué indica?**
 - PHP intenta acceder a un recurso HTTPS pero no puede verificar el certificado SSL.
-- Provoca que la página “pete” al ejecutar `file_get_contents()`.
+- Provoca que la página "pete" al ejecutar `file_get_contents()`.
 
-Para ello hay que recurrir a todas las partes del código que tengan la fila con la llamada al método `file_get_contents()` y donde tiene el valor true ponerle false y todo lo que viene detrás
+Hay que localizar todas las partes del código que llamen a `file_get_contents()` y ajustar la verificación SSL.
 
-Solución temporal en desarrollo local:
+**Solución temporal en desarrollo local:**
 
-Justo antes de la llamada hay que igualar la variable de array $arrContextOptions incluyendo este código y detrás la llamada del método `file_get_contents()`:
+Justo antes de la llamada, definir `$arrContextOptions` y usarlo en la llamada:
 
 ```php
 $arrContextOptions = array(
@@ -540,26 +383,48 @@ $arrContextOptions = array(
 file_get_contents(of_get_option('logo2', ''), false, stream_context_create($arrContextOptions));
 ```
 
-Cuando comprobemos que realmente funciona, nos encargamos de borrar de nuevo el código que hemos puesto de prueba y commiteamos, ya que esto responde a un error exclusivo del backend
+⚠️ Cuando se compruebe que funciona, hay que borrar de nuevo el código de prueba y commitear — esto responde a un error exclusivo del entorno local.
 
-### Error al cargar backoffice (descarga fichero)
-Puede haber un problema cuando se intenta cargar el backoffice en el cual se descarga un fichero e impide la carga de wordpress.
+### 1.3.3 Error al cargar backoffice (descarga fichero)
 
-Solución: Hay que borrar el fichero .htaccess y hacer que se regenere de nuevo. Con ello se soluciona y vuelve a cargar el backoffice.
-<br><br>
+**Síntoma**: al intentar cargar el backoffice, se descarga un fichero e impide la carga de WordPress.
 
-### Error 400
-El problema son las cookies del navegador. Curl devuelve 301 (correcto), pero el navegador envía cookies acumuladas de sesiones anteriores de WordPress en web.local, lo que supera el límite de cabecera HTTP de Apache (8190 bytes) → Apache devuelve 400 Bad Request.
+**Solución**: borrar el fichero `.htaccess` y hacer que se regenere de nuevo. Con ello se soluciona y vuelve a cargar el backoffice.
 
-Prueba a borrar las cookies de web.local en el navegador (DevTools → Application → Cookies → https://web.local → borrarlas todas) y recarga.
+### 1.3.4 Error 400
 
-# SAGE
+El problema son las cookies del navegador. Curl devuelve 301 (correcto), pero el navegador envía cookies acumuladas de sesiones anteriores de WordPress en `web.local`, lo que supera el límite de cabecera HTTP de Apache (8190 bytes) → Apache devuelve **400 Bad Request**.
+
+**Solución**: borrar las cookies de `web.local` en el navegador (DevTools → Application → Cookies → `https://web.local` → borrarlas todas) y recargar.
+
+### Otros errores comunes de WordPress
+
+**🔧 Navegación fallida entre páginas**
+- **Síntoma**: los enlaces internos del sitio no funcionan.
+- **Solución**: WordPress Admin → **Ajustes** → **Enlaces permanentes** → **Guardar cambios**. Esto regenera el `.htaccess`.
+
+**🔧 Bloques que no aparecen en WordPress**
+- **Causa**: problemas con el archivo `.htaccess`.
+- **Solución**: regenerar enlaces permanentes (mismo proceso que el error anterior).
+
+**🔧 Bloques corruptos (Carbon Fields)**
+- **Síntoma**: bloques personalizados dejan de funcionar tras actualización.
+- **Causa**: dependencias de Carbon Fields desactualizadas.
+- **Solución**:
+```bash
+cd wp-content/themes/nombre_del_tema
+composer update
+```
+
+---
+
+# 2. SAGE
 
 ## Identificación de versión y configuración
 
 ### ¿Cómo saber qué versión de Sage tiene un proyecto?
-Revisar el archivo `package.json`:
 
+Revisar el archivo `package.json`:
 ```json
 "@roots/sage": "^6.12.3"  // = Sage 10
 "laravel-mix": "^x.x.x"   // = Sage 9 (usa Mix en lugar de Bud)
@@ -569,17 +434,14 @@ Revisar el archivo `package.json`:
 - `@roots/sage 6.x.x` = **Sage 10** (usa Bud)
 - Presencia de `laravel-mix` = **Sage 9** (usa Mix)
 
-### Compatibilidad con Node.js:
+**Compatibilidad con Node.js:**
 - **Sage 9**: Node.js 10-14 (recomendado: v12)
 - **Sage 10**: Node.js 16+ (recomendado: v16 o v18 LTS)
 
-## Instalación y configuración inicial
+## 2.1 ¿He de ejecutar yarn antes de nada?
 
-### ¿He de ejecutar yarn antes de nada?
 **Sí**, siempre ejecutar `yarn` al clonar o iniciar un proyecto por primera vez.
 
-**Ubicación**: `wp_content/themes/nombre_proyecto`
-**Comando**: 
 ```bash
 cd wp_content/themes/nombre_proyecto
 yarn
@@ -592,30 +454,24 @@ yarn
 
 ### Instalación de Yarn (si no está disponible)
 
-#### ⚠️ Error común: 
-Si el sistema sugiere instalar `cmdtest`, **NO lo hagas**. No es el Yarn correcto.
+⚠️ **Error común**: si el sistema sugiere instalar `cmdtest`, **NO lo hagas**. No es el Yarn correcto.
 
-#### ✅ Soluciones correctas:
-
-**Opción 1: Usar Corepack (recomendado para Node ≥16.10)**
+**✅ Opción 1: Corepack (recomendado para Node ≥16.10)**
 ```bash
 corepack enable
 corepack prepare yarn@stable --activate
 yarn -v  # verificar instalación
 ```
 
-**Opción 2: Instalar globalmente con npm**
+**✅ Opción 2: Instalar globalmente con npm**
 ```bash
 npm install -g yarn
 yarn -v  # verificar instalación
 ```
 
 ## Scripts de desarrollo por versión
----
 
-<br>
-
-### **SAGE 9** (usa Laravel Mix)
+### SAGE 9 (usa Laravel Mix)
 ```json
 {
   "scripts": {
@@ -629,17 +485,12 @@ yarn -v  # verificar instalación
 ```
 
 **Workflow Sage 9**:
-1. **Desarrollo**: `yarn start` (modo watch)
-2. **Build final**: `yarn build`
-3. **Producción**: `yarn build:production`
-4. **Git**: `git add .` → `git commit` → `git push`
+1. Desarrollo: `yarn start` (modo watch)
+2. Build final: `yarn build`
+3. Producción: `yarn build:production`
+4. Git: `git add .` → `git commit` → `git push`
 
-<br>
-
-### **SAGE 10**
-
-En caso de usar bud
-
+### SAGE 10 (usa Bud)
 ```json
 {
   "scripts": {
@@ -650,22 +501,23 @@ En caso de usar bud
 }
 ```
 
-Puedes migrar y utilizar yarn volviendo a revisar el apartado de [migración de gulp a yarn](#migrar-de-gulp-a-yarn)
+Puedes migrar y usar yarn siguiendo el apartado [1.2 Migrar de Gulp a Yarn](#12-migrar-de-gulp-a-yarn).
 
 **Workflow Sage 10**:
-1. **Desarrollo**: `yarn dev` (modo watch con hot reload)
-2. **Build final**: `yarn build`
-3. **Git**: `git add .` → `git commit` → `git push`
+1. Desarrollo: `yarn dev` (modo watch con hot reload)
+2. Build final: `yarn build`
+3. Git: `git add .` → `git commit` → `git push`
 
-## Gestión de versiones Node.js
+## 2.2 Gestión de versiones Node.js
 
 ### ¿Qué es NVM y para qué sirve?
+
 **Node Version Manager** permite:
 - Instalar múltiples versiones de Node.js
 - Cambiar entre versiones según proyecto
 - Evitar conflictos entre diferentes proyectos
 
-### Comandos NVM esenciales:
+### Comandos NVM esenciales
 ```bash
 # Ver versión actual
 node -v
@@ -683,7 +535,7 @@ nvm use 16
 cat package.json | grep -A 5 '"engines"'
 ```
 
-### Workflow completo con NVM:
+### Workflow completo con NVM
 ```bash
 # 1. Ir al directorio del tema
 cd wp_content/themes/nombre_proyecto
@@ -701,50 +553,48 @@ yarn
 yarn dev  # o yarn start según versión
 ```
 
+---
 
-
-
-# REVISIÓN DE SPAM
+# 3. REVISIÓN DE SPAM
 
 ## Herramientas anti-spam obligatorias
 
-### Lista de verificación:
 - [ ] **Honeypot** activado en formularios
 - [ ] **reCAPTCHA** configurado (v2 o v3)
 - [ ] **Akismet** activo y configurado
 - [ ] **Flamingo** instalado para registro de mensajes
 
-### Plugins específicos:
+### Plugins específicos
 - **Contact Form 7**: Honeypot + reCAPTCHA
 - **Forminator**: reCAPTCHA integrado
-- **WPForms**: Protección anti-spam incluida
+- **WPForms**: protección anti-spam incluida
 
-### Proceso de revisión:
-1. **Configurar herramientas** anti-spam
-2. **Cambiar tarea a "REVISANDO"** 
-3. **Monitorear durante 5-7 días**
-4. **Documentar resultados** (reducción de spam)
-5. **Finalizar tarea** con reporte
+### Proceso de revisión
+1. Configurar herramientas anti-spam
+2. Cambiar tarea a "REVISANDO"
+3. Monitorear durante 5-7 días
+4. Documentar resultados (reducción de spam)
+5. Finalizar tarea con reporte
 
-### Configuración reCAPTCHA:
-- Clave asociada a **grupo de dominios**
+### Configuración reCAPTCHA
+- Clave asociada a grupo de dominios
 - Configurar tanto dominio principal como subdominios
 - Verificar que funciona en formularios de contacto
 
 ## Mantenimiento adicional
 
-### Caché:
-- **Borrar caché de WP Rocket** después de cambios
+**Caché:**
+- Borrar caché de WP Rocket después de cambios
 - Verificar que formularios funcionan sin caché
 
-### Logs:
-- **Revisar `/var/logs`** antes de subir cambios
+**Logs:**
+- Revisar `/var/logs` antes de subir cambios
 - Eliminar logs con errores críticos
 - Documentar errores recurrentes
 
 ---
 
-# PRESTASHOP
+# 4. PRESTASHOP
 
 ## Configuración de entorno local
 
@@ -756,9 +606,8 @@ cd dob-prestashop-xxxxxxxxx
 
 ### 2. Configuración de dominio falso
 
-#### Modificar virtual hosts
-Editar `/opt/lampp/etc/extra/httpd-vhosts.conf`:
-```xml
+**Modificar virtual hosts** — editar `/opt/lampp/etc/extra/httpd-vhosts.conf`:
+```apache
 ######################### URL PROYECTO XXX #########################
 <VirtualHost *:80>
     ServerAdmin xxxxxxx@hexer.dev
@@ -778,20 +627,20 @@ Editar `/opt/lampp/etc/extra/httpd-vhosts.conf`:
 </VirtualHost>
 ```
 
-#### Crear certificados SSL
+**Crear certificados SSL:**
 ```bash
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout /etc/ssl/private/xxxxxxx.com-selfsigned.key \
   -out /etc/ssl/certs/xxxxxxx.com-selfsigned.crt
 ```
 
-#### Configurar hosts
-Editar `/etc/hosts`:
+**Configurar hosts** — editar `/etc/hosts`:
 ```
 127.0.0.1 xxxxxxx.com www.xxxxxxx.com
 ```
 
 ### 3. Configurar base de datos
+
 Editar `app/config/parameters.php`:
 ```php
 <?php return array (
@@ -816,40 +665,36 @@ Editar `app/config/parameters.php`:
 ```
 
 ### 4. Vaciar caché
-Eliminar la carpeta `/var/cache`
+
+Eliminar la carpeta `/var/cache`.
 
 ## Solución de errores comunes
 
-### 🔧 Activar modo Debug
-**Si necesitamos ver el error que se está generando**
-1. Nos dirigimos, en el proyeco, a la carpeta /config/defines.inc.php:
-2. cambiar el condicional del debug _PS_MODE_DEV_ de false a -> true
+**🔧 Activar modo Debug**
 
-### 🔧 Proyecto no carga en local
-**Causa**: URL incorrecta en base de datos
-**Solución**:
-1. Ir a phpMyAdmin
-2. Buscar tabla `ps_shop_url`
-3. Verificar los campos:
-   - domain
-   - domain_ssl
-4. Cambiar dominio por el local (ej: `proyecto.local`)
-5. Verificar que el campo physical_uri sea /.
+Si necesitamos ver el error que se está generando:
+1. Ir, en el proyecto, a `/config/defines.inc.php`.
+2. Cambiar el condicional `_PS_MODE_DEV_` de `false` a `true`.
 
-⚠️ Si sigue sin cargar, revisar también la tabla ps_configuration (PS_SHOP_DOMAIN y PS_SHOP_DOMAIN_SSL).
+**🔧 Proyecto no carga en local**
+- **Causa**: URL incorrecta en base de datos.
+- **Solución**:
+  1. Ir a phpMyAdmin.
+  2. Buscar tabla `ps_shop_url`.
+  3. Verificar los campos `domain` y `domain_ssl`.
+  4. Cambiar dominio por el local (ej: `proyecto.local`).
+  5. Verificar que el campo `physical_uri` sea `/`.
+  - ⚠️ Si sigue sin cargar, revisar también la tabla `ps_configuration` (`PS_SHOP_DOMAIN` y `PS_SHOP_DOMAIN_SSL`).
 
-### 🔧 Error 404
-**Verificar**:
+**🔧 Error 404**
+
+Verificar:
 - `ServerName` y `ServerAlias` en vhosts (sin `/` al final)
-- Que el módulo mod_rewrite esté activo.
-- Existencia y permisos de las carpetas:
-  - `var/cache`
-  - `var/logs`
-  - `var/sessions`
-- Que el archivo `.htaccess` exista.
-- Existencia de carpetas: `var/cache`, `var/logs`, `var/sessions`
+- Que el módulo `mod_rewrite` esté activo
+- Existencia y permisos de las carpetas: `var/cache`, `var/logs`, `var/sessions`
+- Que el archivo `.htaccess` exista
 
-### 🔧 Directory not writable
+**🔧 Directory not writable**
 ```bash
 # Crear carpetas faltantes
 mkdir -p var/logs var/cache var/sessions
@@ -859,7 +704,7 @@ chmod -R 775 var/
 chown -R www-data:www-data var/
 ```
 
-### 🔧 Error 500 / Caché corrupto
+**🔧 Error 500 / Caché corrupto**
 ```bash
 # Eliminar caché de producción
 rm -rf var/cache/prod/
@@ -870,68 +715,144 @@ rm -rf var/cache/*
 # Regenerar caché
 php bin/console cache:clear --env=prod
 ```
-### 🔧 Imágenes no cargan y enlaces no funcionan o lanzan un error
-**Causa**: .htaccess mal/incorrecto
-**Solución**:
 
-1. Ir a:
-    <strong>Configurar → Parámetros de la tienda → Tráfico & SEO</strong>
-2. Ir a la sección Formato de los enlaces.
-3. Pulsar Guardar (aunque no cambies nada).
-
-Esto regenerará automáticamente el archivo .htaccess.
-
-⚠️ Asegúrate de que Apache tenga permisos para escribir el archivo.
+**🔧 Imágenes no cargan y enlaces no funcionan o lanzan error**
+- **Causa**: `.htaccess` mal/incorrecto.
+- **Solución**:
+  1. Ir a: **Configurar → Parámetros de la tienda → Tráfico & SEO**.
+  2. Ir a la sección **Formato de los enlaces**.
+  3. Pulsar **Guardar** (aunque no cambies nada) — regenerará automáticamente el `.htaccess`.
+  - ⚠️ Asegúrate de que Apache tenga permisos para escribir el archivo.
 
 ---
 
-# PHP
+# 5. CREACIÓN DE ENTORNOS — NUEVOS PROYECTOS
 
-Se puede dar el caso que un proyecto, en un momento concreto, nos pida la instalación de PHP, bien porque lo requiere al hacer un composer update o por lo que sea. Tenemos que decirle que no queremos hacer esta instalación y, en su lugar, hacer que apunte a la carpeta lampp ya que tiene creados enlaces que apuntan a la versión de lampp levantada para el proyecto concreto con LVM. 
+## Configuración inicial del proyecto
 
-Si por casualidad se nos instalase PHP en una versión a nivel de sistema, tendremos que eliminarlo y hacer que el enlace apunte a la carpeta de lampp para que administre de manera automática la versión que levante lvm.
+### PASO 1. Descargar repositorio en htdocs
 
+```bash
+git clone https://github.com/hexer-dev/dob-wordpress-xxxxxxxxxx.git
+```
+(Sustituir el nombre del repositorio por el del proyecto a editar.)
 
+### PASO 2. Seleccionar la versión de PHP del proyecto
+
+1. **Desmontar la versión previa utilizada** (desactivar la versión actual de PHP usada por LAMPP):
+   ```bash
+   lvm disable
+   ```
+2. **Seleccionar la versión de LAMPP pertinente** para el proyecto (ejemplo: 7.4, necesaria para muchos proyectos WordPress):
+   ```bash
+   lvm use 7.4
+   ```
+3. **Reiniciar Apache y MySQL** para aplicar los cambios:
+   ```bash
+   sudo lampp restart
+   ```
+
+### PASO 3. Crear una base de datos y enlazarla a MySQL
+
+**Opción 1 (rápida):**
+```bash
+echo "create database wp_xxxxxxxxx" | mysql -u root -p
+```
+
+**Opción 2 (paso a paso):**
+```bash
+mysql -u root -p
+```
+```sql
+CREATE DATABASE wp_xxxxxx;
+EXIT;
+```
+
+### PASO 4. Importar la base de datos SQL a MySQL
+
+**Opción 1 (con barra de progreso):**
+```bash
+pv xxxxxxxxxxxxxxxx.sql | mysql -u root -p wp_xxxxxxxxxx
+```
+*El comando `pv` permite ver el progreso en la terminal.*
+
+**Opción 2 (importación directa):**
+```bash
+mysql -u root -p wp_xxxxxx < /home/ruta/de/la/bbdd/xxxxxxx.sql
+```
+
+**Posibles errores en importación:**
+- **Error en línea 1**: el SQL puede contener código comentado al inicio. Elimínalo, guarda y vuelve a importar.
+- **`ERROR: Unknown command '\0'`**: el archivo contiene caracteres NULL. Limpiar antes de importar:
+  ```bash
+  tr -d '\000' < archivo_original.sql > archivo_limpio.sql
+  ```
+
+### PASO 5. Configurar enlace simbólico para web.local
+
+1. **Desvincular proyecto anterior:**
+   ```bash
+   unlink web.local
+   ```
+2. **Enlazar nuevo proyecto:**
+   ```bash
+   ln -s dob-wordpress-ejemplo/ web.local
+   ```
+
+### PASO 6. Configurar wp-config.php
+
+**Elementos importantes a verificar:**
+- Nombre correcto de la base de datos
+- Credenciales de acceso (usuario/contraseña)
+- Prefijo de tablas (si existe)
+- Configuración de debug (activar en desarrollo)
+
+**Ejemplo:**
+```php
+define('DB_NAME', 'wp_xxxxxxxxx');
+define('DB_USER', 'root');
+define('DB_PASSWORD', '');
+define('DB_HOST', 'localhost');
+define('DB_CHARSET', 'utf8');
+define('DB_COLLATE', '');
+
+// Debug en desarrollo
+define('WP_DEBUG', true);
+define('WP_DEBUG_LOG', true);
+```
+
+### PASO 7. Verificar funcionamiento
+
+Abre el navegador y accede a `web.local` para comprobar que todo funciona correctamente.
 
 ---
 
-<br>
+# 6. PHP
 
-# GIT
+Puede darse el caso de que un proyecto, en un momento concreto, pida la instalación de PHP — bien porque lo requiere al hacer un `composer update` o por lo que sea. Hay que decirle que no se quiere hacer esta instalación y, en su lugar, hacer que apunte a la carpeta LAMPP, ya que tiene creados enlaces que apuntan a la versión de LAMPP levantada para el proyecto concreto con LVM.
+
+Si por casualidad se instalase PHP en una versión a nivel de sistema, hay que eliminarlo y hacer que el enlace apunte a la carpeta de LAMPP para que administre de manera automática la versión que levante LVM.
+
+---
+
+# 7. GIT
 
 > 📌 Notas personales de comandos y flujos de Git.
 
----
-
-## Índice
-
-- [Deshacer el último commit localmente](#deshacer-el-último-commit-localmente)
-- [Borrar un commit también del remoto](#borrar-un-commit-también-del-remoto)
-- [Modificar el último commit (amend)](#modificar-el-último-commit-amend)
-  - [Añadir un fichero y cambiar el mensaje](#añadir-un-fichero-y-cambiar-el-mensaje)
-  - [Añadir un fichero sin cambiar el mensaje](#añadir-un-fichero-sin-cambiar-el-mensaje)
-- [Flujo completo: sobrescribir el último commit en local y en remoto](#flujo-completo-sobrescribir-el-último-commit-en-local-y-en-remoto)
-- [⚠️ Advertencia sobre `--force`](#️-advertencia-sobre---force)
-
----
-
 ## Deshacer el último commit localmente
 
-Vuelve tu proyecto local al commit anterior, **eliminando** los cambios del último commit.
+Vuelve el proyecto local al commit anterior, **eliminando** los cambios del último commit.
 
 ```bash
 git reset --hard HEAD~1
 ```
-
 - `HEAD~1` = "un commit hacia atrás desde el actual".
-- `--hard` descarta los cambios también en tu carpeta de trabajo.
-- Tu carpeta de trabajo se ajusta al commit anterior.
-
----
+- `--hard` descarta los cambios también en la carpeta de trabajo.
+- La carpeta de trabajo se ajusta al commit anterior.
 
 ## Borrar un commit también del remoto
 
-Si ya hiciste `push` del commit que acabas de borrar localmente, necesitas forzar la actualización en el servidor:
+Si ya se hizo `push` del commit que se acaba de borrar localmente, hay que forzar la actualización en el servidor:
 
 ```bash
 git push origin NOMBRE_DE_TU_RAMA --force
@@ -939,26 +860,27 @@ git push origin NOMBRE_DE_TU_RAMA --force
 Con esto el histórico remoto queda como si ese commit jamás hubiera existido.
 
 ## Modificar el último commit (amend)
-`git commit --amend` te permite "reabrir" el último commit para añadir cosas o cambiarle el mensaje, en lugar de crear un commit nuevo.
 
-### Añadir un fichero y cambiar el mensaje
+`git commit --amend` permite "reabrir" el último commit para añadir cosas o cambiarle el mensaje, en lugar de crear un commit nuevo.
+
+**Añadir un fichero y cambiar el mensaje:**
 ```bash
 git add nombrefichero
 git commit --amend -m "nuevo mensaje del commit"
 ```
-1. Primero añades el fichero al stage con git add.
-2. Luego haces amend con -m para escribir el mensaje (puede ser el mismo u otro).
+1. Primero se añade el fichero al stage con `git add`.
+2. Luego se hace amend con `-m` para escribir el mensaje (puede ser el mismo u otro).
 
-### Añadir un fichero sin cambiar el mensaje
-
+**Añadir un fichero sin cambiar el mensaje:**
 ```bash
 git add nombrefichero
 git commit --amend --no-edit
 ```
-La clave aquí es --no-edit: le dice a Git que mantenga el mensaje que ya tenía el commit.
+La clave aquí es `--no-edit`: le dice a Git que mantenga el mensaje que ya tenía el commit.
 
 ## Flujo completo: sobrescribir el último commit en local y en remoto
-Este es el caso típico de: "ya hice push, pero quiero retocar cosas y que parezca que solo hubo un commit desde el principio".
+
+Caso típico: "ya hice push, pero quiero retocar cosas y que parezca que solo hubo un commit desde el principio".
 
 ```bash
 git add -A
@@ -966,73 +888,60 @@ git commit --amend --no-edit
 git push origin master --force
 ```
 
-¿Qué hace cada paso?
-
 | Paso | Comando | Qué hace |
 |------|---------|----------|
 | 1 | `git add -A` | Añade **todos** los cambios al stage. |
 | 2 | `git commit --amend --no-edit` | Sobrescribe el último commit. |
 | 3 | `git push origin master --force` | Fuerza al remoto a aceptar el histórico reescrito. |
 
-Resultado: en GitHub no aparece un commit nuevo. El último commit queda actualizado con tus cambios, como si siempre hubiera sido así.
-💡 Si solo quieres añadir un fichero concreto y no todo, usa git add nombrefichero en lugar de git add -A.
+Resultado: en GitHub no aparece un commit nuevo. El último commit queda actualizado con los cambios, como si siempre hubiera sido así.
 
-⚠️ Advertencia sobre --force
+💡 Si solo se quiere añadir un fichero concreto y no todo, usar `git add nombrefichero` en lugar de `git add -A`.
+
+## ⚠️ Advertencia sobre `--force`
+
 `git push --force` reescribe el histórico del remoto. Úsalo con cuidado:
-
-✅ Vale cuando trabajas solo en una rama propia.
-❌ Evítalo en ramas compartidas (main, master, ramas de equipo), porque puedes borrar el trabajo de otras personas.
+- ✅ Vale cuando trabajas solo en una rama propia.
+- ❌ Evítalo en ramas compartidas (main, master, ramas de equipo), porque puedes borrar el trabajo de otras personas.
 
 Alternativa más segura en entornos colaborativos: `git push --force-with-lease`, que solo fuerza si nadie más ha empujado cambios nuevos.
 
-
 ---
 
+# 8. ADMINISTRACIÓN DE SERVIDOR (LINUX)
 
-<br>
-
-
----
-
-# Administración de servidor (Linux)
-### Flush DNS
+## Flush DNS
 
 En Ubuntu 24.04, el comando:
-
-`sudo resolvectl flush-caches`
-
+```bash
+sudo resolvectl flush-caches
+```
 se utiliza para vaciar la caché DNS del sistema.
 
-En los sistemas modernos de Ubuntu, el servicio systemd-resolved almacena temporalmente las respuestas de los servidores DNS para acelerar la resolución de nombres de dominio. Esto significa que cuando accedemos a una web o servicio (por ejemplo, un dominio que apunta a un servidor), el sistema puede recordar la dirección IP sin tener que consultarla de nuevo al servidor DNS externo.
+En los sistemas modernos de Ubuntu, el servicio `systemd-resolved` almacena temporalmente las respuestas de los servidores DNS para acelerar la resolución de nombres de dominio. Esto significa que al acceder a una web o servicio, el sistema puede recordar la dirección IP sin tener que consultarla de nuevo al servidor DNS externo.
 
-Vaciar la caché DNS es útil en tareas de mantenimiento cuando:
-
-Se han realizado cambios en registros DNS (por ejemplo, migraciones de servidor).
-
-Un dominio apunta a una IP antigua y el sistema sigue resolviendo la dirección anterior.
-
-Existen problemas de conexión aparentemente inexplicables.
-
-Se están realizando pruebas de propagación DNS.
+**Vaciar la caché DNS es útil cuando:**
+- Se han realizado cambios en registros DNS (por ejemplo, migraciones de servidor).
+- Un dominio apunta a una IP antigua y el sistema sigue resolviendo la dirección anterior.
+- Existen problemas de conexión aparentemente inexplicables.
+- Se están realizando pruebas de propagación DNS.
 
 Al ejecutar este comando, el sistema elimina todas las resoluciones almacenadas y obliga a que la próxima consulta DNS se realice directamente al servidor configurado, garantizando que se utilice la información más actualizada.
 
 Es una herramienta básica pero importante en tareas de administración de servidores y diagnóstico de red.
 
+## Importación de bases de datos — subir buffer para importaciones
 
-IMPORTACIÓN DE BASES DE DATOS
+Si hay errores al importar bases de datos grandes, hay que ir a la versión de LAMPP correspondiente y editar el fichero `/opt/lampp/etc/my.cnf`, añadiendo un `0` detrás de los siguientes campos (multiplicando por 10 el buffer predefinido):
 
-ERRORES AL IMPORTAR
-
-SUBIR BUFFER PARA IMPORTACIONES.
-
-Nos dirigimos a nuestra versión de lampp y vamos al fichero ./opt/lampp/etc/my.cnf y modificamos los siguiente campos añadiéndole un 0 detrás. Así multiplicamos por 10 el buffer predefinido.
+```ini
 # The MySQL server
 default-character-set=utf8mb4
+
 [mysqld]
 user=mysql
 port=3306
-socket		=/opt/lampp/var/mysql/mysql.sock
+socket=/opt/lampp/var/mysql/mysql.sock
 key_buffer=512M
 max_allowed_packet=100M
 table_open_cache=6400
@@ -1041,3 +950,4 @@ net_buffer_length=800K
 read_buffer_size=25600K
 read_rnd_buffer_size=51200K
 myisam_sort_buffer_size=800M
+```
