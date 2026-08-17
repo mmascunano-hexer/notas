@@ -16,6 +16,7 @@
   - [2.2 Node](#22-gestión-de-versiones-nodejs)
 - [3. Revisión de Spam](#3-revisión-de-spam)
 - [4. PrestaShop](#4-prestashop)
+  - [4.1 Configuración de un dominio falso](#2-configuracion-de-dominio-falso)
 - [5. Creación de entornos — nuevos proyectos](#5-creación-de-entornos--nuevos-proyectos)
 - [6. PHP](#6-php)
 - [7. Git](#7-git)
