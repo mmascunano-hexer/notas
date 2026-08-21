@@ -21,8 +21,8 @@
 - [6. PHP](#6-php)
 - [7. Git](#7-git)
 - [8. Administración de servidor (Linux)](#8-administración-de-servidor-linux)
-- [9. Instalación de apps en Ubuntu 24.04 LTS](#9-instalacion-de-apps-en-ubuntu-2404-lts)
-  - [9.1 Guía de instalación de Rambox (.deb) en Ubuntu 24.04 LTS](#91-guia-de-instalacion-de-rambox)
+- [9. INSTALACIÓN DE APPS EN UBUNTU 24.04 LTS](#9-instalacion-de-apps-en-ubuntu-2404-lts)
+  - [9.1 Guía de instalación de Rambox](#91-guia-de-instalacion-de-rambox)
 
 ---
 
