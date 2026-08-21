@@ -21,8 +21,8 @@
 - [6. PHP](#6-php)
 - [7. Git](#7-git)
 - [8. Administración de servidor (Linux)](#8-administración-de-servidor-linux)
-- [9. INSTALACIÓN DE APPS EN UBUNTU 24.04 LTS](#9-instalacion-de-apps-en-ubuntu-2404-lts)
-  - [9.1 Guía de instalación de Rambox](#91-guia-de-instalacion-de-rambox)
+- [9. Instalación de apps en Ubuntu 24.04 LTS](#instalacion-apps)
+  - [9.1 Guía de instalación de Rambox](#instalacion-rambox)
 
 ---
 
@@ -955,9 +955,9 @@ read_rnd_buffer_size=51200K
 myisam_sort_buffer_size=800M
 ```
 
-# 9. INSTALACIÓN DE APPS EN UBUNTU 24.04 LTS
+# <a name="instalacion-apps"></a>9. INSTALACIÓN DE APPS EN UBUNTU 24.04 LTS
 
-## 9.1 Guía de instalación de Rambox
+## <a name="instalacion-rambox"></a>9.1 Guía de instalación de Rambox
 
 Esta guía resuelve las incompatibilidades del paquete Snap oficial y las restricciones de permisos y sandbox propias de Ubuntu 24.04 LTS.
 
