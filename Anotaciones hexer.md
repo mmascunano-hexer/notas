@@ -22,7 +22,7 @@
 - [7. Git](#7-git)
 - [8. Administración de servidor (Linux)](#8-administración-de-servidor-linux)
 - [9. Instalación de apps en Ubuntu 24.04 LTS](#9-instalacion-de-apps-en-ubuntu-2404-lts)
-  - [9.1 Guía de instalación de Rambox (.deb) en Ubuntu 24.04 LTS](#91-guia-de-instalacion-de-rambox-(.deb)-en-ubuntu-2404-lts)
+  - [9.1 Guía de instalación de Rambox (.deb) en Ubuntu 24.04 LTS](#91-guia-de-instalacion-de-rambox)
 
 ---
 
@@ -957,48 +957,61 @@ myisam_sort_buffer_size=800M
 
 # 9. INSTALACIÓN DE APPS EN UBUNTU 24.04 LTS
 
-## 9.1 Guía de instalación de Rambox (.deb) en Ubuntu 24.04 LTS
+## 9.1 Guía de instalación de Rambox
 
 Esta guía resuelve las incompatibilidades del paquete Snap oficial y las restricciones de permisos y sandbox propias de Ubuntu 24.04 LTS.
 
-Paso 1: Eliminar versiones previas no funcionales (si existen)
+### Paso 1: Eliminar versiones previas no funcionales (si existen)
 
 Limpia instalaciones antiguas de Snap y libera el historial de rutas del sistema:
 
-Bash
+```Bash
 sudo snap remove rambox 2>/dev/null
 hash -r
-Paso 2: Descargar e instalar el paquete oficial .deb
+```
+
+### Paso 2: Descargar e instalar el paquete oficial .deb
 
 Descarga el instalador .deb desde la página oficial de Rambox a tu carpeta Descargas.
 
 Asigna permisos de lectura e instala el paquete evitando advertencias del gestor apt:
 
-Bash
+```Bash
 chmod 644 ~/Descargas/Rambox-*.deb
 sudo apt install ~/Descargas/Rambox-*.deb
-Paso 3: Corregir la propiedad y permisos de ejecución
+```
+
+### Paso 3: Corregir la propiedad y permisos de ejecución
+
 
 Asigna la propiedad de los archivos instalados en /opt/Rambox a tu usuario actual y otorga permisos de ejecución:
 
-Bash
+```Bash
 sudo chown -R $USER:$USER /opt/Rambox
 sudo chmod -R 755 /opt/Rambox
-Paso 4: Crear el enlace simbólico global
+```
+
+### Paso 4: Crear el enlace simbólico global
 
 Vincúlalo a /usr/local/bin para poder invocar el comando desde cualquier terminal:
 
-Bash
+```Bash
 sudo ln -sf /opt/Rambox/rambox /usr/local/bin/rambox
-Paso 5: Configurar el acceso directo del menú de aplicaciones
+```
+
+### Paso 5: Configurar el acceso directo del menú de aplicaciones
+
 
 Agrega el flag --no-sandbox al ejecutable del lanzador del sistema para omitir las restricciones de AppArmor de Ubuntu 24.04:
 
-Bash
+```Bash
 sudo sed -i 's|Exec=/opt/Rambox/rambox %U|Exec=/opt/Rambox/rambox --no-sandbox %U|g' /usr/share/applications/rambox.desktop
-Comprobación final
+```
+
+### Comprobación final
 
 Ya puedes abrir Rambox buscando su icono en el menú de aplicaciones de Ubuntu o ejecutando en la terminal:
 
-Bash
+```Bash
 rambox --no-sandbox &
+```
