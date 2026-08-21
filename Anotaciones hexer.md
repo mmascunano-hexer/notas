@@ -22,6 +22,7 @@
 - [7. Git](#7-git)
 - [8. Administración de servidor (Linux)](#8-administración-de-servidor-linux)
 - [9. Instalación de apps en Ubuntu 24.04 LTS](#9-instalacion-de-apps-en-ubuntu-2404-lts)
+  - [9.1 Guía de instalación de Rambox (.deb) en Ubuntu 24.04 LTS](#91-guia-de-instalacion-de-rambox-(.deb)-en-ubuntu-2404-lts)
 
 ---
 
@@ -954,7 +955,7 @@ read_rnd_buffer_size=51200K
 myisam_sort_buffer_size=800M
 ```
 
-# 9. INSTALACIÓN APPS EN UBUNTU 24.04 LTS
+# 9. INSTALACIÓN DE APPS EN UBUNTU 24.04 LTS
 
 ## 9.1 Guía de instalación de Rambox (.deb) en Ubuntu 24.04 LTS
 
