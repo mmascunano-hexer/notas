@@ -98,6 +98,16 @@ Aplicable a: **Tienda WooCommerce**, **Tienda PrestaShop**.
 
 ---
 
+Nota importante para los preventivos:
+- En WooComerce cuando tengamos el plugin de Redsys hay que comprobar si hay actualizaciones pendientes directamente en la web de Redsys, ya que el propio plugin no te avisa...
+
+- Las webs que tengan WP Rocket y necesiten actualizar a wp 7.1, hay que actualizar antes el plugin WP-Rocket porque se ha cambiado con la version nueva de wordpress cómo se generan las claves internas de los hooks y si se actualiza antes wordpress que el rocket, no las encuentra y peta la web. con la versión 3.23.3.3 de WP Rocket ya lo han arreglado, por eso hay que actualizarlo antes.
+
+- Para los preventivos en prestashop con YBC Blog como módulo del blog pendiente de actualizar a la versión 5.0.2 pueden surgir problemas en el archive y el single. Si tiene los tpl suplantados en el tema puede dejar de funcionar correctamente. Se ve más claro en el single que no carga. Las variables que se utilizaban antes han dejado de funcionar y hay que adaptarlo.
+- 
+---
+
+
 ## 1.1.1 CARBON FIELDS — FLUJO
 
 ### 1. El Registro (Definición del Campo)
